@@ -1,0 +1,4 @@
+--source=.
+--verbose
+--exclude target/**/*
+--exclude docs

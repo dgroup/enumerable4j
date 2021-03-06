@@ -1,0 +1,34 @@
+architect:
+  - dgroup
+
+readers:
+  - "urn:github:1651114"
+
+# @todo #/DEV Configure the deployment to dev maven repository in Github in order to work with RC and snapshots.
+#  The dev repo should be Github for master branch + bugfix branches if needed.
+#  As a plan B, we can consider promoting using Nexus+OSSRH:
+#  https://help.sonatype.com/repomanager2/staging-releases/staging-overview
+#  https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment
+#  https://nvie.com/posts/a-successful-git-branching-model
+#  https://github.com/nvie/gitflow
+#  https://gist.github.com/lemiorhan/97b4f827c08aed58a9d8
+#  https://github.com/jgitver/jgitver
+#  https://danielkummer.github.io/git-flow-cheatsheet/index.html
+assets:
+  settings.xml: "dgroup/ossrh#settings.xml"
+# @todo #/DEV Generate a new key for signing and publishing artifacts to Maven Central.
+  pubring.gpg:  "dgroup/ossrh#enumberable4j-pubring.gpg"
+  secring.gpg:  "dgroup/ossrh#enumberable4j-secring.gpg"
+
+merge:
+  env:
+    MAVEN_OPTS: "-XX:MaxPermSize=256m -Xmx512m"
+  script:
+    - mvn -Pqulice clean package
+
+release:
+  script: |
+    mvn versions:set "-DnewVersion=${tag}"
+    git add pom.xml
+    git commit -am "${tag}"
+    mvn -X -V -Dgpg.homedir="$HOME" -P qulice,ossrh-enumberable4j -s ../settings.xml clean deploy
