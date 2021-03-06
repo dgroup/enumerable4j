@@ -42,7 +42,7 @@ import org.llorllale.cactoos.matchers.HasValues;
 public final class SelectTest {
 
     @Test
-    public void select() {
+    void select() {
         new Assertion<>(
             "Positive values from enumerable found",
             new EnumerableOf<>(3, 0, 2, -1).select(val -> val > 0),
@@ -54,7 +54,7 @@ public final class SelectTest {
     }
 
     @Test
-    public void nullFunction() {
+    void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new EnumerableOf<>(3, 0, 2, -1).select(null),

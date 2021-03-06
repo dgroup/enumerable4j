@@ -54,7 +54,16 @@
     <url>http://github.com/dgroup/enumerable4j/tree/master</url>
     <tag>HEAD</tag>
   </scm>
-  <!-- @todo #/DEV Setup codebeat with enumerable4j and fix badge in the readme.md file -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
   <properties>
     <!-- Application properties -->
     <build.version>${project.version}</build.version>
@@ -180,7 +189,6 @@
         </executions>
         <configuration>
           <additionalparam>-Xdoclint:none</additionalparam>
-          <source>${jdk.version}</source>
         </configuration>
       </plugin>
       <plugin>
@@ -201,16 +209,6 @@
        -->
     </plugins>
   </build>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
   <profiles>
     <profile>
       <id>qulice</id>
@@ -267,7 +265,7 @@
             <executions>
               <execution>
                 <id>jacoco-initialize</id>
-                <!--                <phase>process-resources</phase>-->
+                <phase>process-resources</phase>
                 <goals>
                   <goal>prepare-agent</goal>
                 </goals>

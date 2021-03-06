@@ -41,7 +41,7 @@ import org.llorllale.cactoos.matchers.IsTrue;
 public final class AllTest {
 
     @Test
-    public void all() {
+    void all() {
         new Assertion<>(
             "All values in enumerable are positive",
             new EnumerableOf<>(1, 2, 3).all(val -> val > 0),
@@ -50,7 +50,7 @@ public final class AllTest {
     }
 
     @Test
-    public void negative() {
+    void negative() {
         new Assertion<>(
             "All values in enumerable are negative",
             new EnumerableOf<>(1, 2, 3).all(val -> val < 0),
