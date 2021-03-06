@@ -59,12 +59,12 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     }
 
     @Override
-    public boolean any(final Function<T, Boolean> fnc) {
+    public final boolean any(final Function<T, Boolean> fnc) {
         return this.stream().anyMatch(fnc::apply);
     }
 
     @Override
-    public boolean none(final Function<T, Boolean> fnc) {
+    public final boolean none(final Function<T, Boolean> fnc) {
         return this.stream().noneMatch(fnc::apply);
     }
 
