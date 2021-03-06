@@ -50,6 +50,20 @@ public interface Enumerable<T> extends Collection<T> {
     boolean all(Function<T, Boolean> fnc);
 
     /**
+     * Passes at least one element of the collection to the given block.
+     * @param fnc The function to match at least one element.
+     * @return The true if the block never returns false or nil.
+     */
+    boolean any(Function<T, Boolean> fnc);
+
+    /**
+     * Doesn't passes elements of the collection to the given block.
+     * @param fnc The function to match none elements.
+     * @return The true if the block never returns false or nil.
+     */
+    boolean none(Function<T, Boolean> fnc);
+
+    /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a true value.
      * If no function (null) is given, then 'this' is returned instead.
