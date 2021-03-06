@@ -41,8 +41,8 @@ Java version required: 1.8+.
 
 enumerable4j | Java 8 | [cactoos](https://github.com/yegor256/cactoos)
 ------ | ------ | ------ |
-`.all( ... )` | `.stream().allMatch( ... );` | `new And<>( ..., ... ).value()`
-`.select( ... )` | `.stream().filter( ... ).collect(Collectors.toList())` | `new Filtered<>( ..., ... )`
+`.all(...)` | `.stream().allMatch(...);` | `new And<>(..., ...).value()`
+`.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(..., ...)`
 
 ### How to contribute?
 
