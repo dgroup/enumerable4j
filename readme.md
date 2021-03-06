@@ -24,7 +24,7 @@
 **enumerable4j** is a Ruby's well known [Enumerable](https://ruby-doc.org/core-2.6/Enumerable.html)
 ported to `java`.
 
-## How to use
+### How to use
 
 Get the latest version [here](https://github.com/dgroup/enumerable4j/releases):
 
@@ -41,8 +41,8 @@ Java version required: 1.8+.
 
 enumerable4j | Java 8 | [cactoos](https://github.com/yegor256/cactoos)
 ------ | ------ | ------ |
-`.all(...)` | `.stream().allMatch(...);` | `new And<>(..., ...).value()`
-`.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(..., ...)`
+`.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`
+`.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)`
 
 ### How to contribute?
 

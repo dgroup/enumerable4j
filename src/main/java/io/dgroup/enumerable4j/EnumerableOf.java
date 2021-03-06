@@ -24,12 +24,10 @@
 
 package io.dgroup.enumerable4j;
 
-import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.cactoos.collection.CollectionEnvelope;
 import org.cactoos.collection.Sticky;
-import org.cactoos.list.ListOf;
 
 /**
  * The immutable enumerable.
@@ -44,15 +42,15 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
      */
     @SafeVarargs
     public EnumerableOf(final T... src) {
-        this(new ListOf<>(src));
+        super(() -> new Sticky<>(src));
     }
 
     /**
      * Ctor.
      * @param src The source items.
      */
-    public EnumerableOf(final Collection<T> src) {
-        super(() -> new Sticky<T>(src));
+    public EnumerableOf(final Iterable<T> src) {
+        super(() -> new Sticky<>(src));
     }
 
     @Override
