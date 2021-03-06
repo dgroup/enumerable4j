@@ -24,14 +24,13 @@
 
 package io.dgroup.enumerable4j;
 
-import java.util.function.Function;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
- * Test cases for {@link EnumerableOf#any(Function)}.
+ * Test cases for {@link EnumerableOf#any}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
@@ -40,7 +39,7 @@ import org.llorllale.cactoos.matchers.IsTrue;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class AnyTest {
     @Test
-    public void any() {
+    void any() {
         new Assertion<>(
             "At least one element in enumerable is less than 0",
             new EnumerableOf<>(-1, 0, 1, 2).any(val -> val < 0),
@@ -49,7 +48,7 @@ public final class AnyTest {
     }
 
     @Test
-    public void negative() {
+    void negative() {
         new Assertion<>(
             "At least one value in enumerable is negative",
             new EnumerableOf<>(1, 2, 3).any(val -> val < 0),

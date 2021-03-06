@@ -24,7 +24,6 @@
 
 package io.dgroup.enumerable4j;
 
-import java.util.function.Function;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -32,7 +31,7 @@ import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link EnumerableOf#select(Function)}.
+ * Test cases for {@link EnumerableOf#select}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)

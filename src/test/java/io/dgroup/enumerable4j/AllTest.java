@@ -24,14 +24,13 @@
 
 package io.dgroup.enumerable4j;
 
-import java.util.function.Function;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
- * Test cases for {@link EnumerableOf#all(Function)}.
+ * Test cases for {@link EnumerableOf#all}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
