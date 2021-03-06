@@ -4,7 +4,7 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/y/dgroup/enumerable4j.svg?style=flat-square)](https://github.com/dgroup/enumerable4j/graphs/commit-activity)
 [![Hits-of-Code](https://hitsofcode.com/github/dgroup/enumerable4j)](https://hitsofcode.com/view/github/dgroup/enumerable4j)
 
-[![Build Status unix](https://github.com/dgroup/enumerable4j/workflows/Build/badge.svg)](https://github.com/dgroup/enumerable4j/actions)
+[![CI](https://github.com/dgroup/enumerable4j/actions/workflows/build.yml/badge.svg)](https://github.com/dgroup/enumerable4j/actions/workflows/build.yml)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/enumerable4j)](http://www.0pdd.com/p?name=dgroup/enumerable4j)
 [![Dependency Status](https://requires.io/github/dgroup/enumerable4j/requirements.svg?branch=master)](https://requires.io/github/dgroup/enumerable4j/requirements/?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/dgroup/enumerable4j/badge.svg)](https://snyk.io/org/dgroup/project/4a9f3433-7da5-4c24-985e-ee1d3077c458/?tab=dependencies&vulns=vulnerable)
