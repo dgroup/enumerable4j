@@ -114,6 +114,7 @@
       **/*Exception.java,
       **/*Fake*.java,**/*.Fake*.java,**/**.Fake*.java
     </sonar.coverage.exclusions>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
   <dependencies>
     <dependency>
@@ -200,6 +201,7 @@
           <reuseForks>true</reuseForks>
           <useSystemClassLoader>false</useSystemClassLoader>
           <threadCount>4</threadCount>
+          <argLine>${argLine} -Xmx2048m</argLine>
         </configuration>
       </plugin>
       <!-- @todo #/DEV Activate JMH for testing on JDK8
@@ -258,9 +260,6 @@
                 <exclude>io/dgroup/**/*/*Fake*.*</exclude>
                 <exclude>io/dgroup/**/*Envelope.*</exclude>
               </excludes>
-              <append>true</append>
-              <!-- Sets the VM argument line used when unit tests are run. -->
-              <propertyName>surefireArgLine</propertyName>
             </configuration>
             <executions>
               <execution>
