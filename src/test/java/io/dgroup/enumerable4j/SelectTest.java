@@ -38,7 +38,7 @@ import org.llorllale.cactoos.matchers.HasValues;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class SelectTest {
+final class SelectTest {
 
     @Test
     void select() {

@@ -37,7 +37,7 @@ import org.llorllale.cactoos.matchers.IsTrue;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class AllTest {
+final class AllTest {
 
     @Test
     void all() {
