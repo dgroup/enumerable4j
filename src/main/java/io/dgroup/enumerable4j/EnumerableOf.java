@@ -24,7 +24,7 @@
 
 package io.dgroup.enumerable4j;
 
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.cactoos.collection.CollectionEnvelope;
 import org.cactoos.collection.Sticky;
@@ -54,27 +54,27 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     }
 
     @Override
-    public final boolean all(final Function<T, Boolean> fnc) {
-        return this.stream().allMatch(fnc::apply);
+    public final boolean all(final Predicate<T> prd) {
+        return this.stream().allMatch(prd);
     }
 
     @Override
-    public final boolean any(final Function<T, Boolean> fnc) {
-        return this.stream().anyMatch(fnc::apply);
+    public final boolean any(final Predicate<T> prd) {
+        return this.stream().anyMatch(prd);
     }
 
     @Override
-    public final boolean none(final Function<T, Boolean> fnc) {
-        return this.stream().noneMatch(fnc::apply);
+    public final boolean none(final Predicate<T> prd) {
+        return this.stream().noneMatch(prd);
     }
 
     @Override
-    public final Enumerable<T> select(final Function<T, Boolean> fnc) {
+    public final Enumerable<T> select(final Predicate<T> prd) {
         final Enumerable<T> out;
-        if (fnc == null) {
+        if (prd == null) {
             out = this;
         } else {
-            out = new EnumerableOf<>(this.stream().filter(fnc::apply).collect(Collectors.toList()));
+            out = new EnumerableOf<>(this.stream().filter(prd).collect(Collectors.toList()));
         }
         return out;
     }
