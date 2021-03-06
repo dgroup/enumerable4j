@@ -157,6 +157,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>${mvn.compiler.version}</version>
         <configuration>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
@@ -199,7 +200,6 @@
           <reuseForks>true</reuseForks>
           <useSystemClassLoader>false</useSystemClassLoader>
           <threadCount>4</threadCount>
-          <argLine>${surefireArgLine} -Xmx1024m -noverify</argLine>
         </configuration>
       </plugin>
       <!-- @todo #/DEV Activate JMH for testing on JDK8
