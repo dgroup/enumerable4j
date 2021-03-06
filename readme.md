@@ -68,3 +68,5 @@ Contributors:
 
 * [dgroup](https://github.com/dgroup) as Yurii
   Dubinka ([yurii.dubinka@gmail.com](mailto:yurii.dubinka@gmail.com))
+* [smithros](https://github.com/smithros) as Rostyslav
+  Koval ([kovalr2000@gmail.com](mailto:kovalr2000@gmail.com))
