@@ -5,10 +5,9 @@
 [![Hits-of-Code](https://hitsofcode.com/github/dgroup/enumerable4j)](https://hitsofcode.com/view/github/dgroup/enumerable4j)
 
 [![Build Status unix](https://github.com/dgroup/enumerable4j/workflows/Build/badge.svg)](https://github.com/dgroup/enumerable4j/actions)
-[![Build Status win](https://ci.appveyor.com/api/projects/status/goe33ypli6ctqqoe/branch/master?svg=true)](https://ci.appveyor.com/project/dgroup/enumerable4j/branch/master)
 [![0pdd](http://www.0pdd.com/svg?name=dgroup/enumerable4j)](http://www.0pdd.com/p?name=dgroup/enumerable4j)
 [![Dependency Status](https://requires.io/github/dgroup/enumerable4j/requirements.svg?branch=master)](https://requires.io/github/dgroup/enumerable4j/requirements/?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/dgroup/enumerable4j/badge.svg)](https://snyk.io/org/dgroup/project/08b09486-8ae2-4db0-aa0a-a33a0c65f11b/?tab=dependencies&vulns=vulnerable)
+[![Known Vulnerabilities](https://snyk.io/test/github/dgroup/enumerable4j/badge.svg)](https://snyk.io/org/dgroup/project/4a9f3433-7da5-4c24-985e-ee1d3077c458/?tab=dependencies&vulns=vulnerable)
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/dgroup/enumerable4j)](http://www.rultor.com/p/dgroup/enumerable4j)
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
@@ -17,7 +16,7 @@
 [![Qulice](https://img.shields.io/badge/qulice-passed-blue.svg)](http://www.qulice.com/)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=dgroup_enumerable4j&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=dgroup_enumerable4j)
 [![Codebeat Badge](https://codebeat.co/badges/ef2fc64b-b2cf-4cc5-8b01-c9b4baaae87a)](https://codebeat.co/projects/github-com-dgroup-enumerable4j-master)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2a12b714d1984b3d8c0d516cf24c6b32)](https://www.codacy.com/gh/dgroup/enumerable4j/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/enumerable4j&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/eb956780f5b34519ac193c204062acae)](https://www.codacy.com/gh/dgroup/enumerable4j/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/enumerable4j&amp;utm_campaign=Badge_Grade)
 [![Codecov](https://codecov.io/gh/dgroup/enumerable4j/branch/master/graph/badge.svg)](https://codecov.io/gh/dgroup/enumerable4j)
 
 ### Overview

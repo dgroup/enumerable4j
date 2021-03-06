@@ -54,6 +54,7 @@
     <url>http://github.com/dgroup/enumerable4j/tree/master</url>
     <tag>HEAD</tag>
   </scm>
+  <!-- @todo #/DEV Setup codebeat with enumerable4j and fix badge in the readme.md file -->
   <properties>
     <!-- Application properties -->
     <build.version>${project.version}</build.version>

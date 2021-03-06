@@ -15,11 +15,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      # @todo #/DEV Enable Java8 for this project. For now the default config is used for JDK15.
-      - name: Set up JDK 15
+      - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
-          java-version: 15
+          java-version: 1.8
       - name: Cache SonarCloud packages
         uses: actions/cache@v1
         with:
@@ -47,3 +46,7 @@ jobs:
         run: |
           mvn -B -P qulice clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           bash <(curl -s https://codecov.io/bash)
+      - name: Publish to GitHub Packages Apache Maven
+          run: mvn deploy
+          env:
+            GITHUB_TOKEN: ${{ github.token }} # GITHUB_TOKEN is the default env for the password
