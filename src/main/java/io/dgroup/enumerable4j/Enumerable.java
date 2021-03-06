@@ -24,7 +24,7 @@
 package io.dgroup.enumerable4j;
 
 import java.util.Collection;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * The immutable enumerable collection.
@@ -43,31 +43,31 @@ public interface Enumerable<T> extends Collection<T> {
 
     /**
      * Passes each element of the collection to the given block.
-     * @param fnc The function to match each element.
+     * @param prd The function to match each element.
      * @return The true if the block never returns false or nil.
      */
-    boolean all(Function<T, Boolean> fnc);
+    boolean all(Predicate<T> prd);
 
     /**
      * Passes at least one element of the collection to the given block.
-     * @param fnc The function to match at least one element.
+     * @param prd The function to match at least one element.
      * @return The true if the block never returns false or nil.
      */
-    boolean any(Function<T, Boolean> fnc);
+    boolean any(Predicate<T> prd);
 
     /**
      * Doesn't passes elements of the collection to the given block.
-     * @param fnc The function to match none elements.
+     * @param prd The function to match none elements.
      * @return The true if the block never returns false or nil.
      */
-    boolean none(Function<T, Boolean> fnc);
+    boolean none(Predicate<T> prd);
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a true value.
      * If no function (null) is given, then 'this' is returned instead.
-     * @param fnc The function to match each element.
+     * @param prd The function to match each element.
      * @return The enumerable.
      */
-    Enumerable<T> select(Function<T, Boolean> fnc);
+    Enumerable<T> select(Predicate<T> prd);
 }
