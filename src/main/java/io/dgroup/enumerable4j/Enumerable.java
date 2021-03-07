@@ -24,6 +24,7 @@
 package io.dgroup.enumerable4j;
 
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -70,4 +71,12 @@ public interface Enumerable<T> extends Collection<T> {
      * @return The enumerable.
      */
     Enumerable<T> select(Predicate<T> prd);
+
+    /**
+     * Returns an enumerable containing all elements, on which given function was applied.
+     * If no function (null) is given, then 'this' is returned instead.
+     * @param fnc The function to apply to each element.
+     * @return The enumerable.
+     */
+    Enumerable<T> map(Function<T, T> fnc);
 }

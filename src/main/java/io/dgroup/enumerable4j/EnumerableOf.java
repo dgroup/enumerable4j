@@ -23,6 +23,7 @@
  */
 package io.dgroup.enumerable4j;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.cactoos.collection.CollectionEnvelope;
@@ -74,6 +75,17 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
             out = this;
         } else {
             out = new EnumerableOf<>(this.stream().filter(prd).collect(Collectors.toList()));
+        }
+        return out;
+    }
+
+    @Override
+    public final Enumerable<T> map(final Function<T, T> fnc) {
+        final Enumerable<T> out;
+        if (fnc == null) {
+            out = this;
+        } else {
+            out = new EnumerableOf<>(this.stream().map(fnc).collect(Collectors.toList()));
         }
         return out;
     }
