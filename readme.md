@@ -19,14 +19,15 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/eb956780f5b34519ac193c204062acae)](https://www.codacy.com/gh/dgroup/enumerable4j/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/enumerable4j&amp;utm_campaign=Badge_Grade)
 [![Codecov](https://codecov.io/gh/dgroup/enumerable4j/branch/master/graph/badge.svg)](https://codecov.io/gh/dgroup/enumerable4j)
 
-- [Overview](#overview)
-- [How to use?](#how-to-use)
-    - [.all](#all)
-    - [.any](#any)
-    - [.none](#none)
-    - [.select](#select)
-- [How to contribute?](#how-to-contribute)
-- [Contributors](#contributors)
+-  [Overview](#overview)
+-  [How to use?](#how-to-use)
+     - [.all](#all)
+     - [.any](#any)
+     - [.none](#none)
+     - [.select](#select)
+
+-  [How to contribute?](#how-to-contribute)
+-  [Contributors](#contributors)
 
 ### Overview
 
@@ -81,14 +82,14 @@ Collection<Integer> positive = src.select(v -> v > 0); // [1, 2]
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
 
-1. Pull requests are welcome! Don't forget to add your name to contribution section and run this,
+1.  Pull requests are welcome! Don't forget to add your name to contribution section and run this,
    beforehand:
-    ```
+    ```bash
     mvn -Pqulice clean install
     ```
-2. Everyone interacting in this project’s codebases, issue trackers, chat rooms is expected to
+2.  Everyone interacting in this project’s codebases, issue trackers, chat rooms is expected to
    follow the [code of conduct](.github/CODE_OF_CONDUCT.md).
-3. Latest maven coordinates [here](https://github.com/dgroup/enumerable4j/releases):
+3.  Latest maven coordinates [here](https://github.com/dgroup/enumerable4j/releases):
     ```xml
     <dependency>
         <groupId>io.github.dgroup</groupId>
@@ -99,7 +100,7 @@ Collection<Integer> positive = src.select(v -> v > 0); // [1, 2]
 
 ### Contributors
 
-* [dgroup](https://github.com/dgroup) as Yurii
+-  [dgroup](https://github.com/dgroup) as Yurii
   Dubinka ([yurii.dubinka@gmail.com](mailto:yurii.dubinka@gmail.com))
-* [smithros](https://github.com/smithros) as Rostyslav
+-  [smithros](https://github.com/smithros) as Rostyslav
   Koval ([kovalr2000@gmail.com](mailto:kovalr2000@gmail.com))
