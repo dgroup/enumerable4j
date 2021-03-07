@@ -74,8 +74,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
-    <mvn.compiler.version>3.8.1</mvn.compiler.version>
+    <mvn.compiler.version>3.7.0</mvn.compiler.version>
     <mvn.jar.version>3.0.2</mvn.jar.version>
     <mvn.assembly.version>3.1.0</mvn.assembly.version>
     <mvn.resources.version>3.0.2</mvn.resources.version>
