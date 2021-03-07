@@ -18,7 +18,6 @@ readers:
 #  https://danielkummer.github.io/git-flow-cheatsheet/index.html
 assets:
   settings.xml: "dgroup/ossrh#settings.xml"
-# @todo #/DEV Generate a new key for signing and publishing artifacts to Maven Central.
   pubring.kbx:  "dgroup/ossrh#FE632E8F-enumerable4j-pubring.kbx"
 
 merge:
@@ -35,4 +34,4 @@ release:
     mvn versions:set "-DnewVersion=${tag}"
     git add pom.xml
     git commit -am "${tag}"
-    mvn -X -V -Dgpg.homedir="$HOME" -P qulice,ossrh-enumberable4j -s ../settings.xml clean deploy
+    mvn -X -V -Dgpg.homedir="$HOME" -P qulice,ossrh-enumerable4j -s ../settings.xml clean deploy
