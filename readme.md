@@ -19,6 +19,15 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/eb956780f5b34519ac193c204062acae)](https://www.codacy.com/gh/dgroup/enumerable4j/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=dgroup/enumerable4j&amp;utm_campaign=Badge_Grade)
 [![Codecov](https://codecov.io/gh/dgroup/enumerable4j/branch/master/graph/badge.svg)](https://codecov.io/gh/dgroup/enumerable4j)
 
+- [Overview](#overview)
+- [How to use?](#how-to-use)
+    - [.all](#all)
+    - [.any](#any)
+    - [.none](#none)
+    - [.select](#select)
+- [How to contribute?](#how-to-contribute)
+- [Contributors](#contributors)
+
 ### Overview
 
 **enumerable4j** is a Ruby's well known [Enumerable](https://ruby-doc.org/core-2.6/Enumerable.html)
@@ -44,6 +53,30 @@ enumerable4j | Java 8 | [cactoos](https://github.com/yegor256/cactoos)
 `.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`
 `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)`
 
+#### all
+```java
+Collection<Integer> src = new EnumerableOf<>(1, 2, 3);
+boolean allPositive = src.all(v -> v > 0); // true 
+```
+
+#### .any
+```java
+Collection<Integer> src = new EnumerableOf<>(-1, 0, 1);
+boolean oneIsPositive = src.any(v -> v > 0); // true 
+```
+
+#### .none
+```java
+Collection<Integer> src = new EnumerableOf<>(-2, -1, 0);
+boolean noneIsPositive = src.none(v -> v > 0); // true 
+```
+
+#### .select
+```java
+Collection<Integer> src = new EnumerableOf<>(-1, 1, 2);
+Collection<Integer> positive = src.select(v -> v > 0); // [1, 2] 
+```
+
 ### How to contribute?
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
@@ -64,7 +97,7 @@ enumerable4j | Java 8 | [cactoos](https://github.com/yegor256/cactoos)
     </dependency>
     ```
 
-Contributors:
+### Contributors
 
 * [dgroup](https://github.com/dgroup) as Yurii
   Dubinka ([yurii.dubinka@gmail.com](mailto:yurii.dubinka@gmail.com))

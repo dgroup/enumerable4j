@@ -74,8 +74,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
-    <mvn.compiler.version>3.8.1</mvn.compiler.version>
+    <mvn.compiler.version>3.7.0</mvn.compiler.version>
     <mvn.jar.version>3.0.2</mvn.jar.version>
     <mvn.assembly.version>3.1.0</mvn.assembly.version>
     <mvn.resources.version>3.0.2</mvn.resources.version>
@@ -93,7 +92,7 @@
     <sonar.version>3.4.0.905</sonar.version>
     <commons-logging.version>1.2</commons-logging.version>
     <!-- General dependencies -->
-    <cactoos.version>0.42</cactoos.version>
+    <cactoos.version>0.49</cactoos.version>
     <!-- Testing -->
     <hamcrest.version>2.2</hamcrest.version>
     <junit.version>5.7.1</junit.version>

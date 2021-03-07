@@ -1,3 +1,5 @@
+docker:
+  image: g4s8/rultor:alpine3.10
 architect:
   - dgroup
 
@@ -27,6 +29,10 @@ merge:
     - mvn -Pqulice clean package
 
 release:
+  sensitive:
+    - settings.xml
+    - pubring.gpg
+    - secring.gpg
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git add pom.xml
