@@ -200,7 +200,6 @@
           <reuseForks>true</reuseForks>
           <useSystemClassLoader>false</useSystemClassLoader>
           <threadCount>4</threadCount>
-          <argLine>${argLine} -Xmx2048m</argLine>
         </configuration>
       </plugin>
       <!-- @todo #/DEV Activate JMH for testing on JDK8

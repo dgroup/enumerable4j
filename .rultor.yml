@@ -19,8 +19,7 @@ readers:
 assets:
   settings.xml: "dgroup/ossrh#settings.xml"
 # @todo #/DEV Generate a new key for signing and publishing artifacts to Maven Central.
-  pubring.gpg:  "dgroup/ossrh#enumberable4j-pubring.gpg"
-  secring.gpg:  "dgroup/ossrh#enumberable4j-secring.gpg"
+  pubring.kbx:  "dgroup/ossrh#FE632E8F-enumerable4j-pubring.kbx"
 
 merge:
   env:
@@ -31,8 +30,7 @@ merge:
 release:
   sensitive:
     - settings.xml
-    - pubring.gpg
-    - secring.gpg
+    - pubring.kbx
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git add pom.xml
