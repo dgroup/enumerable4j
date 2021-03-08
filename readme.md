@@ -56,7 +56,7 @@ enumerable4j | Java 8 | [cactoos](https://github.com/yegor256/cactoos)
 `.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`
 `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)`
 
-#### all
+#### .all
 
 ```java
 Collection<Integer> src = new EnumerableOf<>(1, 2, 3);
