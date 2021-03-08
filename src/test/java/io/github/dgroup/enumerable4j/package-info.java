@@ -23,9 +23,9 @@
  */
 
 /**
- * A Ruby's Enumerable ported to java.
+ * Unit tests for a package {@link io.dgroup.enumerable4j}.
  *
  * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
  */
-package io.dgroup.enumerable4j;
+package io.github.dgroup.enumerable4j;

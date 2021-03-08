@@ -21,7 +21,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package io.dgroup.enumerable4j;
+package io.github.dgroup.enumerable4j;
 
 import java.util.Collection;
 import java.util.function.Predicate;

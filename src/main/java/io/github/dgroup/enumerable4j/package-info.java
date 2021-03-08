@@ -22,38 +22,10 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.dgroup.enumerable4j;
-
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
-import org.llorllale.cactoos.matchers.Assertion;
-import org.llorllale.cactoos.matchers.IsTrue;
-
 /**
- * Test cases for {@link EnumerableOf#all}.
+ * A Ruby's Enumerable ported to java.
  *
+ * @author Yurii Dubinka (yurii.dubinka@gmail.com)
  * @since 0.1.0
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class AllTest {
-
-    @Test
-    void all() {
-        new Assertion<>(
-            "All values in enumerable are positive",
-            new EnumerableOf<>(1, 2, 3).all(val -> val > 0),
-            new IsTrue()
-        ).affirm();
-    }
-
-    @Test
-    void negative() {
-        new Assertion<>(
-            "All values in enumerable are negative",
-            new EnumerableOf<>(1, 2, 3).all(val -> val < 0),
-            new IsEqual<>(false)
-        ).affirm();
-    }
-}
+package io.github.dgroup.enumerable4j;

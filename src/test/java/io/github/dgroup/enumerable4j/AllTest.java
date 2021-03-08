@@ -22,42 +22,38 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.dgroup.enumerable4j;
+package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.core.AllOf;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
-import org.llorllale.cactoos.matchers.HasSize;
-import org.llorllale.cactoos.matchers.HasValues;
+import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
- * Test cases for {@link EnumerableOf#select}.
+ * Test cases for {@link EnumerableOf#all}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class SelectTest {
+final class AllTest {
 
     @Test
-    void select() {
+    void all() {
         new Assertion<>(
-            "Positive values from enumerable found",
-            new EnumerableOf<>(3, 0, 2, -1).select(val -> val > 0),
-            new AllOf<>(
-                new HasSize(2),
-                new HasValues<>(3, 2)
-            )
+            "All values in enumerable are positive",
+            new EnumerableOf<>(1, 2, 3).all(val -> val > 0),
+            new IsTrue()
         ).affirm();
     }
 
     @Test
-    void nullFunction() {
+    void negative() {
         new Assertion<>(
-            "In case null-function the self enumerable is expected",
-            new EnumerableOf<>(3, 0, 2, -1).select(null),
-            new HasValues<>(3, 0, 2, -1)
+            "All values in enumerable are negative",
+            new EnumerableOf<>(1, 2, 3).all(val -> val < 0),
+            new IsEqual<>(false)
         ).affirm();
     }
 }

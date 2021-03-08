@@ -22,37 +22,42 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.dgroup.enumerable4j;
+package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
-import org.llorllale.cactoos.matchers.IsTrue;
+import org.llorllale.cactoos.matchers.HasSize;
+import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link EnumerableOf#none}.
+ * Test cases for {@link EnumerableOf#select}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class NoneTest {
+final class SelectTest {
+
     @Test
-    void none() {
+    void select() {
         new Assertion<>(
-            "There are no values in enumerable greater than 100",
-            new EnumerableOf<>(-1, 2, 99).none(val -> val > 100),
-            new IsTrue()
+            "Positive values from enumerable found",
+            new EnumerableOf<>(3, 0, 2, -1).select(val -> val > 0),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>(3, 2)
+            )
         ).affirm();
     }
 
     @Test
-    void negative() {
+    void nullFunction() {
         new Assertion<>(
-            "All values in enumerable are negative",
-            new EnumerableOf<>(1, 2, 3).none(val -> val < 0),
-            new IsEqual<>(true)
+            "In case null-function the self enumerable is expected",
+            new EnumerableOf<>(3, 0, 2, -1).select(null),
+            new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }
 }
