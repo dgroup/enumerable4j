@@ -43,7 +43,7 @@ Get the latest version [here](https://github.com/dgroup/enumerable4j/releases):
 ```xml
 
 <dependency>
-  <groupId>io.dgroup</groupId>
+  <groupId>io.github.dgroup</groupId>
   <artifactId>enumerable4j</artifactId>
   <version>${version}</version>
 </dependency>
