@@ -18,7 +18,8 @@ readers:
 #  https://danielkummer.github.io/git-flow-cheatsheet/index.html
 assets:
   settings.xml: "dgroup/ossrh#settings.xml"
-  pubring.kbx:  "dgroup/ossrh#FE632E8F-enumerable4j-pubring.kbx"
+  pubring.gpg:  "dgroup/ossrh#8B01AA62_enumerable4j_pubring.gpg"
+  secring.gpg:  "dgroup/ossrh#8B01AA62_enumerable4j_secring.gpg"
 
 merge:
   env:
@@ -29,7 +30,8 @@ merge:
 release:
   sensitive:
     - settings.xml
-    - pubring.kbx
+    - pubring.gpg
+    - secring.gpg
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git add pom.xml
