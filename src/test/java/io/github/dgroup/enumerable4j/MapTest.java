@@ -22,7 +22,7 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.dgroup.enumerable4j;
+package io.github.dgroup.enumerable4j;
 
 import org.hamcrest.collection.IsEmptyCollection;
 import org.hamcrest.core.IsNot;

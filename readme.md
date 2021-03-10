@@ -26,6 +26,7 @@
     *   [.any](#any)
     *   [.none](#none)
     *   [.select](#select)
+    *   [.map](#map)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -82,6 +83,13 @@ boolean noneIsPositive = src.none(v -> v > 0); // true
 ```java
 Collection<Integer> src = new EnumerableOf<>(-1, 1, 2);
 Collection<Integer> positive = src.select(v -> v > 0); // [1, 2] 
+```
+
+#### .map
+
+```java
+Collection<Integer> src = new EnumerableOf<>(0, 1, 2);
+Collection<Integer> positive = src.map(v -> v + 1); // [1, 2, 3] 
 ```
 
 ### How to contribute?
