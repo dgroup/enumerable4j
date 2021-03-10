@@ -22,7 +22,7 @@
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package io.dgroup.enumerable4j;
+package io.github.dgroup.enumerable4j;
 
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
@@ -30,19 +30,19 @@ import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
- * Test cases for {@link EnumerableOf#any}.
+ * Test cases for {@link EnumerableOf#none}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class AnyTest {
+final class NoneTest {
     @Test
-    void any() {
+    void none() {
         new Assertion<>(
-            "At least one element in enumerable is less than 0",
-            new EnumerableOf<>(-1, 0, 1, 2).any(val -> val < 0),
+            "There are no values in enumerable greater than 100",
+            new EnumerableOf<>(-1, 2, 99).none(val -> val > 100),
             new IsTrue()
         ).affirm();
     }
@@ -50,9 +50,9 @@ final class AnyTest {
     @Test
     void negative() {
         new Assertion<>(
-            "At least one value in enumerable is negative",
-            new EnumerableOf<>(1, 2, 3).any(val -> val < 0),
-            new IsEqual<>(false)
+            "All values in enumerable are negative",
+            new EnumerableOf<>(1, 2, 3).none(val -> val < 0),
+            new IsEqual<>(true)
         ).affirm();
     }
 }
