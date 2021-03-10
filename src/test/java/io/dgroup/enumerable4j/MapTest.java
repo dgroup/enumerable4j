@@ -24,6 +24,7 @@
 
 package io.dgroup.enumerable4j;
 
+import org.hamcrest.collection.IsEmptyCollection;
 import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -52,7 +53,7 @@ final class MapTest {
         new Assertion<>(
             "All numbers are the same",
             new EnumerableOf<>(2, 3, 4).map(null),
-            new HasValues<>(2, 3, 4)
+            new IsEmptyCollection<>()
         ).affirm();
     }
 

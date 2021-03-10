@@ -23,6 +23,7 @@
  */
 package io.dgroup.enumerable4j;
 
+import java.util.Collections;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ import org.cactoos.collection.Sticky;
  *
  * @param <T> The type of entities.
  * @since 0.1.0
+ * @todo #/DEV Use empty enumerable in case if no func provided to method map.
  */
 public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable<T> {
     /**
@@ -80,10 +82,10 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     }
 
     @Override
-    public final Enumerable<T> map(final Function<T, T> fnc) {
-        final Enumerable<T> out;
+    public final <Y> Enumerable<Y> map(final Function<? super T, ? extends Y> fnc) {
+        final Enumerable<Y> out;
         if (fnc == null) {
-            out = this;
+            out = new EnumerableOf<>(Collections.emptyList());
         } else {
             out = new EnumerableOf<>(this.stream().map(fnc).collect(Collectors.toList()));
         }

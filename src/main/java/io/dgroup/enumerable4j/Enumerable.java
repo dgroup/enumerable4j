@@ -76,7 +76,8 @@ public interface Enumerable<T> extends Collection<T> {
      * Returns an enumerable containing all elements, on which given function was applied.
      * If no function (null) is given, then 'this' is returned instead.
      * @param fnc The function to apply to each element.
+     * @param <Y> The type of target entity.
      * @return The enumerable.
      */
-    Enumerable<T> map(Function<T, T> fnc);
+    <Y> Enumerable<Y> map(Function<? super T, ? extends Y> fnc);
 }
