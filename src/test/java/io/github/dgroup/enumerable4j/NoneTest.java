@@ -55,4 +55,13 @@ final class NoneTest {
             new IsEqual<>(true)
         ).affirm();
     }
+
+    @Test
+    void nullPredicate() {
+        new Assertion<>(
+            "In case of null predicate we will get true",
+            new EnumerableOf<>(1, 2, 3).all(null),
+            new IsTrue()
+        ).affirm();
+    }
 }

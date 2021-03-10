@@ -58,17 +58,35 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
 
     @Override
     public final boolean all(final Predicate<T> prd) {
-        return this.stream().allMatch(prd);
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            match = this.stream().allMatch(prd);
+        }
+        return match;
     }
 
     @Override
     public final boolean any(final Predicate<T> prd) {
-        return this.stream().anyMatch(prd);
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            match = this.stream().anyMatch(prd);
+        }
+        return match;
     }
 
     @Override
     public final boolean none(final Predicate<T> prd) {
-        return this.stream().noneMatch(prd);
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            match = this.stream().noneMatch(prd);
+        }
+        return match;
     }
 
     @Override
