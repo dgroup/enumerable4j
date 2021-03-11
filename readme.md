@@ -52,10 +52,12 @@ Get the latest version [here](https://github.com/dgroup/enumerable4j/releases):
 
 Java version required: 1.8+.
 
-enumerable4j | Java 8 | [cactoos](https://github.com/yegor256/cactoos)
-|------ | ------ | ------ |
-`.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`
-`.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)`
+enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MIT) | [eclipse-collections]() (EDL) 
+|------ | ------ | ------ |------ |
+`.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`| tbd |
+`.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
+`.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
+`.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
 
 #### .all
 
