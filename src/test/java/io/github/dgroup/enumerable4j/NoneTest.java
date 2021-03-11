@@ -60,7 +60,7 @@ final class NoneTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get true",
-            new EnumerableOf<>(1, 2, 3).all(null),
+            new EnumerableOf<>(1, 2, 3).none(null),
             new IsTrue()
         ).affirm();
     }
