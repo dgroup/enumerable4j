@@ -80,4 +80,19 @@ public interface Enumerable<T> extends Collection<T> {
      * @return The enumerable.
      */
     <Y> Enumerable<Y> map(Function<? super T, ? extends Y> fnc);
+
+    /**
+     * Returns the number of elements that are present in enumerable for which the given
+     * function return true.
+     * If no function (null) is given, then 'size' is returned instead.
+     * @param prd The function to match each element.
+     * @return Number of elements satisfying the given function.
+     */
+    long count(Predicate<T> prd);
+
+    /**
+     * Returns size of enumerable.
+     * @return Number of elements satisfying the given function.
+     */
+    long count();
 }
