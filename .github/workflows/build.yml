@@ -34,28 +34,21 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          MAVEN_OPTS: |
-            -Xmx1024m
-            -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS
-            -Dorg.slf4j.simpleLogger.showDateTime=true
-        run: |
-          mvn -B -P qulice clean install
-      - name: Sonarqube
+      - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           MAVEN_OPTS: |
             -Xmx1024m
             -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS
             -Dorg.slf4j.simpleLogger.showDateTime=true
         run: |
-          mvn -B -P org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-      - name: Cocdecov
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
+          mvn -B -P qulice clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           bash <(curl -s https://codecov.io/bash)
+          if [ -n "${{ SONAR_TOKEN }}" ]; then
+            mvn -B -P qulice org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          fi
+          if [ -n "${{ CODECOV_TOKEN }}" ]; then
+            bash <(curl -s https://codecov.io/bash)
+          fi
