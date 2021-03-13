@@ -59,49 +59,50 @@ enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MI
 `.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
 `.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
 `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
+`.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
 `.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
 
 #### .all
 
 ```java
-Collection<Integer> src = new EnumerableOf<>(1, 2, 3);
-boolean allPositive = src.all(v -> v > 0); // true 
+Enumerable<Integer> src = new EnumerableOf<>(1, 2, 3);   // [java.util.Collection] => [1, 2, 3]
+boolean allPositive = src.all(v -> v > 0);               // true 
 ```
 
 #### .any
 
 ```java
-Collection<Integer> src = new EnumerableOf<>(-1, 0, 1);
-boolean oneIsPositive = src.any(v -> v > 0); // true 
+Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1);  // [java.util.Collection] => [-1, 0, 1]
+boolean oneIsPositive = src.any(v -> v > 0);             // true 
 ```
 
 #### .none
 
 ```java
-Collection<Integer> src = new EnumerableOf<>(-2, -1, 0);
-boolean noneIsPositive = src.none(v -> v > 0); // true 
+Enumerable<Integer> src = new EnumerableOf<>(-2, -1, 0); // [java.util.Collection] => [-2, -1, 0]
+boolean noneIsPositive = src.none(v -> v > 0);           // true 
 ```
 
 #### .select
 
 ```java
-Collection<Integer> src = new EnumerableOf<>(-1, 1, 2);
-Collection<Integer> positive = src.select(v -> v > 0); // [1, 2] 
+Enumerable<Integer> src = new EnumerableOf<>(-1, 1, 2); // [java.util.Collection] => [-1, 1, 2]
+Enumerable<Integer> positive = src.select(v -> v > 0);  // [1, 2] 
 ```
 
 #### .map
 
 ```java
-Collection<Integer> src = new EnumerableOf<>(0, 1, 2);
-Collection<Integer> positive = src.map(v -> v + 1); // [1, 2, 3] 
+Enumerable<Integer> src = new EnumerableOf<>(0, 1, 2);  // [java.util.Collection] => [0, 1, 2]
+Enumerable<Integer> positive = src.map(v -> v + 1);     // [1, 2, 3] 
 ```
 
 #### .count
 
 ```java
-Collection<Integer> src = new EnumerableOf<>(-1, 0, 1, 2);
-long countNegative = src.count(val -> val < 0); // 1 
-long count = src.count(null); // 4
+Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [1, 2, 3]
+long countNegative = src.count(val -> val < 0);         // 1 
+long count = src.count(null);                           // 4
 ```
 
 ### How to contribute?
