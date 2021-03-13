@@ -56,15 +56,6 @@ final class CountTest {
     }
 
     @Test
-    void noPredicate() {
-        new Assertion<>(
-            "In case of no predicate passed it will work as size",
-            new EnumerableOf<>(1, 2, 3).count(),
-            new IsEqual<>(3L)
-        ).affirm();
-    }
-
-    @Test
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate it will work as size",

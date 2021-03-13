@@ -101,7 +101,7 @@ Collection<Integer> positive = src.map(v -> v + 1); // [1, 2, 3]
 ```java
 Collection<Integer> src = new EnumerableOf<>(-1, 0, 1, 2);
 long countNegative = src.count(val -> val < 0); // 1 
-long count = src.count(); // 4
+long count = src.count(null); // 4
 ```
 
 ### How to contribute?

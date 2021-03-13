@@ -89,10 +89,4 @@ public interface Enumerable<T> extends Collection<T> {
      * @return Number of elements satisfying the given function.
      */
     long count(Predicate<T> prd);
-
-    /**
-     * Returns size of enumerable.
-     * @return Number of elements satisfying the given function.
-     */
-    long count();
 }

@@ -115,15 +115,10 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     public final long count(final Predicate<T> prd) {
         long count = 0;
         if (prd == null) {
-            count = this.count();
+            count = this.size();
         } else {
             count = this.stream().filter(prd).count();
         }
         return count;
-    }
-
-    @Override
-    public final long count() {
-        return this.size();
     }
 }
