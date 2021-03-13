@@ -27,6 +27,7 @@
     *   [.none](#none)
     *   [.select](#select)
     *   [.map](#map)
+    *   [.count](#count)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -58,6 +59,7 @@ enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MI
 `.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
 `.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
 `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
+`.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
 
 #### .all
 
@@ -94,6 +96,14 @@ Collection<Integer> src = new EnumerableOf<>(0, 1, 2);
 Collection<Integer> positive = src.map(v -> v + 1); // [1, 2, 3] 
 ```
 
+#### .count
+
+```java
+Collection<Integer> src = new EnumerableOf<>(-1, 0, 1, 2);
+long countNegative = src.count(val -> val < 0); // 1 
+long count = src.count(null); // 4
+```
+
 ### How to contribute?
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
@@ -118,3 +128,4 @@ Collection<Integer> positive = src.map(v -> v + 1); // [1, 2, 3]
 
 *   [dgroup](https://github.com/dgroup) as Yurii Dubinka (<yurii.dubinka@gmail.com>)
 *   [smithros](https://github.com/smithros) as Rostyslav Koval (<kovalr2000@gmail.com>)
+*   [ashutosh](https://github.com/singhashutosh96) as Ashutosh Singh (<s.ashutosh@hotmail.com>)
