@@ -46,9 +46,9 @@ jobs:
         run: |
           mvn -B -P qulice clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           bash <(curl -s https://codecov.io/bash)
-          if [ -n "${{ SONAR_TOKEN }}" ]; then
+          if [ -n "${{ secrets.SONAR_TOKEN }}" ]; then
             mvn -B -P qulice org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
           fi
-          if [ -n "${{ CODECOV_TOKEN }}" ]; then
+          if [ -n "${{ secrets.CODECOV_TOKEN }}" ]; then
             bash <(curl -s https://codecov.io/bash)
           fi
