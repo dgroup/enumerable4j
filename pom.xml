@@ -96,7 +96,7 @@
     <!-- Testing -->
     <hamcrest.version>2.2</hamcrest.version>
     <junit.version>5.7.1</junit.version>
-    <cactoos-matchers.version>0.23</cactoos-matchers.version>
+    <cactoos-matchers.version>0.24</cactoos-matchers.version>
     <jmh.version>1.27</jmh.version>
     <jmh.suite.name>enumerable4j-benchmarks</jmh.suite.name>
     <!-- Code quality -->
