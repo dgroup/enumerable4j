@@ -37,6 +37,24 @@
 
 **enumerable4j** is a Ruby's well known [Enumerable](https://ruby-doc.org/core-2.6/Enumerable.html)
 ported to `java`.
+```java
+/**
+ * The immutable enumerable collection.
+ *
+ * The Enumerable provides methods with several traversal and searching features,
+ *  and with the ability to sort. The class must provide a method each, which yields
+ * successive members of the collection.
+ *
+ * This feature is ported from ruby language
+ *  https://ruby-doc.org/core-2.6/Enumerable.html.
+ *
+ * @param <T> The type of entities.
+ * @since 0.1.0
+ */
+public interface Enumerable<T> extends Collection<T> {
+   ...
+```
+See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java)
 
 ### How to use
 
