@@ -101,6 +101,19 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     }
 
     @Override
+    public final Enumerable<T> reject(final Predicate<T> prd) {
+        final Enumerable<T> out;
+        if (prd == null) {
+            out = this;
+        } else {
+            out = new EnumerableOf<>(
+                this.stream().filter(prd.negate()).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
+
+    @Override
     public final <Y> Enumerable<Y> map(final Function<? super T, ? extends Y> fnc) {
         final Enumerable<Y> out;
         if (fnc == null) {

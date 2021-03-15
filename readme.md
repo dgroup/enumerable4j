@@ -28,6 +28,7 @@
     *   [.select](#select)
     *   [.map](#map)
     *   [.count](#count)
+    *   [.reject](#reject)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -77,6 +78,7 @@ enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MI
 `.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
 `.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
 `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
+`.reject(...)` | `.stream().filter((...).negate()).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
 `.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
 `.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
 
@@ -106,6 +108,13 @@ boolean noneIsPositive = src.none(v -> v > 0);           // true
 ```java
 Enumerable<Integer> src = new EnumerableOf<>(-1, 1, 2); // [java.util.Collection] => [-1, 1, 2]
 Enumerable<Integer> positive = src.select(v -> v > 0);  // [1, 2] 
+```
+
+#### .reject
+
+```java
+Enumerable<Integer> src = new EnumerableOf<>(-1, 1, 2); // [java.util.Collection] => [-1, 1, 2]
+Enumerable<Integer> negative = src.reject(v -> v > 0);  // [-1]
 ```
 
 #### .map
