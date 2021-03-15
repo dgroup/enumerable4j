@@ -56,7 +56,7 @@ final class RejectTest {
     void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
-            new EnumerableOf<>(3, 0, 2, -1).select(null),
+            new EnumerableOf<>(3, 0, 2, -1).reject(null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }
