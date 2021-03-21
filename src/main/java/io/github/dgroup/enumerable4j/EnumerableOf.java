@@ -114,6 +114,17 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     }
 
     @Override
+    public final Enumerable<T> find(final Predicate<T> prd) {
+        final Enumerable<T> out;
+        if (prd == null) {
+            out = this;
+        } else {
+            out = new EnumerableOf<>(this.stream().filter(prd).findFirst().orElse(null));
+        }
+        return out;
+    }
+
+    @Override
     public final <Y> Enumerable<Y> map(final Function<? super T, ? extends Y> fnc) {
         final Enumerable<Y> out;
         if (fnc == null) {
@@ -126,7 +137,7 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
 
     @Override
     public final long count(final Predicate<T> prd) {
-        long count = 0;
+        final long count;
         if (prd == null) {
             count = this.size();
         } else {

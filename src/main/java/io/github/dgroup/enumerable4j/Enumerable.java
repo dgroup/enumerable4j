@@ -82,6 +82,15 @@ public interface Enumerable<T> extends Collection<T> {
     Enumerable<T> reject(Predicate<T> prd);
 
     /**
+     * Returns an enumerable containing first element of enumerable for which the given function
+     *  returns a true value.
+     * If no function (null) is given, then 'this' is returned instead.
+     * @param prd The function to match each element.
+     * @return The enumerable.
+     */
+    Enumerable<T> find(Predicate<T> prd);
+
+    /**
      * Returns an enumerable containing all elements, on which given function was applied.
      * If no function (null) is given, then 'this' is returned instead.
      * @param fnc The function to apply to each element.
