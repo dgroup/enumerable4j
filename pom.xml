@@ -228,6 +228,7 @@
                 <exclude>dependencies:org.llorllale:cactoos-matchers</exclude>
                 <exclude>dependencies:javax.ws.rs:jsr311-api</exclude>
                 <exclude>dependencies:org.openjdk.jmh</exclude>
+                <exclude>org.junit.jupiter:junit-jupiter-api</exclude>
               </excludes>
             </configuration>
             <executions>
