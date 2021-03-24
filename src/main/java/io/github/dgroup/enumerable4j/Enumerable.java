@@ -44,21 +44,21 @@ public interface Enumerable<T> extends Collection<T> {
 
     /**
      * Passes each element of the collection to the given block.
-     * @param prd The function to match each element.
+     * @param prd The predicate to match each element.
      * @return The true if the block never returns false or nil.
      */
     boolean all(Predicate<T> prd);
 
     /**
      * Passes at least one element of the collection to the given block.
-     * @param prd The function to match at least one element.
+     * @param prd The predicate to match at least one element.
      * @return The true if the block never returns false or nil.
      */
     boolean any(Predicate<T> prd);
 
     /**
      * Doesn't passes elements of the collection to the given block.
-     * @param prd The function to match none elements.
+     * @param prd The predicate to match none elements.
      * @return The true if the block never returns false or nil.
      */
     boolean none(Predicate<T> prd);
@@ -66,7 +66,7 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a true value.
-     * If no function (null) is given, then 'this' is returned instead.
+     * If no predicate (null) is given, then 'this' is returned instead.
      * @param prd The function to match each element.
      * @return The enumerable.
      */
@@ -75,7 +75,7 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a false value.
-     * If no function (null) is given, then 'this' is returned instead.
+     * If no predicate (null) is given, then 'this' is returned instead.
      * @param prd The function to match each element.
      * @return The enumerable.
      */
@@ -84,11 +84,21 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
-     * If no function (null) is given, then 'this' is returned instead.
+     * If no predicate (null) is given, or no element found then null is returned instead.
      * @param prd The function to match each element.
-     * @return The enumerable.
+     * @return The first element of enumerable, that matches predicate.
      */
-    Enumerable<T> find(Predicate<T> prd);
+    T find(Predicate<T> prd);
+
+    /**
+     * Returns an enumerable containing first element of enumerable for which the given function
+     *  returns a true value.
+     * If no predicate (null) is given, or no element found then alternative is returned instead.
+     * @param prd The function to match each element.
+     * @param alt The alternative to return in case of null predicate or no element found.
+     * @return The first element of enumerable, that matches predicate.
+     */
+    T find(Predicate<T> prd, T alt);
 
     /**
      * Returns an enumerable containing all elements, on which given function was applied.

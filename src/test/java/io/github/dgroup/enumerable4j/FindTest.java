@@ -24,10 +24,10 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.core.IsNot;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
-import org.llorllale.cactoos.matchers.HasValues;
 
 /**
  * Test cases for {@link EnumerableOf#find}.
@@ -43,16 +43,16 @@ final class FindTest {
         new Assertion<>(
             "First number bigger than 0",
             new EnumerableOf<>(-1, 0, 1, 2, 3).find(val -> val > 0),
-            new HasValues<>(1)
+            new IsEqual<>(1)
         ).affirm();
     }
 
     @Test
-    void nullFunction() {
+    void nullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get the same enumerable",
             new EnumerableOf<>(1, 2, 3).find(null),
-            new HasValues<>(1, 2, 3)
+            new IsNull<>()
         ).affirm();
     }
 
@@ -61,9 +61,34 @@ final class FindTest {
         new Assertion<>(
             "There are no prime numbers",
             new EnumerableOf<>(2, 4, 6, 8).find(val -> val % 2 != 0),
-            new IsNot<>(
-                new HasValues<>(2)
-            )
+            new IsNull<>()
+        ).affirm();
+    }
+
+    @Test
+    void altFind() {
+        new Assertion<>(
+            "First number bigger than 0",
+            new EnumerableOf<>(-1, 0, 1, 2, 3).find(val -> val > 0, 100),
+            new IsEqual<>(1)
+        ).affirm();
+    }
+
+    @Test
+    void altNullPredicate() {
+        new Assertion<>(
+            "In case of null predicate we will get the same enumerable",
+            new EnumerableOf<>(1, 2, 3).find(null, 100),
+            new IsEqual<>(100)
+        ).affirm();
+    }
+
+    @Test
+    void altNegative() {
+        new Assertion<>(
+            "There are no prime numbers",
+            new EnumerableOf<>(2, 4, 6, 8).find(val -> val % 2 != 0, 777),
+            new IsEqual<>(777)
         ).affirm();
     }
 }

@@ -114,12 +114,23 @@ public class EnumerableOf<T> extends CollectionEnvelope<T> implements Enumerable
     }
 
     @Override
-    public final Enumerable<T> find(final Predicate<T> prd) {
-        final Enumerable<T> out;
+    public final T find(final Predicate<T> prd) {
+        final T out;
         if (prd == null) {
-            out = this;
+            out = null;
         } else {
-            out = new EnumerableOf<>(this.stream().filter(prd).findFirst().orElse(null));
+            out = this.stream().filter(prd).findFirst().orElse(null);
+        }
+        return out;
+    }
+
+    @Override
+    public final T find(final Predicate<T> prd, final T alt) {
+        final T out;
+        if (prd == null) {
+            out = alt;
+        } else {
+            out = this.stream().filter(prd).findFirst().orElse(alt);
         }
         return out;
     }
