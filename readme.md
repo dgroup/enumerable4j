@@ -29,6 +29,7 @@
     *   [.map](#map)
     *   [.count](#count)
     *   [.reject](#reject)
+    *   [.find](#find)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -81,6 +82,7 @@ enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MI
 `.reject(...)` | `.stream().filter((...).negate()).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
 `.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
 `.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
+`.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `-` | tbd |
 
 #### .all
 
@@ -130,6 +132,14 @@ Enumerable<Integer> positive = src.map(v -> v + 1);     // [1, 2, 3]
 Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [1, 2, 3]
 long countNegative = src.count(val -> val < 0);         // 1 
 long count = src.count(null);                           // 4
+```
+
+#### .find
+
+```java
+Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [1, 2, 3]
+Integer first = src.find(val -> val > 0);               // 0 
+nteger altFind = src.find(val -> val == 10, 777);       // 777                
 ```
 
 ### How to contribute?
