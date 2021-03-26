@@ -129,17 +129,17 @@ Enumerable<Integer> positive = src.map(v -> v + 1);     // [1, 2, 3]
 #### .count
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [1, 2, 3]
+Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [-1, 0, 1]
 long countNegative = src.count(val -> val < 0);         // 1 
-long count = src.count(null);                           // 4
+long count = src.count(null);                           // 3
 ```
 
 #### .find
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [1, 2, 3]
-Integer first = src.find(val -> val > 0);               // 0 
-nteger altFind = src.find(val -> val == 10, 777);       // 777                
+Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [-1, 0, 1]
+Integer first = src.find(val -> val > 0);               // 1 
+Integer altFind = src.find(val -> val == 10, 777);      // 777                
 ```
 
 ### How to contribute?
