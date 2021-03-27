@@ -41,7 +41,7 @@ final class CountTest {
     void truePredicate() {
         new Assertion<>(
             "One element in enumerable is less than 0",
-            new FakeCollection<>(-1, 0, 1, 2).count(val -> val < 0),
+            new Linked<>(-1, 0, 1, 2).count(val -> val < 0),
             new IsEqual<>(1L)
         ).affirm();
     }
@@ -50,7 +50,7 @@ final class CountTest {
     void falsePredicate() {
         new Assertion<>(
             "No element in enumerable is less than 0",
-            new FakeCollection<>(7, 0, 1, 2).count(val -> val < 0),
+            new Linked<>(7, 0, 1, 2).count(val -> val < 0),
             new IsEqual<>(0L)
         ).affirm();
     }
@@ -59,7 +59,7 @@ final class CountTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate it will work as size",
-            new FakeCollection<>(1, 2, 3).count(null),
+            new Linked<>(1, 2, 3).count(null),
             new IsEqual<>(3L)
         ).affirm();
     }

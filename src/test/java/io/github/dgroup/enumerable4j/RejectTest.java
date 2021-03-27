@@ -44,7 +44,7 @@ final class RejectTest {
     void reject() {
         new Assertion<>(
             "Negative values from enumerable found",
-            new FakeCollection<>(1, 2, 3, -1).reject(val -> val > 0),
+            new Linked<>(1, 2, 3, -1).reject(val -> val > 0),
             new AllOf<>(
                 new HasSize(1),
                 new HasValues<>(-1)
@@ -56,7 +56,7 @@ final class RejectTest {
     void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
-            new FakeCollection<>(3, 0, 2, -1).reject(null),
+            new Linked<>(3, 0, 2, -1).reject(null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }

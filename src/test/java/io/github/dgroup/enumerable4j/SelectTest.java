@@ -44,7 +44,7 @@ final class SelectTest {
     void select() {
         new Assertion<>(
             "Positive values from enumerable found",
-            new FakeCollection<>(3, 0, 2, -1).select(val -> val > 0),
+            new Linked<>(3, 0, 2, -1).select(val -> val > 0),
             new AllOf<>(
                 new HasSize(2),
                 new HasValues<>(3, 2)
@@ -56,7 +56,7 @@ final class SelectTest {
     void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
-            new FakeCollection<>(3, 0, 2, -1).select(null),
+            new Linked<>(3, 0, 2, -1).select(null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }

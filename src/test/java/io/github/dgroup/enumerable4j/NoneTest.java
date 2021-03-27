@@ -42,7 +42,7 @@ final class NoneTest {
     void none() {
         new Assertion<>(
             "There are no values in enumerable greater than 100",
-            new FakeCollection<>(-1, 2, 99).none(val -> val > 100),
+            new Linked<>(-1, 2, 99).none(val -> val > 100),
             new IsTrue()
         ).affirm();
     }
@@ -51,7 +51,7 @@ final class NoneTest {
     void negative() {
         new Assertion<>(
             "All values in enumerable are negative",
-            new FakeCollection<>(1, 2, 3).none(val -> val < 0),
+            new Linked<>(1, 2, 3).none(val -> val < 0),
             new IsEqual<>(true)
         ).affirm();
     }
@@ -60,7 +60,7 @@ final class NoneTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get true",
-            new FakeCollection<>(1, 2, 3).none(null),
+            new Linked<>(1, 2, 3).none(null),
             new IsTrue()
         ).affirm();
     }

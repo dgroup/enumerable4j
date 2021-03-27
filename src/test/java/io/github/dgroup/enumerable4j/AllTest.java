@@ -43,7 +43,7 @@ final class AllTest {
     void all() {
         new Assertion<>(
             "All values in enumerable are positive",
-            new FakeCollection<>(1, 2, 3).all(val -> val > 0),
+            new Linked<>(1, 2, 3).all(val -> val > 0),
             new IsTrue()
         ).affirm();
     }
@@ -52,7 +52,7 @@ final class AllTest {
     void negative() {
         new Assertion<>(
             "All values in enumerable are negative",
-            new FakeCollection<>(1, 2, 3).all(val -> val < 0),
+            new Linked<>(1, 2, 3).all(val -> val < 0),
             new IsEqual<>(false)
         ).affirm();
     }
@@ -61,7 +61,7 @@ final class AllTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get true",
-            new FakeCollection<>(1, 2, 3).all(null),
+            new Linked<>(1, 2, 3).all(null),
             new IsTrue()
         ).affirm();
     }

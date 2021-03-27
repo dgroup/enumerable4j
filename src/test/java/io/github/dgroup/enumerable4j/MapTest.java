@@ -43,7 +43,7 @@ final class MapTest {
     void map() {
         new Assertion<>(
             "All numbers where multiplied on 10",
-            new FakeCollection<>(2, 3, 4).map(val -> val * 10),
+            new Linked<>(2, 3, 4).map(val -> val * 10),
             new HasValues<>(20, 30, 40)
         ).affirm();
     }
@@ -52,7 +52,7 @@ final class MapTest {
     void nullFunction() {
         new Assertion<>(
             "All numbers are the same",
-            new FakeCollection<>(2, 3, 4).map(null),
+            new Linked<>(2, 3, 4).map(null),
             new IsEmptyIterable<>()
         ).affirm();
     }
@@ -61,7 +61,7 @@ final class MapTest {
     void negative() {
         new Assertion<>(
             "All numbers converted to numbers squares",
-            new FakeCollection<>(0, 1, 2, 3).map(val -> val * val),
+            new Linked<>(0, 1, 2, 3).map(val -> val * val),
             new IsNot<>(
                 new HasValues<>(5, 7, 9)
             )

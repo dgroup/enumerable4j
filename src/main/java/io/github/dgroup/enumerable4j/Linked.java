@@ -23,7 +23,6 @@
  */
 package io.github.dgroup.enumerable4j;
 
-import java.util.List;
 import org.cactoos.list.ListEnvelope;
 import org.cactoos.list.ListOf;
 
@@ -41,7 +40,7 @@ public class Linked<X> extends ListEnvelope<X> implements Enumerable<X> {
      */
     @SafeVarargs
     public Linked(final X... src) {
-        this(new ListOf<>(src));
+        super(new ListOf<>(src));
     }
 
     /**
@@ -49,14 +48,6 @@ public class Linked<X> extends ListEnvelope<X> implements Enumerable<X> {
      * @param src The source items.
      */
     public Linked(final Iterable<X> src) {
-        this(new ListOf<>(src));
-    }
-
-    /**
-     * Ctor.
-     * @param src The source items.
-     */
-    public Linked(final List<X> src) {
-        super(src);
+        super(new ListOf<>(src));
     }
 }
