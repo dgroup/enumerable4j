@@ -183,8 +183,8 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
     `.reject(...)` | `.stream().filter((...).negate()).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
     `.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
-    `.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
-    `.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `-` | tbd |
+    `.count(...)` | `.stream().filter(...).count()` | `new Filtered<>(...).size()` | tbd |
+    `.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `new FirstOf<>(...,...).value()` | tbd |
 
 #### .all
 
