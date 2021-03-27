@@ -31,7 +31,7 @@ import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link EnumerableOf#select}.
+ * Test cases for {@link Enumerable#select}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
@@ -44,7 +44,7 @@ final class SelectTest {
     void select() {
         new Assertion<>(
             "Positive values from enumerable found",
-            new EnumerableOf<>(3, 0, 2, -1).select(val -> val > 0),
+            new FakeCollection<>(3, 0, 2, -1).select(val -> val > 0),
             new AllOf<>(
                 new HasSize(2),
                 new HasValues<>(3, 2)
@@ -56,7 +56,7 @@ final class SelectTest {
     void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
-            new EnumerableOf<>(3, 0, 2, -1).select(null),
+            new FakeCollection<>(3, 0, 2, -1).select(null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }

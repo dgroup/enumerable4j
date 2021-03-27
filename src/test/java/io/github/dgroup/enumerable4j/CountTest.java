@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 
 /**
- * Test cases for {@link EnumerableOf#count}.
+ * Test cases for {@link Enumerable#count}.
  *
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
@@ -41,7 +41,7 @@ final class CountTest {
     void truePredicate() {
         new Assertion<>(
             "One element in enumerable is less than 0",
-            new EnumerableOf<>(-1, 0, 1, 2).count(val -> val < 0),
+            new FakeCollection<>(-1, 0, 1, 2).count(val -> val < 0),
             new IsEqual<>(1L)
         ).affirm();
     }
@@ -50,7 +50,7 @@ final class CountTest {
     void falsePredicate() {
         new Assertion<>(
             "No element in enumerable is less than 0",
-            new EnumerableOf<>(7, 0, 1, 2).count(val -> val < 0),
+            new FakeCollection<>(7, 0, 1, 2).count(val -> val < 0),
             new IsEqual<>(0L)
         ).affirm();
     }
@@ -59,7 +59,7 @@ final class CountTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate it will work as size",
-            new EnumerableOf<>(1, 2, 3).count(null),
+            new FakeCollection<>(1, 2, 3).count(null),
             new IsEqual<>(3L)
         ).affirm();
     }

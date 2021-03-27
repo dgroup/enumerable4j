@@ -24,14 +24,14 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.collection.IsEmptyCollection;
+import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link EnumerableOf#map}.
+ * Test cases for {@link Enumerable#map}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
@@ -43,7 +43,7 @@ final class MapTest {
     void map() {
         new Assertion<>(
             "All numbers where multiplied on 10",
-            new EnumerableOf<>(2, 3, 4).map(val -> val * 10),
+            new FakeCollection<>(2, 3, 4).map(val -> val * 10),
             new HasValues<>(20, 30, 40)
         ).affirm();
     }
@@ -52,8 +52,8 @@ final class MapTest {
     void nullFunction() {
         new Assertion<>(
             "All numbers are the same",
-            new EnumerableOf<>(2, 3, 4).map(null),
-            new IsEmptyCollection<>()
+            new FakeCollection<>(2, 3, 4).map(null),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
@@ -61,7 +61,7 @@ final class MapTest {
     void negative() {
         new Assertion<>(
             "All numbers converted to numbers squares",
-            new EnumerableOf<>(0, 1, 2, 3).map(val -> val * val),
+            new FakeCollection<>(0, 1, 2, 3).map(val -> val * val),
             new IsNot<>(
                 new HasValues<>(5, 7, 9)
             )

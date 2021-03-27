@@ -30,7 +30,7 @@ import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.IsTrue;
 
 /**
- * Test cases for {@link EnumerableOf#all}.
+ * Test cases for {@link Enumerable#all}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
@@ -43,7 +43,7 @@ final class AllTest {
     void all() {
         new Assertion<>(
             "All values in enumerable are positive",
-            new EnumerableOf<>(1, 2, 3).all(val -> val > 0),
+            new FakeCollection<>(1, 2, 3).all(val -> val > 0),
             new IsTrue()
         ).affirm();
     }
@@ -52,7 +52,7 @@ final class AllTest {
     void negative() {
         new Assertion<>(
             "All values in enumerable are negative",
-            new EnumerableOf<>(1, 2, 3).all(val -> val < 0),
+            new FakeCollection<>(1, 2, 3).all(val -> val < 0),
             new IsEqual<>(false)
         ).affirm();
     }
@@ -61,7 +61,7 @@ final class AllTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get true",
-            new EnumerableOf<>(1, 2, 3).all(null),
+            new FakeCollection<>(1, 2, 3).all(null),
             new IsTrue()
         ).affirm();
     }

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 
 /**
- * Test cases for {@link EnumerableOf#find}.
+ * Test cases for {@link FakeCollection#find}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
@@ -42,7 +42,7 @@ final class FindTest {
     void find() {
         new Assertion<>(
             "First number bigger than 0",
-            new EnumerableOf<>(-1, 0, 1, 2, 3).find(val -> val > 0),
+            new FakeCollection<>(-1, 0, 1, 2, 3).find(val -> val > 0),
             new IsEqual<>(1)
         ).affirm();
     }
@@ -51,7 +51,7 @@ final class FindTest {
     void nullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get the same enumerable",
-            new EnumerableOf<>(1, 2, 3).find(null),
+            new FakeCollection<>(1, 2, 3).find(null),
             new IsNull<>()
         ).affirm();
     }
@@ -60,7 +60,7 @@ final class FindTest {
     void negative() {
         new Assertion<>(
             "There are no prime numbers",
-            new EnumerableOf<>(2, 4, 6, 8).find(val -> val % 2 != 0),
+            new FakeCollection<>(2, 4, 6, 8).find(val -> val % 2 != 0),
             new IsNull<>()
         ).affirm();
     }
@@ -69,7 +69,7 @@ final class FindTest {
     void altFind() {
         new Assertion<>(
             "First number bigger than 0",
-            new EnumerableOf<>(-1, 0, 1, 2, 3).find(val -> val > 0, 100),
+            new FakeCollection<>(-1, 0, 1, 2, 3).find(val -> val > 0, 100),
             new IsEqual<>(1)
         ).affirm();
     }
@@ -78,7 +78,7 @@ final class FindTest {
     void altNullPredicate() {
         new Assertion<>(
             "In case of null predicate we will get the same enumerable",
-            new EnumerableOf<>(1, 2, 3).find(null, 100),
+            new FakeCollection<>(1, 2, 3).find(null, 100),
             new IsEqual<>(100)
         ).affirm();
     }
@@ -87,7 +87,7 @@ final class FindTest {
     void altNegative() {
         new Assertion<>(
             "There are no prime numbers",
-            new EnumerableOf<>(2, 4, 6, 8).find(val -> val % 2 != 0, 777),
+            new FakeCollection<>(2, 4, 6, 8).find(val -> val % 2 != 0, 777),
             new IsEqual<>(777)
         ).affirm();
     }

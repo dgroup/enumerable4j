@@ -26,42 +26,67 @@ package io.github.dgroup.enumerable4j;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
- * The immutable enumerable collection.
+ * The iterable with primitive operations witch simplify typical actions like count, map, etc.
  *
- * The Enumerable provides methods with several traversal and searching features,
- *  and with the ability to sort. The class must provide a method each, which yields
- * successive members of the collection.
- *
- * This feature is ported from ruby language
+ * The API is based on Ruby's Enumerable:
  *  https://ruby-doc.org/core-2.6/Enumerable.html.
  *
- * @param <T> The type of entities.
+ * The Enumerable provides methods with several traversal and searching features, and with the
+ * ability to sort. The class must provide a method each, which yields successive members of the
+ * collection.
+ *
+ * @param <X> The type of entities.
  * @since 0.1.0
  */
-public interface Enumerable<T> extends Collection<T> {
+public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Passes each element of the collection to the given block.
      * @param prd The predicate to match each element.
      * @return The true if the block never returns false or nil.
      */
-    boolean all(Predicate<T> prd);
+    default boolean all(Predicate<X> prd) {
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            match = this.stream().allMatch(prd);
+        }
+        return match;
+    }
 
     /**
      * Passes at least one element of the collection to the given block.
      * @param prd The predicate to match at least one element.
      * @return The true if the block never returns false or nil.
      */
-    boolean any(Predicate<T> prd);
+    default boolean any(Predicate<X> prd) {
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            match = this.stream().anyMatch(prd);
+        }
+        return match;
+    }
 
     /**
      * Doesn't passes elements of the collection to the given block.
      * @param prd The predicate to match none elements.
      * @return The true if the block never returns false or nil.
      */
-    boolean none(Predicate<T> prd);
+    default boolean none(Predicate<X> prd) {
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            match = this.stream().noneMatch(prd);
+        }
+        return match;
+    }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
@@ -70,7 +95,17 @@ public interface Enumerable<T> extends Collection<T> {
      * @param prd The function to match each element.
      * @return The enumerable.
      */
-    Enumerable<T> select(Predicate<T> prd);
+    default Enumerable<X> select(Predicate<X> prd) {
+        final Enumerable<X> out;
+        if (prd == null) {
+            out = this;
+        } else {
+            out = new Linked<>(
+                this.stream().filter(prd).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
@@ -79,7 +114,17 @@ public interface Enumerable<T> extends Collection<T> {
      * @param prd The function to match each element.
      * @return The enumerable.
      */
-    Enumerable<T> reject(Predicate<T> prd);
+    default Enumerable<X> reject(Predicate<X> prd) {
+        final Enumerable<X> out;
+        if (prd == null) {
+            out = this;
+        } else {
+            out = new Linked<>(
+                this.stream().filter(prd.negate()).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
 
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
@@ -88,7 +133,9 @@ public interface Enumerable<T> extends Collection<T> {
      * @param prd The function to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    T find(Predicate<T> prd);
+    default X find(Predicate<X> prd) {
+        return this.find(prd, null);
+    }
 
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
@@ -98,7 +145,15 @@ public interface Enumerable<T> extends Collection<T> {
      * @param alt The alternative to return in case of null predicate or no element found.
      * @return The first element of enumerable, that matches predicate.
      */
-    T find(Predicate<T> prd, T alt);
+    default X find(Predicate<X> prd, X alt) {
+        final X out;
+        if (prd == null) {
+            out = alt;
+        } else {
+            out = this.stream().filter(prd).findFirst().orElse(alt);
+        }
+        return out;
+    }
 
     /**
      * Returns an enumerable containing all elements, on which given function was applied.
@@ -107,7 +162,17 @@ public interface Enumerable<T> extends Collection<T> {
      * @param <Y> The type of target entity.
      * @return The enumerable.
      */
-    <Y> Enumerable<Y> map(Function<? super T, ? extends Y> fnc);
+    default <Y> Enumerable<Y> map(Function<? super X, ? extends Y> fnc) {
+        final Enumerable<Y> out;
+        if (fnc == null) {
+            out = new Empty<>();
+        } else {
+            out = new Linked<>(
+                this.stream().map(fnc).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
 
     /**
      * Returns the number of elements that are present in enumerable for which the given
@@ -116,5 +181,13 @@ public interface Enumerable<T> extends Collection<T> {
      * @param prd The function to match each element.
      * @return Number of elements satisfying the given function.
      */
-    long count(Predicate<T> prd);
+    default long count(Predicate<X> prd) {
+        final long count;
+        if (prd == null) {
+            count = this.size();
+        } else {
+            count = this.stream().filter(prd).count();
+        }
+        return count;
+    }
 }

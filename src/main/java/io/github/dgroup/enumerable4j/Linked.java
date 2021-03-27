@@ -21,47 +21,42 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
-import org.llorllale.cactoos.matchers.Assertion;
-import org.llorllale.cactoos.matchers.IsTrue;
+import java.util.List;
+import org.cactoos.list.ListEnvelope;
+import org.cactoos.list.ListOf;
 
 /**
- * Test cases for {@link Enumerable#none}.
+ * The enumerable based on linked list.
  *
+ * @param <X> The type of entities.
  * @since 0.1.0
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class NoneTest {
-    @Test
-    void none() {
-        new Assertion<>(
-            "There are no values in enumerable greater than 100",
-            new FakeCollection<>(-1, 2, 99).none(val -> val > 100),
-            new IsTrue()
-        ).affirm();
+public class Linked<X> extends ListEnvelope<X> implements Enumerable<X> {
+
+    /**
+     * Ctor.
+     * @param src The source items.
+     */
+    @SafeVarargs
+    public Linked(final X... src) {
+        this(new ListOf<>(src));
     }
 
-    @Test
-    void negative() {
-        new Assertion<>(
-            "All values in enumerable are negative",
-            new FakeCollection<>(1, 2, 3).none(val -> val < 0),
-            new IsEqual<>(true)
-        ).affirm();
+    /**
+     * Ctor.
+     * @param src The source items.
+     */
+    public Linked(final Iterable<X> src) {
+        this(new ListOf<>(src));
     }
 
-    @Test
-    void nullPredicate() {
-        new Assertion<>(
-            "In case of null predicate we will get true",
-            new FakeCollection<>(1, 2, 3).none(null),
-            new IsTrue()
-        ).affirm();
+    /**
+     * Ctor.
+     * @param src The source items.
+     */
+    public Linked(final List<X> src) {
+        super(src);
     }
 }

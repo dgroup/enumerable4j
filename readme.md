@@ -38,108 +38,210 @@
 ### Overview
 
 **enumerable4j** is a Ruby's well known [Enumerable](https://ruby-doc.org/core-2.6/Enumerable.html)
-ported to `java`.
+ported to `java` as interface with set of default methods which simplify typical operations with collections.
 ```java
 /**
- * The immutable enumerable collection.
+ * The iterable with primitive operations witch simplify typical actions like count, map, etc.
  *
- * The Enumerable provides methods with several traversal and searching features,
- *  and with the ability to sort. The class must provide a method each, which yields
- * successive members of the collection.
- *
- * This feature is ported from ruby language
+ * The API is based on Ruby's Enumerable:
  *  https://ruby-doc.org/core-2.6/Enumerable.html.
  *
- * @param <T> The type of entities.
+ * The Enumerable provides methods with several traversal and searching features, and with the
+ * ability to sort. The class must provide a method each, which yields successive members of the
+ * collection.
+ *
+ * @param <X> The type of entities.
  * @since 0.1.0
  */
-public interface Enumerable<T> extends Collection<T> {
-   ...
+public interface Enumerable<X> extends Collection<X> {
+    /**
+     * Passes each element of the collection to the given block.
+     * @param prd The predicate to match each element.
+     * @return The true if the block never returns false or nil.
+     */
+    default boolean all(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Passes at least one element of the collection to the given block.
+     * @param prd The predicate to match at least one element.
+     * @return The true if the block never returns false or nil.
+     */
+    default boolean any(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Doesn't passes elements of the collection to the given block.
+     * @param prd The predicate to match none elements.
+     * @return The true if the block never returns false or nil.
+     */
+    default boolean none(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing all elements of enumerable for which the given function
+     *  returns a true value.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param prd The function to match each element.
+     * @return The enumerable.
+     */
+    default Enumerable<T> select(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing all elements of enumerable for which the given function
+     *  returns a false value.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param prd The function to match each element.
+     * @return The enumerable.
+     */
+    default Enumerable<T> reject(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing first element of enumerable for which the given function
+     *  returns a true value.
+     * If no predicate (null) is given, or no element found then null is returned instead.
+     * @param prd The function to match each element.
+     * @return The first element of enumerable, that matches predicate.
+     */
+    default T find(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing first element of enumerable for which the given function
+     *  returns a true value.
+     * If no predicate (null) is given, or no element found then alternative is returned instead.
+     * @param prd The function to match each element.
+     * @param alt The alternative to return in case of null predicate or no element found.
+     * @return The first element of enumerable, that matches predicate.
+     */
+    default T find(Predicate<T> prd, T alt) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing all elements, on which given function was applied.
+     * If no function (null) is given, then 'this' is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <Y> The type of target entity.
+     * @return The enumerable.
+     */
+    default <Y> Enumerable<Y> map(Function<? super T, ? extends Y> fnc) {
+        // ...
+    }
+
+    /**
+     * Returns the number of elements that are present in enumerable for which the given
+     * function return true.
+     * If no function (null) is given, then 'size' is returned instead.
+     * @param prd The function to match each element.
+     * @return Number of elements satisfying the given function.
+     */
+    default long count(Predicate<T> prd) {
+        // ...
+    }
+}
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java)
 
 ### How to use
 
-Get the latest version [here](https://github.com/dgroup/enumerable4j/releases):
+1.  Get the latest version [here](https://github.com/dgroup/enumerable4j/releases):
+    ```xml
+    <dependency>
+      <groupId>io.github.dgroup</groupId>
+      <artifactId>enumerable4j</artifactId>
+      <version>${version}</version>
+    </dependency>
+    ```
+2.  Assign the [Enumerable](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java) interface with default methods to your own collection
+    ```java
+    /**
+     * The collection or iterable which you implemented in your project for some purposes.
+     * You would like to extend the api in order to make it much more
+     */
+    public class YourOwnCollection<X> extends Collection<X> implements Enumerable<X> {
+        //
+    }
+    ```
+    You may (but not required) override the default implementations of methods from [Enumerable](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java) if needed.
 
-```xml
-
-<dependency>
-  <groupId>io.github.dgroup</groupId>
-  <artifactId>enumerable4j</artifactId>
-  <version>${version}</version>
-</dependency>
-```
-
-Java version required: 1.8+.
-
-enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MIT) | [eclipse-collections]() (EDL) 
-|------ | ------ | ------ |------ |
-`.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`| tbd |
-`.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
-`.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
-`.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
-`.reject(...)` | `.stream().filter((...).negate()).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
-`.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
-`.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
-`.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `-` | tbd |
+3.  Java version required: 1.8+.
+4.  Comparing matrix with other libs:
+    
+    enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MIT) | [eclipse-collections]() (EDL) 
+    |------ | ------ | ------ |------ |
+    `.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`| tbd |
+    `.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
+    `.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
+    `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
+    `.reject(...)` | `.stream().filter((...).negate()).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
+    `.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
+    `.count(...)` | `.stream().filter(...).count()` | `-` | tbd |
+    `.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `-` | tbd |
 
 #### .all
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(1, 2, 3);   // [java.util.Collection] => [1, 2, 3]
-boolean allPositive = src.all(v -> v > 0);               // true 
+YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
+boolean allPositive = src.all(v -> v > 0);              // true 
 ```
 
 #### .any
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1);  // [java.util.Collection] => [-1, 0, 1]
-boolean oneIsPositive = src.any(v -> v > 0);             // true 
+YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
+boolean oneIsPositive = src.any(v -> v > 0);            // true 
 ```
 
 #### .none
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-2, -1, 0); // [java.util.Collection] => [-2, -1, 0]
-boolean noneIsPositive = src.none(v -> v > 0);           // true 
+YourOwnCollection<Integer> src = ...                    // with elements [-2, -1, 0]
+boolean noneIsPositive = src.none(v -> v > 0);          // true 
 ```
 
 #### .select
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 1, 2); // [java.util.Collection] => [-1, 1, 2]
+YourOwnCollection<Integer> src = ...                    // with elements [-1, 1, 2]
 Enumerable<Integer> positive = src.select(v -> v > 0);  // [1, 2] 
 ```
 
 #### .reject
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 1, 2); // [java.util.Collection] => [-1, 1, 2]
+YourOwnCollection<Integer> src = ...                    // with elements [-1, 1, 2]
 Enumerable<Integer> negative = src.reject(v -> v > 0);  // [-1]
 ```
 
 #### .map
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(0, 1, 2);  // [java.util.Collection] => [0, 1, 2]
+YourOwnCollection<Integer> src = ...                    // with elements [0, 1, 2]
 Enumerable<Integer> positive = src.map(v -> v + 1);     // [1, 2, 3] 
 ```
 
 #### .count
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [-1, 0, 1]
-long countNegative = src.count(val -> val < 0);         // 1 
-long count = src.count(null);                           // 3
+YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
+long countNegative = src.count(val -> val < 0);         // 1
 ```
 
 #### .find
 
 ```java
-Enumerable<Integer> src = new EnumerableOf<>(-1, 0, 1); // [java.util.Collection] => [-1, 0, 1]
+YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
 Integer first = src.find(val -> val > 0);               // 1 
-Integer altFind = src.find(val -> val == 10, 777);      // 777                
+Integer alternative = src.find(val -> val > 5, 50);     // 50                
 ```
 
 ### How to contribute?
