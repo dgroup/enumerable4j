@@ -165,7 +165,6 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     ```java
     /**
      * The collection which you implemented in your project for some purposes.
-     * You would like to extend the api in order to make it much more
      */
     public class YourOwnCollection<X> extends Collection<X> implements Enumerable<X> {
         //
