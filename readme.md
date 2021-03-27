@@ -149,7 +149,7 @@ public interface Enumerable<X> extends Collection<X> {
     }
 }
 ```
-See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java)
+See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
 
 ### How to use
 
@@ -164,7 +164,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java)
 2.  Assign the [Enumerable](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java) interface with default methods to your own collection
     ```java
     /**
-     * The collection or iterable which you implemented in your project for some purposes.
+     * The collection which you implemented in your project for some purposes.
      * You would like to extend the api in order to make it much more
      */
     public class YourOwnCollection<X> extends Collection<X> implements Enumerable<X> {
