@@ -28,7 +28,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.dgroup</groupId>
   <artifactId>enumerable4j</artifactId>
-  <version>0.0.0</version>
+  <version>0.3.1</version>
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
   <description>Amazing Ruby's "Enumerable" ported to Java.</description>
