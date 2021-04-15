@@ -44,7 +44,7 @@ jobs:
             -Dorg.slf4j.simpleLogger.dateTimeFormat=HH:mm:ss,SSS
             -Dorg.slf4j.simpleLogger.showDateTime=true
         run: |
-          mvn -B -P qulice clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          mvn -B -P qulice clean install
           bash <(curl -s https://codecov.io/bash)
           if [ -n "${{ secrets.SONAR_TOKEN }}" ]; then
             mvn -B -P qulice org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
