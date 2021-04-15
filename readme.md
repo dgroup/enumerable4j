@@ -199,7 +199,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
     `.count(...)` | `.stream().filter(...).count()` | `new Filtered<>(...).size()` | tbd |
     `.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `new FirstOf<>(...,...).value()` | tbd |
-    `.reduce(...)` | `.stream().reduce(...)` | `new Reduced<>(...,...).value()` | tbd |
+    `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
 
 #### .all
 
