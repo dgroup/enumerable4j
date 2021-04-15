@@ -30,6 +30,7 @@
     *   [.count](#count)
     *   [.reject](#reject)
     *   [.find](#find)
+    *   [.reduce](#reduce)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -147,6 +148,19 @@ public interface Enumerable<X> extends Collection<X> {
     default long count(Predicate<T> prd) {
         // ...
     }
+
+    /**
+     * Returns a result of the reduction of the elements in this stream,
+     * using provided identity value and accumulation function operator.
+     * If no function (null) is given, then identity is returned instead.
+     *
+     * @param idn The identity value of the accumulation function.
+     * @param opr The accumulation function operator which combining previous and current values.
+     * @return Result of of combining elements.
+     */
+    default X reduce(X idn, BinaryOperator<X> opr) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -177,14 +191,15 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     
     enumerable4j (MIT) | Java 8 | [cactoos](https://github.com/yegor256/cactoos) (MIT) | [eclipse-collections]() (EDL) 
     |------ | ------ | ------ |------ |
-    `.all(...)` | `.stream().allMatch(...);` | `new And<>(...,...).value()`| tbd |
-    `.any(...)` | `.stream().anyMatch(...);` | `new Or<>(...,...).value()`| tbd |
-    `.none(...)` | `.stream().noneMatch(...);` | `new And<>(...,...).value()`| tbd |
+    `.all(...)` | `.stream().allMatch(...)` | `new And<>(...,...).value()`| tbd |
+    `.any(...)` | `.stream().anyMatch(...)` | `new Or<>(...,...).value()`| tbd |
+    `.none(...)` | `.stream().noneMatch(...)` | `new And<>(...,...).value()`| tbd |
     `.select(...)` | `.stream().filter(...).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
     `.reject(...)` | `.stream().filter((...).negate()).collect(Collectors.toList())` | `new Filtered<>(...,...)` | tbd |
     `.map(...)` | `.stream().map(...).collect(Collectors.toList())` | `new Mapped<>(...,...)` | tbd |
     `.count(...)` | `.stream().filter(...).count()` | `new Filtered<>(...).size()` | tbd |
     `.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `new FirstOf<>(...,...).value()` | tbd |
+    `.reduce(...)` | `.stream().reduce(...)` | `new Reduced<>(...,...).value()` | tbd |
 
 #### .all
 
@@ -243,6 +258,13 @@ Integer first = src.find(val -> val > 0);               // 1
 Integer alternative = src.find(val -> val > 5, 50);     // 50                
 ```
 
+#### .reduce
+
+```java
+YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
+boolean sum = src.reduce(0, Integer::sum);              // 6 
+```
+
 ### How to contribute?
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
@@ -268,3 +290,4 @@ Integer alternative = src.find(val -> val > 5, 50);     // 50
 *   [dgroup](https://github.com/dgroup) as Yurii Dubinka (<yurii.dubinka@gmail.com>)
 *   [smithros](https://github.com/smithros) as Rostyslav Koval (<kovalr2000@gmail.com>)
 *   [ashutosh](https://github.com/singhashutosh96) as Ashutosh Singh (<s.ashutosh@hotmail.com>)
+*   [dykov](https://github.com/dykov) as Oleksii Dykov (<dykovoleksii@gmail.com>)
