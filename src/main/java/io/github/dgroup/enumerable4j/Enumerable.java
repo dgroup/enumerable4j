@@ -24,6 +24,7 @@
 package io.github.dgroup.enumerable4j;
 
 import java.util.Collection;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -189,5 +190,24 @@ public interface Enumerable<X> extends Collection<X> {
             count = this.stream().filter(prd).count();
         }
         return count;
+    }
+
+    /**
+     * Returns a result of the reduction of the elements in this stream,
+     * using provided identity value and accumulation function operator.
+     * If no function (null) is given, then identity is returned instead.
+     *
+     * @param idn The identity value of the accumulation function.
+     * @param opr The accumulation function operator which combining previous and current values.
+     * @return Result of of combining elements.
+     */
+    default X reduce(X idn, BinaryOperator<X> opr) {
+        final X res;
+        if (opr == null) {
+            res = idn;
+        } else {
+            res = this.stream().reduce(idn, opr);
+        }
+        return res;
     }
 }
