@@ -262,7 +262,7 @@ Integer alternative = src.find(val -> val > 5, 50);     // 50
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
-boolean sum = src.reduce(0, Integer::sum);              // 6 
+Integer sum = src.reduce(0, Integer::sum);              // 6 
 ```
 
 ### How to contribute?
