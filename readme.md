@@ -293,8 +293,8 @@ Integer sum = src.reduce(0, Integer::sum);              // 6
 #### .after
 
 ```java
-YourOwnCollection<Integer> src = ...                                 // with elements [2, 3, 4, 5, 6]
-Enumerable<Integer> afterThree = src.after(val -> val == 3);         // [4, 5, 6] 
+YourOwnCollection<Integer> src = ...                                    // with elements [2, 3, 4, 5, 6]
+Enumerable<Integer> afterThree = src.after(val -> val == 3);            // [4, 5, 6] 
 Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5]                
 ```
 
