@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
+import org.llorllale.cactoos.matchers.Throws;
 
 /**
  * Test cases for {@link Enumerable#after}.
@@ -137,6 +138,15 @@ public final class AfterTest {
             "If the size value is 0, an empty collection is returned",
             new Linked<>(1, 2, 3).after(null, 0),
             new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
+    void throwExceptionOnNegativeSize() {
+        new Assertion<>(
+            "Must throw IllegalArgumentException if the size value is negative",
+            () -> new Linked<>(1, 2, 3).after(null, -1),
+            new Throws<>("-1", IllegalArgumentException.class)
         ).affirm();
     }
 
