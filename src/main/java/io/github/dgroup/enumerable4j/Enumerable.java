@@ -220,32 +220,41 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<X> after(Predicate<X> prd) {
-        return this.after(prd, this.size() - 1);
+        return this.after(prd, this.size());
     }
 
     /**
      * Returns an enumerable containing a certain number of elements of enumerable
      *  after the first one which corresponds the condition.
-     * If no predicate (null) is given, then 'this' is returned instead.
+     * If no predicate (null) is given, then 'this' of the specified size is returned instead.
      * @param prd The function to match element after which enumerable elements should be returned.
      * @param size The number of elements the enumerable should be limited to.
      * @return The enumerable.
      */
     default Enumerable<X> after(Predicate<X> prd, long size) {
         final Enumerable<X> out;
-        if (prd == null) {
-            out = this;
+        if (size < 0) {
+            throw new IllegalArgumentException(Long.toString(size));
+        } else if (size == 0) {
+            out = new Empty<>();
+        } else if (prd == null) {
+            out = new Linked<>(this.stream().limit(size).collect(Collectors.toList()));
         } else {
-            int skip = 0;
+            boolean found = false;
+            out = new Linked<>();
+            long cnt = size;
             for (final X elem : this) {
-                ++skip;
-                if (prd.test(elem)) {
-                    break;
+                if (!found && prd.negate().test(elem)) {
+                    continue;
+                } else if (!found) {
+                    found = true;
+                    continue;
+                }
+                if (cnt > 0) {
+                    --cnt;
+                    out.add(elem);
                 }
             }
-            out = new Linked<>(
-                this.stream().skip(skip).limit(size).collect(Collectors.toList())
-            );
         }
         return out;
     }

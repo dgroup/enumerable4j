@@ -24,6 +24,8 @@
 
 package io.github.dgroup.enumerable4j;
 
+import org.hamcrest.collection.IsEmptyIterable;
+import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.HasSize;
@@ -44,34 +46,34 @@ public final class AfterTest {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new Linked<>(1, 2, 3, 4).after(null),
-            new HasValues<>(1, 2, 3, 4)
+            new AllOf<>(
+                new HasSize(4),
+                new HasValues<>(1, 2, 3, 4)
+            )
         ).affirm();
     }
 
     @Test
     void allAfter() {
         new Assertion<>(
-            "All elements after the first one which corresponds the condition",
-            new Linked<>(1, 2, 3, 4, 5, 6, 7).after(n -> n > 2),
-            new HasValues<>(4, 5, 6, 7)
+            "Returns elements after the first one which corresponds the condition",
+            new Linked<>(1, 2, 3, 4, 5).after(n -> n > 1),
+            new AllOf<>(
+                new HasSize(3),
+                new HasValues<>(3, 4, 5)
+            )
         ).affirm();
     }
 
     @Test
-    void firstThreeAfter() {
+    void firstTwoAfter() {
         new Assertion<>(
-            "First 3 elements after the first one which corresponds the condition",
-            new Linked<>(1, 2, 3, 4, 5, 6, 7).after(n -> n > 2, 3),
-            new HasValues<>(4, 5, 6)
-        ).affirm();
-    }
-
-    @Test
-    void allStringsAfter() {
-        new Assertion<>(
-            "All string elements after the first one which corresponds the condition",
-            new Linked<>("a", "b", "c", "d", "e").after(s -> s.equals("c")),
-            new HasValues<>("d", "e")
+            "Returns first 2 elements after the first one which corresponds the condition",
+            new Linked<>("a", "b", "c", "d", "e").after(s -> s.equals("b"), 2),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>("c", "d")
+            )
         ).affirm();
     }
 
@@ -79,8 +81,11 @@ public final class AfterTest {
     void firstTenAfter() {
         new Assertion<>(
             "The specified size can be greater than an actual enumerable size",
-            new Linked<>(1, 2, 3, 4, 5).after(n -> n == 3, 10),
-            new HasValues<>(4, 5)
+            new Linked<>(1, 2, 3, 4, 5).after(n -> n == 2, 10),
+        new AllOf<>(
+            new HasSize(3),
+            new HasValues<>(3, 4, 5)
+        )
         ).affirm();
     }
 
@@ -89,16 +94,49 @@ public final class AfterTest {
         new Assertion<>(
             "The first element of enumerable corresponds the condition",
             new Linked<>(1, 2, 3, 4, 5).after(n -> n < 10),
+        new AllOf<>(
+            new HasSize(4),
             new HasValues<>(2, 3, 4, 5)
+        )
         ).affirm();
     }
 
     @Test
     void noneMatch() {
         new Assertion<>(
-            "No one elements corresponds the condition, an empty collection is returned",
+            "No one element corresponds the condition, an empty collection is returned",
             new Linked<>(1, 2, 3).after(n -> n < 0),
-            new HasSize(0)
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
+    void zeroSize() {
+        new Assertion<>(
+            "If the size value is 0, an empty collection is returned",
+            new Linked<>(1, 2, 3).after(n -> n < 10, 0),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
+    void nullPredicateWithSize() {
+        new Assertion<>(
+            "In case null-function and specified size a enumerable of the size is expected",
+            new Linked<>(1, 2, 3, 4).after(null, 2),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>(1, 2)
+            )
+        ).affirm();
+    }
+
+    @Test
+    void nullPredicateAndZeroSize() {
+        new Assertion<>(
+            "If the size value is 0, an empty collection is returned",
+            new Linked<>(1, 2, 3).after(null, 0),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
