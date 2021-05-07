@@ -26,6 +26,7 @@ package io.github.dgroup.enumerable4j;
 
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
+import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
@@ -89,6 +90,15 @@ public final class AfterTest {
             "The first element of enumerable corresponds the condition",
             new Linked<>(1, 2, 3, 4, 5).after(n -> n < 10),
             new HasValues<>(2, 3, 4, 5)
+        ).affirm();
+    }
+
+    @Test
+    void noneMatch() {
+        new Assertion<>(
+            "No one elements corresponds the condition, an empty collection is returned",
+            new Linked<>(1, 2, 3).after(n -> n < 0),
+            new HasSize(0)
         ).affirm();
     }
 
