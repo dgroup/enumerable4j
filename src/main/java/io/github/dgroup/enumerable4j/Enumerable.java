@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
  * @param <X> The type of entities.
  * @since 0.1.0
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Enumerable<X> extends Collection<X> {
 
     /**
@@ -209,5 +210,43 @@ public interface Enumerable<X> extends Collection<X> {
             res = this.stream().reduce(idn, opr);
         }
         return res;
+    }
+
+    /**
+     * Returns an enumerable containing all elements of enumerable
+     *  after the first one which corresponds the condition.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param prd The function to match element after which enumerable elements should be returned.
+     * @return The enumerable.
+     */
+    default Enumerable<X> after(Predicate<X> prd) {
+        return this.after(prd, this.size() - 1);
+    }
+
+    /**
+     * Returns an enumerable containing a certain number of elements of enumerable
+     *  after the first one which corresponds the condition.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param prd The function to match element after which enumerable elements should be returned.
+     * @param size The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     */
+    default Enumerable<X> after(Predicate<X> prd, long size) {
+        final Enumerable<X> out;
+        if (prd == null) {
+            out = this;
+        } else {
+            int skip = 0;
+            for (final X elem : this) {
+                ++skip;
+                if (prd.test(elem)) {
+                    break;
+                }
+            }
+            out = new Linked<>(
+                this.stream().skip(skip).limit(size).collect(Collectors.toList())
+            );
+        }
+        return out;
     }
 }

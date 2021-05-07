@@ -31,6 +31,7 @@
     *   [.reject](#reject)
     *   [.find](#find)
     *   [.reduce](#reduce)
+    *   [.after](#after)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -161,6 +162,29 @@ public interface Enumerable<X> extends Collection<X> {
     default X reduce(X idn, BinaryOperator<X> opr) {
         // ...
     }
+
+    /**
+     * Returns an enumerable containing all elements of enumerable
+     *  after the first one which corresponds the condition.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param prd The function to match element after which enumerable elements should be returned.
+     * @return The enumerable.
+     */
+    default Enumerable<X> after(Predicate<X> prd) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing a certain number of elements of enumerable
+     *  after the first one which corresponds the condition.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param prd The function to match element after which enumerable elements should be returned.
+     * @param size The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     */
+    default Enumerable<X> after(Predicate<X> prd, long size) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -200,6 +224,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.count(...)` | `.stream().filter(...).count()` | `new Filtered<>(...).size()` | tbd |
     `.find(...)` | `.stream().filter(...).findFirst().orElse(...)` | `new FirstOf<>(...,...).value()` | tbd |
     `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
+    `.after(...)` | | | tbd |
 
 #### .all
 
@@ -263,6 +288,14 @@ Integer alternative = src.find(val -> val > 5, 50);     // 50
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
 Integer sum = src.reduce(0, Integer::sum);              // 6 
+```
+
+#### .after
+
+```java
+YourOwnCollection<Integer> src = ...                                 // with elements [2, 3, 4, 5, 6]
+Enumerable<Integer> afterThree = src.after(val -> val == 3);         // [4, 5, 6] 
+Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5]                
 ```
 
 ### How to contribute?
