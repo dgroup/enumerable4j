@@ -30,65 +30,67 @@ import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 
 /**
- * Test cases for {@link Enumerable#find}.
+ * Test cases for {@link Enumerable#next}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class FindTest {
-    @Test
-    void find() {
-        new Assertion<>(
-            "First number bigger than 0",
-            new Linked<>(-1, 0, 1, 2, 3).find(val -> val > 0),
-            new IsEqual<>(1)
-        ).affirm();
-    }
+public class NextTest {
 
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case of the null predicate, we get null as a result",
-            new Linked<>(1, 2, 3).find(null),
+            "In a case of the null predicate, we get null as a result",
+            new Linked<>(1, 2, 3).next(null),
             new IsNull<>()
-        ).affirm();
-    }
-
-    @Test
-    void negative() {
-        new Assertion<>(
-            "There are no prime numbers",
-            new Linked<>(2, 4, 6, 8).find(val -> val % 2 != 0),
-            new IsNull<>()
-        ).affirm();
-    }
-
-    @Test
-    void altFind() {
-        new Assertion<>(
-            "First number bigger than 0",
-            new Linked<>(-1, 0, 1, 2, 3).find(val -> val > 0, 100),
-            new IsEqual<>(1)
         ).affirm();
     }
 
     @Test
     void altNullPredicate() {
         new Assertion<>(
-            "In case of null predicate we will get the same enumerable",
-            new Linked<>(1, 2, 3).find(null, 100),
-            new IsEqual<>(100)
+            "In a case of the null predicate, we get an alternative result",
+            new Linked<>(1, 2, 3).next(null, -1),
+            new IsEqual<>(-1)
         ).affirm();
     }
 
     @Test
-    void altNegative() {
+    void getNext() {
         new Assertion<>(
-            "There are no prime numbers",
-            new Linked<>(2, 4, 6, 8).find(val -> val % 2 != 0, 777),
-            new IsEqual<>(777)
+            "Returns the next element after the first one which corresponds the condition",
+            new Linked<>(1, 2, 3, 4, 5).next(n -> n > 1),
+            new IsEqual<>(3)
         ).affirm();
     }
+
+    @Test
+    void altGetNext() {
+        new Assertion<>(
+            "Returns the next element after the first one which corresponds the condition",
+            new Linked<>(1, 2, 3, 4, 5).next(n -> n > 1, -1),
+            new IsEqual<>(3)
+        ).affirm();
+    }
+
+    @Test
+    void noneMatch() {
+        new Assertion<>(
+            "No one element corresponds the condition, the result is null",
+            new Linked<>(1, 2, 3).next(n -> n > 10),
+            new IsNull<>()
+        ).affirm();
+    }
+
+    @Test
+    void altNoneMatch() {
+        new Assertion<>(
+            "No one element corresponds the condition, we get an alternative result",
+            new Linked<>(1, 2, 3).next(n -> n > 10, -1),
+            new IsEqual<>(-1)
+        ).affirm();
+    }
+
 }
