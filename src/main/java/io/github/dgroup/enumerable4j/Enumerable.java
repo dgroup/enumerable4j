@@ -47,6 +47,7 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Passes each element of the collection to the given block.
+     * If no predicate (null) is given, then true is returned instead.
      * @param prd The predicate to match each element.
      * @return The true if the block never returns false or nil.
      */
@@ -62,6 +63,7 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Passes at least one element of the collection to the given block.
+     * If no predicate (null) is given, then true is returned instead.
      * @param prd The predicate to match at least one element.
      * @return The true if the block never returns false or nil.
      */
@@ -77,6 +79,7 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Doesn't passes elements of the collection to the given block.
+     * If no predicate (null) is given, then true is returned instead.
      * @param prd The predicate to match none elements.
      * @return The true if the block never returns false or nil.
      */
@@ -159,7 +162,7 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Returns an enumerable containing all elements, on which given function was applied.
-     * If no function (null) is given, then 'this' is returned instead.
+     * If no function (null) is given, then empty enumerable is returned instead.
      * @param fnc The function to apply to each element.
      * @param <Y> The type of target entity.
      * @return The enumerable.
@@ -197,7 +200,6 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns a result of the reduction of the elements in this stream,
      * using provided identity value and accumulation function operator.
      * If no function (null) is given, then identity is returned instead.
-     *
      * @param idn The identity value of the accumulation function.
      * @param opr The accumulation function operator which combining previous and current values.
      * @return Result of of combining elements.
@@ -230,6 +232,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param prd The function to match element after which enumerable elements should be returned.
      * @param size The number of elements the enumerable should be limited to.
      * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
      */
     default Enumerable<X> after(Predicate<X> prd, long size) {
         final Enumerable<X> out;
