@@ -188,9 +188,8 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Returns an enumerable containing the next element of enumerable
-     *  after the first one which corresponds the condition.
-     * If no predicate (null) is given, or no element found then null is returned instead.
+     * Returns the next element of enumerable after the first one which corresponds the condition.
+     * If no predicate (null) is given, or no element found then alternative is returned instead.
      * @param prd The function to match element after which enumerable element should be returned.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
@@ -199,11 +198,10 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Returns an enumerable containing the next element of enumerable
-     *  after the first one which corresponds the condition.
+     * Returns the next element of enumerable after the first one which corresponds the condition.
      * If no predicate (null) is given, or no element found then alternative is returned instead.
      * @param prd The function to match element after which enumerable element should be returned.
-     * @param alt The alternative to return in case no element found.
+     * @param alt The alternative to return in case of null predicate or no element found.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
     default X next(Predicate<X> prd, X alt) {
