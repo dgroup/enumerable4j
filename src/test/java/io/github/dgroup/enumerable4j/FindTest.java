@@ -77,7 +77,7 @@ final class FindTest {
     @Test
     void altNullPredicate() {
         new Assertion<>(
-            "In case of null predicate we will get the same enumerable",
+            "In case of null predicate, we get the alternative result",
             new Linked<>(1, 2, 3).find(null, 100),
             new IsEqual<>(100)
         ).affirm();

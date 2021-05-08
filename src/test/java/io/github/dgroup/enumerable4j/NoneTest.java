@@ -24,7 +24,6 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.IsTrue;
@@ -52,7 +51,7 @@ final class NoneTest {
         new Assertion<>(
             "All values in enumerable are negative",
             new Linked<>(1, 2, 3).none(val -> val < 0),
-            new IsEqual<>(true)
+            new IsTrue()
         ).affirm();
     }
 

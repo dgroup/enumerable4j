@@ -25,6 +25,7 @@
 package io.github.dgroup.enumerable4j;
 
 import org.hamcrest.collection.IsEmptyIterable;
+import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -42,7 +43,7 @@ final class MapTest {
     @Test
     void map() {
         new Assertion<>(
-            "All numbers where multiplied on 10",
+            "All numbers are multiplied by 10",
             new Linked<>(2, 3, 4).map(val -> val * 10),
             new HasValues<>(20, 30, 40)
         ).affirm();
@@ -51,7 +52,7 @@ final class MapTest {
     @Test
     void nullFunction() {
         new Assertion<>(
-            "All numbers are the same",
+            "In case null-function, an empty enumerable is returned",
             new Linked<>(2, 3, 4).map(null),
             new IsEmptyIterable<>()
         ).affirm();
@@ -62,8 +63,9 @@ final class MapTest {
         new Assertion<>(
             "All numbers converted to numbers squares",
             new Linked<>(0, 1, 2, 3).map(val -> val * val),
-            new IsNot<>(
-                new HasValues<>(5, 7, 9)
+            new AllOf<>(
+                new IsNot<>(new HasValues<>(5, 7, 9)),
+                new HasValues<>(0, 1, 4, 9)
             )
         ).affirm();
     }
