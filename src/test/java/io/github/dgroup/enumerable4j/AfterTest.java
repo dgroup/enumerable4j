@@ -45,12 +45,9 @@ public final class AfterTest {
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case null-function the self enumerable is expected",
-            new Linked<>(1, 2, 3, 4).after(null),
-            new AllOf<>(
-                new HasSize(4),
-                new HasValues<>(1, 2, 3, 4)
-            )
+            "In case of a null predicate, an empty enumeration is expected",
+            new Linked<>(1, 2, 3).after(null),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
@@ -123,19 +120,16 @@ public final class AfterTest {
     @Test
     void nullPredicateWithSize() {
         new Assertion<>(
-            "In case null-function and specified size a enumerable of the size is expected",
+            "In case of a null predicate, an empty enumeration is expected",
             new Linked<>(1, 2, 3, 4).after(null, 2),
-            new AllOf<>(
-                new HasSize(2),
-                new HasValues<>(1, 2)
-            )
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
     @Test
     void nullPredicateAndZeroSize() {
         new Assertion<>(
-            "If the size value is 0, an empty collection is returned",
+            "In case of a null predicate or zero size, an empty enumeration is expected",
             new Linked<>(1, 2, 3).after(null, 0),
             new IsEmptyIterable<>()
         ).affirm();
