@@ -49,7 +49,7 @@ final class UniqueTest {
         );
         new Assertion<>(
             "In case of a null function, an empty enumeration is expected",
-            enumerable.flatMap(null),
+            enumerable.unique(null),
             new IsEmptyIterable<>()
         ).affirm();
     }
