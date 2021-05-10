@@ -66,7 +66,7 @@ final class TakeTest {
     void throwExceptionOnNegativeSize() {
         new Assertion<>(
             "Must throw IllegalArgumentException if the size value is negative",
-            () -> new Linked<>(1, 2, 3).after(null, -1),
+            () -> new Linked<>(1, 2, 3).take(-1),
             new Throws<>("-1", IllegalArgumentException.class)
         ).affirm();
     }
