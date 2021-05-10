@@ -287,4 +287,24 @@ public interface Enumerable<X> extends Collection<X> {
         return out;
     }
 
+    /**
+     * Returns an enumerable containing the contents of all enumerable elements,
+     * on which given function was applied.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <Y> The type of target entity.
+     * @return The enumerable.
+     */
+    default <Y> Enumerable<Y> flatMap(Function<? super X, ? extends Enumerable<? extends Y>> fnc) {
+        final Enumerable<Y> out;
+        if (fnc == null) {
+            out = new Empty<>();
+        } else {
+            out = new Linked<>(
+                this.stream().flatMap(var -> fnc.apply(var).stream()).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
+
 }

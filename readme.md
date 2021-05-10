@@ -33,6 +33,7 @@
     *   [.reduce](#reduce)
     *   [.after](#after)
     *   [.next](#next)
+    *   [.flatMap](#flatmap)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -210,6 +211,18 @@ public interface Enumerable<X> extends Collection<X> {
     default X next(Predicate<X> prd, X alt) {
         // ...
     }
+
+    /**
+     * Returns an enumerable containing the contents of all enumerable elements,
+     * on which given function was applied.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <Y> The type of target entity.
+     * @return The enumerable.
+     */
+    default <Y> Enumerable<Y> flatMap(Function<? super X, ? extends Enumerable<? extends Y>> fnc) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -251,47 +264,48 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
+    `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(newMapped<>(...,...))` | tbd |
 
 #### .all
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
-boolean allPositive = src.all(v -> v > 0);              // true 
+boolean allPositive = src.all(val -> val > 0);              // true 
 ```
 
 #### .any
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
-boolean oneIsPositive = src.any(v -> v > 0);            // true 
+boolean oneIsPositive = src.any(val -> val > 0);            // true 
 ```
 
 #### .none
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [-2, -1, 0]
-boolean noneIsPositive = src.none(v -> v > 0);          // true 
+boolean noneIsPositive = src.none(val -> val > 0);          // true 
 ```
 
 #### .select
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [-1, 1, 2]
-Enumerable<Integer> positive = src.select(v -> v > 0);  // [1, 2] 
+Enumerable<Integer> positive = src.select(val -> val > 0);  // [1, 2] 
 ```
 
 #### .reject
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [-1, 1, 2]
-Enumerable<Integer> negative = src.reject(v -> v > 0);  // [-1]
+Enumerable<Integer> negative = src.reject(val -> val > 0);  // [-1]
 ```
 
 #### .map
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [0, 1, 2]
-Enumerable<Integer> positive = src.map(v -> v + 1);     // [1, 2, 3] 
+Enumerable<Integer> positive = src.map(val -> val + 1);     // [1, 2, 3] 
 ```
 
 #### .count
@@ -329,6 +343,12 @@ Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5
 YourOwnCollection<Integer> src = ...                // with elements [1, 2, 3, 4]
 Integer next = src.next(val -> val == 2);           // 3
 Integer alternative = src.next(val -> val > 5, -1); // -1                
+```
+#### .flatMap
+
+```java
+YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4]]
+Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // [10, 20, 30, 40] 
 ```
 
 ### How to contribute?
