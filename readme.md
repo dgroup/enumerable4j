@@ -269,65 +269,65 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
 #### .all
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
-boolean allPositive = src.all(val -> val > 0);              // true 
+YourOwnCollection<Integer> src = ...           // with elements [1, 2, 3]   
+boolean allPositive = src.all(val -> val > 0); // true 
 ```
 
 #### .any
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
-boolean oneIsPositive = src.any(val -> val > 0);            // true 
+YourOwnCollection<Integer> src = ...             // with elements [-1, 0, 1]
+boolean oneIsPositive = src.any(val -> val > 0); // true 
 ```
 
 #### .none
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [-2, -1, 0]
-boolean noneIsPositive = src.none(val -> val > 0);          // true 
+YourOwnCollection<Integer> src = ...               // with elements [-2, -1, 0]
+boolean noneIsPositive = src.none(val -> val > 0); // true 
 ```
 
 #### .select
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [-1, 1, 2]
-Enumerable<Integer> positive = src.select(val -> val > 0);  // [1, 2] 
+YourOwnCollection<Integer> src = ...                       // with elements [-1, 1, 2]
+Enumerable<Integer> positive = src.select(val -> val > 0); // [1, 2] 
 ```
 
 #### .reject
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [-1, 1, 2]
-Enumerable<Integer> negative = src.reject(val -> val > 0);  // [-1]
+YourOwnCollection<Integer> src = ...                       // with elements [-1, 1, 2]
+Enumerable<Integer> negative = src.reject(val -> val > 0); // [-1]
 ```
 
 #### .map
 
 ```java
 YourOwnCollection<Integer> src = ...                    // with elements [0, 1, 2]
-Enumerable<Integer> positive = src.map(val -> val + 1);     // [1, 2, 3] 
+Enumerable<Integer> positive = src.map(val -> val + 1); // [1, 2, 3] 
 ```
 
 #### .count
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
-long countNegative = src.count(val -> val < 0);         // 1
+YourOwnCollection<Integer> src = ...            // with elements [-1, 0, 1]
+long countNegative = src.count(val -> val < 0); // 1
 ```
 
 #### .find
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [-1, 0, 1]
-Integer first = src.find(val -> val > 0);               // 1 
-Integer alternative = src.find(val -> val > 5, 50);     // 50                
+YourOwnCollection<Integer> src = ...                // with elements [-1, 0, 1]
+Integer first = src.find(val -> val > 0);           // 1 
+Integer alternative = src.find(val -> val > 5, 50); // 50                
 ```
 
 #### .reduce
 
 ```java
-YourOwnCollection<Integer> src = ...                    // with elements [1, 2, 3]   
-Integer sum = src.reduce(0, Integer::sum);              // 6 
+YourOwnCollection<Integer> src = ...       // with elements [1, 2, 3]   
+Integer sum = src.reduce(0, Integer::sum); // 6 
 ```
 
 #### .after
@@ -347,7 +347,7 @@ Integer alternative = src.next(val -> val > 5, -1); // -1
 #### .flatMap
 
 ```java
-YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4]]
+YourOwnCollection<Linked<Integer>> src = ...                                 // with elements [[1, 2], [3, 4]]
 Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // [10, 20, 30, 40] 
 ```
 
