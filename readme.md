@@ -35,6 +35,7 @@
     *   [.next](#next)
     *   [.flatMap](#flatmap)
     *   [.unique](#unique)
+    *   [.chain](#chain)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -245,6 +246,17 @@ public interface Enumerable<X> extends Collection<X> {
     default <Y> Enumerable<X> unique(Function<? super X, ? extends Y> fnc) {
         // ...        
     }
+
+    /**
+     * Returns a new enumerable which contains the items of the original collection
+     *  and the added items of the given enumerable.
+     * If no enumerable (null) is given, then 'this' is returned instead.
+     * @param enm The given enumerable.
+     * @return The enumerable.
+     */
+    default Enumerable<X> chain(Enumerable<X> enm) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -288,6 +300,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.next(...)` | | | tbd |
     `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(newMapped<>(...,...))` | tbd |
     `.unique(...)` | | | tbd |
+    `.chain(...)` | `Stream.of(...).flatMap(Collection::stream).collect(Collectors.toList())` | | tbd |
 
 #### .all
 
@@ -360,6 +373,7 @@ YourOwnCollection<Integer> src = ...                                    // with 
 Enumerable<Integer> afterThree = src.after(val -> val == 3);            // [4, 5, 6] 
 Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5]                
 ```
+
 #### .next
 
 ```java
@@ -367,12 +381,14 @@ YourOwnCollection<Integer> src = ...                // with elements [1, 2, 3, 4
 Integer next = src.next(val -> val == 2);           // 3
 Integer alternative = src.next(val -> val > 5, -1); // -1                
 ```
+
 #### .flatMap
 
 ```java
 YourOwnCollection<Linked<Integer>> src = ...                                 // with elements [[1, 2], [3, 4]]
 Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // [10, 20, 30, 40] 
 ```
+
 #### .unique
 
 ```java
@@ -381,6 +397,12 @@ Enumerable<Linked<Integer>> unique = src.unique();                       // [[1,
 Enumerable<Linked<Integer>> uniqueByKey = src.unique(enm -> enm.get(0)); // [[1, 2], [3, 4]]
 ```
 
+#### .chain
+
+```java
+YourOwnCollection<Integer> src = ...                                               // with elements [1, 2]
+Enumerable<Integer> joined = src.chain(new Linked<>(3)).chain(new Linked<>(4, 5)); // [1, 2, 3, 4, 5] 
+```
 ### How to contribute?
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)

@@ -340,4 +340,19 @@ public interface Enumerable<X> extends Collection<X> {
         return out;
     }
 
+    /**
+     * Returns a new enumerable which contains the items of the original collection
+     *  and the added items of the given enumerable.
+     * If no enumerable (null) is given, then 'this' is returned instead.
+     * @param enm The given enumerable.
+     * @return The enumerable.
+     */
+    default Enumerable<X> chain(Enumerable<X> enm) {
+        final Enumerable<X> out = this;
+        if (enm != null) {
+            out.addAll(enm);
+        }
+        return out;
+    }
+
 }
