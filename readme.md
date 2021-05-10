@@ -35,6 +35,7 @@
     *   [.next](#next)
     *   [.flatMap](#flatmap)
     *   [.unique](#unique)
+    *   [.take](#take)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -245,6 +246,16 @@ public interface Enumerable<X> extends Collection<X> {
     default <Y> Enumerable<X> unique(Function<? super X, ? extends Y> fnc) {
         // ...        
     }
+
+    /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param size The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long size) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -288,6 +299,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.next(...)` | | | tbd |
     `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(newMapped<>(...,...))` | tbd |
     `.unique(...)` | | | tbd |
+    `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
 
 #### .all
 
@@ -379,6 +391,12 @@ Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // 
 YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4], [1, 2], [3, 4, 5]]
 Enumerable<Linked<Integer>> unique = src.unique();                       // [[1, 2], [3, 4], [3, 4, 5]]
 Enumerable<Linked<Integer>> uniqueByKey = src.unique(enm -> enm.get(0)); // [[1, 2], [3, 4]]
+```
+#### .take
+
+```java
+YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
+Enumerable<Integer> taken = src.take(2); // [1, 2]
 ```
 
 ### How to contribute?
