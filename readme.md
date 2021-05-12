@@ -33,7 +33,6 @@
     *   [.reduce](#reduce)
     *   [.after](#after)
     *   [.next](#next)
-    *   [.unique](#unique)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -211,27 +210,6 @@ public interface Enumerable<X> extends Collection<X> {
     default X next(Predicate<X> prd, X alt) {
         // ...
     }
-
-    /**
-     * Returns a new enumerable containing the unique elements.
-     * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
-     * @return The enumerable.
-     */
-    default Enumerable<X> unique() {
-        // ...        
-    }
-
-    /**
-     * Returns a new enumerable containing the unique elements which corresponds the condition
-     *  of the given function.
-     * If no function (null) is given, then empty enumerable is returned instead.
-     * @param fnc The function to apply to each element.
-     * @param <Y> The type of function result entity.
-     * @return The enumerable.
-     */
-    default <Y> Enumerable<X> unique(Function<? super X, ? extends Y> fnc) {
-        // ...        
-    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -273,7 +251,6 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
-    `.unique(...)` | | | tbd |
 
 #### .all
 
@@ -352,14 +329,6 @@ Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5
 YourOwnCollection<Integer> src = ...                // with elements [1, 2, 3, 4]
 Integer next = src.next(val -> val == 2);           // 3
 Integer alternative = src.next(val -> val > 5, -1); // -1                
-```
-
-#### .unique
-
-```java
-YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4], [1, 2], [3, 4, 5]]
-Enumerable<Linked<Integer>> unique = src.unique();                       // [[1, 2], [3, 4], [3, 4, 5]]
-Enumerable<Linked<Integer>> uniqueByKey = src.unique(enm -> enm.get(0)); // [[1, 2], [3, 4]]
 ```
 
 ### How to contribute?
