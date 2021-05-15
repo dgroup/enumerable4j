@@ -24,46 +24,32 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.core.AllOf;
-import org.junit.jupiter.api.Test;
-import org.llorllale.cactoos.matchers.Assertion;
-import org.llorllale.cactoos.matchers.HasSize;
-import org.llorllale.cactoos.matchers.HasValues;
+import org.cactoos.set.SetEnvelope;
+import org.cactoos.set.SetOf;
 
 /**
- * Test cases for {@link Unique}.
+ * The enumerable based on set.
  *
+ * @param <X> The type of entities.
  * @since 0.1.0
- * @checkstyle MagicNumberCheck (100 lines)
- * @checkstyle JavadocMethodCheck (100 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class UniqueTest {
+public class Unique<X> extends SetEnvelope<X> implements Enumerable<X> {
 
-    @Test
-    void varargsConstructor() {
-        final Unique<Integer> unique = new Unique<>(1, 2, 1, 3, 3);
-        new Assertion<>(
-            "Got unique collections of integers",
-            unique,
-            new AllOf<>(
-                new HasSize(3),
-                new HasValues<>(1, 2, 3)
-            )
-        ).affirm();
+    /**
+     * Ctor.
+     * @param src The source items.
+     */
+    @SafeVarargs
+    public Unique(final X... src) {
+        super(new SetOf<>(src));
     }
 
-    @Test
-    void iterableArgConstructor() {
-        final Unique<String> unique = new Unique<>(new Linked<>("a", "b", "b", "c", "a"));
-        new Assertion<>(
-            "Got unique collections of enumerables",
-            unique,
-            new AllOf<>(
-                new HasSize(3),
-                new HasValues<>("a", "b", "c")
-            )
-        ).affirm();
+    /**
+     * Ctor.
+     * @param src The source items.
+     */
+    public Unique(final Iterable<X> src) {
+        super(new SetOf<>(src));
     }
 
 }
