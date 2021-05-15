@@ -264,7 +264,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
-    `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(newMapped<>(...,...))` | tbd |
+    `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(new Mapped<>(...,...))` | tbd |
 
 #### .all
 
