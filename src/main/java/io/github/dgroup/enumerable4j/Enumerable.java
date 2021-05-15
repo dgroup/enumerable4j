@@ -301,7 +301,7 @@ public interface Enumerable<X> extends Collection<X> {
             out = new Empty<>();
         } else {
             out = new Linked<>(
-                this.stream().flatMap(var -> fnc.apply(var).stream()).collect(Collectors.toList())
+                this.stream().map(fnc).flatMap(Collection::stream).collect(Collectors.toList())
             );
         }
         return out;
