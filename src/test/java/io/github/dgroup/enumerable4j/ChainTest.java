@@ -69,6 +69,7 @@ final class ChainTest {
             "Add values to the enumerable",
             new Linked<>(1, 2, 3).chain(new Linked<>(4, 5)),
             new AllOf<>(
+                new HasSize(5),
                 new HasValues<>(1, 2, 3, 4, 5)
             )
         ).affirm();
