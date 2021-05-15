@@ -24,7 +24,6 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -32,56 +31,37 @@ import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link Enumerable#flatMap}.
+ * Test cases for {@link Unique}.
  *
+ * @since 0.1.0
  * @checkstyle MagicNumberCheck (100 lines)
  * @checkstyle JavadocMethodCheck (100 lines)
- * @since 0.1.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class FlatMapTest {
+final class UniqueTest {
 
     @Test
-    void nullFunction() {
-        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
-            new Linked<>(1, 2, 3),
-            new Linked<>(4, 5)
-        );
+    void varargsConstructor() {
+        final Unique<Integer> unique = new Unique<>(1, 2, 1, 3, 3);
         new Assertion<>(
-            "In case of a null function, an empty enumeration is expected",
-            enumerable.flatMap(null),
-            new IsEmptyIterable<>()
-        ).affirm();
-    }
-
-    @Test
-    void join() {
-        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
-            new Linked<>(1, 2, 3),
-            new Linked<>(4, 5)
-        );
-        new Assertion<>(
-            "Join values of inner collections into one enumerable",
-            enumerable.flatMap(Linked::new),
+            "Got unique collections of integers",
+            unique,
             new AllOf<>(
-                new HasSize(5),
-                new HasValues<>(1, 2, 3, 4, 5)
+                new HasSize(3),
+                new HasValues<>(1, 2, 3)
             )
         ).affirm();
     }
 
     @Test
-    void multiply() {
-        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
-            new Linked<>(1, 2, 3),
-            new Linked<>(4, 5)
-        );
+    void iterableArgConstructor() {
+        final Unique<String> unique = new Unique<>(new Linked<>("a", "b", "b", "c", "a"));
         new Assertion<>(
-            "All numbers are multiplied by 10",
-            enumerable.flatMap(enm -> enm.map(elem -> elem * 10)),
+            "Got unique collections of enumerables",
+            unique,
             new AllOf<>(
-                new HasSize(5),
-                new HasValues<>(10, 20, 30, 40, 50)
+                new HasSize(3),
+                new HasValues<>("a", "b", "c")
             )
         ).affirm();
     }
