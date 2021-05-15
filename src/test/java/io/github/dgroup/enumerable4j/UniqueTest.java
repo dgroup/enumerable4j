@@ -41,7 +41,7 @@ import org.llorllale.cactoos.matchers.HasValues;
 final class UniqueTest {
 
     @Test
-    void varargsConstructor() {
+    void varArgsConstructor() {
         final Unique<Integer> unique = new Unique<>(1, 2, 1, 3, 3);
         new Assertion<>(
             "Got unique collections of integers",
