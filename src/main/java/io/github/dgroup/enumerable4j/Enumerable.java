@@ -296,7 +296,7 @@ public interface Enumerable<X> extends Collection<X> {
      */
     default Enumerable<X> chain(Enumerable<X> enm) {
         final Enumerable<X> out = this;
-        if (enm != null) {
+        if (enm != null && !enm.isEmpty()) {
             out.addAll(enm);
         }
         return out;
