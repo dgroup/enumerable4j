@@ -33,6 +33,7 @@
     *   [.reduce](#reduce)
     *   [.after](#after)
     *   [.next](#next)
+    *   [.flatMap](#flatmap)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -210,6 +211,18 @@ public interface Enumerable<X> extends Collection<X> {
     default X next(Predicate<X> prd, X alt) {
         // ...
     }
+
+    /**
+     * Returns an enumerable containing the contents of all enumerable elements,
+     * on which given function was applied.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <Y> The type of target entity.
+     * @return The enumerable.
+     */
+    default <Y> Enumerable<Y> flatMap(Function<? super X, ? extends Enumerable<? extends Y>> fnc) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -251,6 +264,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
+    `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(newMapped<>(...,...))` | tbd |
 
 #### .all
 
@@ -323,12 +337,20 @@ YourOwnCollection<Integer> src = ...                                    // with 
 Enumerable<Integer> afterThree = src.after(val -> val == 3);            // [4, 5, 6] 
 Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5]                
 ```
+
 #### .next
 
 ```java
 YourOwnCollection<Integer> src = ...                // with elements [1, 2, 3, 4]
 Integer next = src.next(val -> val == 2);           // 3
 Integer alternative = src.next(val -> val > 5, -1); // -1                
+```
+
+#### .flatMap
+
+```java
+YourOwnCollection<Linked<Integer>> src = ...                                 // with elements [[1, 2], [3, 4]]
+Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // [10, 20, 30, 40] 
 ```
 
 ### How to contribute?
