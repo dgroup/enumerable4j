@@ -34,6 +34,7 @@
     *   [.after](#after)
     *   [.next](#next)
     *   [.flatMap](#flatmap)
+    *   [.chain](#chain)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -223,6 +224,17 @@ public interface Enumerable<X> extends Collection<X> {
     default <Y> Enumerable<Y> flatMap(Function<? super X, ? extends Enumerable<? extends Y>> fnc) {
         // ...
     }
+
+    /**
+     * Returns a new enumerable which contains the items of the original collection
+     *  and the added items of the given enumerable.
+     * If no enumerable (null) is given, then 'this' is returned instead.
+     * @param enm The given enumerable.
+     * @return The enumerable.
+     */
+    default Enumerable<X> chain(Enumerable<X> enm) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -265,6 +277,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
     `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(new Mapped<>(...,...))` | tbd |
+    `.chain(...)` | | | tbd |
 
 #### .all
 
@@ -353,6 +366,12 @@ YourOwnCollection<Linked<Integer>> src = ...                                 // 
 Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // [10, 20, 30, 40] 
 ```
 
+#### .chain
+
+```java
+YourOwnCollection<Integer> src = ...                                               // with elements [1, 2]
+Enumerable<Integer> joined = src.chain(new Linked<>(3)).chain(new Linked<>(4, 5)); // [1, 2, 3, 4, 5] 
+```
 ### How to contribute?
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
