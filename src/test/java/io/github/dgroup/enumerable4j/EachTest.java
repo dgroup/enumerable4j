@@ -70,7 +70,7 @@ final class EachTest {
         new Assertion<>(
             "Print each element",
             new TextOf(captor.toString()),
-            new TextIs(new Joined("\r\n", "a", "b", "c", ""))
+            new TextIs(new Joined(System.lineSeparator(), "a", "b", "c", ""))
         ).affirm();
     }
 
@@ -93,7 +93,7 @@ final class EachTest {
         new Assertion<>(
             "The chain of invocations",
             new TextOf(captor.toString()),
-            new TextIs(new Joined("\r\n", "1", "2", "3", "10", "20", "30", ""))
+            new TextIs(new Joined(System.lineSeparator(), "1", "2", "3", "10", "20", "30", ""))
         ).affirm();
     }
 
