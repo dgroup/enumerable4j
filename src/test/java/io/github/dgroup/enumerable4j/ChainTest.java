@@ -24,7 +24,6 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -32,37 +31,43 @@ import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link Enumerable#flatMap}.
+ * Test cases for {@link Enumerable#chain}.
  *
- * @checkstyle MagicNumberCheck (100 lines)
- * @checkstyle JavadocMethodCheck (100 lines)
  * @since 0.1.0
+ * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class FlatMapTest {
-
+final class ChainTest {
     @Test
-    void nullFunction() {
-        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
-            new Linked<>(1, 2, 3),
-            new Linked<>(4, 5)
-        );
+    void nullParameter() {
         new Assertion<>(
-            "In case of a null function, an empty enumeration is expected",
-            enumerable.flatMap(null),
-            new IsEmptyIterable<>()
+            "In case of null enumerable the same enumerable is expected",
+            new Linked<>(1, 2, 3).chain(null),
+            new AllOf<>(
+                new HasSize(3),
+                new HasValues<>(1, 2, 3)
+            )
         ).affirm();
     }
 
     @Test
-    void join() {
-        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
-            new Linked<>(1, 2, 3),
-            new Linked<>(4, 5)
-        );
+    void emptyParameter() {
         new Assertion<>(
-            "Join values of inner collections into one enumerable",
-            enumerable.flatMap(Linked::new),
+            "If add an empty collection to the enumerable, the same enumerable is expected",
+            new Linked<>(1, 2, 3).chain(new Empty<>()),
+            new AllOf<>(
+                new HasSize(3),
+                new HasValues<>(1, 2, 3)
+            )
+        ).affirm();
+    }
+
+    @Test
+    void chain() {
+        new Assertion<>(
+            "Add values to the enumerable",
+            new Linked<>(1, 2, 3).chain(new Linked<>(4, 5)),
             new AllOf<>(
                 new HasSize(5),
                 new HasValues<>(1, 2, 3, 4, 5)
@@ -71,17 +76,16 @@ final class FlatMapTest {
     }
 
     @Test
-    void multiply() {
-        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
-            new Linked<>(1, 2, 3),
-            new Linked<>(4, 5)
-        );
+    void manyChains() {
         new Assertion<>(
-            "All numbers are multiplied by 10",
-            enumerable.flatMap(enm -> enm.map(elem -> elem * 10)),
+            "Add some chains of values to the enumerable",
+            new Linked<>(1, 2)
+                .chain(new Linked<>(3))
+                .chain(new Empty<>())
+                .chain(new Linked<>(4, 5)),
             new AllOf<>(
                 new HasSize(5),
-                new HasValues<>(10, 20, 30, 40, 50)
+                new HasValues<>(1, 2, 3, 4, 5)
             )
         ).affirm();
     }

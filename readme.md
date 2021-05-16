@@ -33,8 +33,7 @@
     *   [.reduce](#reduce)
     *   [.after](#after)
     *   [.next](#next)
-    *   [.flatMap](#flatmap)
-    *   [.unique](#unique)
+    *   [.chain](#chain)
     *   [.take](#take)
 
 *   [How to contribute?](#how-to-contribute)
@@ -215,36 +214,14 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Returns an enumerable containing the contents of all enumerable elements,
-     * on which given function was applied.
-     * If no function (null) is given, then empty enumerable is returned instead.
-     * @param fnc The function to apply to each element.
-     * @param <Y> The type of target entity.
+     * Returns a new enumerable which contains the items of the original collection
+     *  and the added items of the given enumerable.
+     * If no enumerable (null) is given, then 'this' is returned instead.
+     * @param enm The given enumerable.
      * @return The enumerable.
      */
-    default <Y> Enumerable<Y> flatMap(Function<? super X, ? extends Enumerable<? extends Y>> fnc) {
+    default Enumerable<X> chain(Enumerable<X> enm) {
         // ...
-    }
-
-    /**
-     * Returns a new enumerable containing the unique elements.
-     * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
-     * @return The enumerable.
-     */
-    default Enumerable<X> unique() {
-        // ...        
-    }
-
-    /**
-     * Returns a new enumerable containing the unique elements which corresponds the condition
-     *  of the given function.
-     * If no function (null) is given, then empty enumerable is returned instead.
-     * @param fnc The function to apply to each element.
-     * @param <Y> The type of function result entity.
-     * @return The enumerable.
-     */
-    default <Y> Enumerable<X> unique(Function<? super X, ? extends Y> fnc) {
-        // ...        
     }
 
     /**
@@ -297,8 +274,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.reduce(...,...)` | `.stream().reduce(...,...)` | `new Reduced<>(...,...).value()` | tbd |
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
-    `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(newMapped<>(...,...))` | tbd |
-    `.unique(...)` | | | tbd |
+    `.chain(...)` | | | tbd |
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
 
 #### .all
@@ -372,6 +348,7 @@ YourOwnCollection<Integer> src = ...                                    // with 
 Enumerable<Integer> afterThree = src.after(val -> val == 3);            // [4, 5, 6] 
 Enumerable<Integer> firstTwoAfterThree = src.after(val -> val == 3, 2); // [4, 5]                
 ```
+
 #### .next
 
 ```java
@@ -379,19 +356,14 @@ YourOwnCollection<Integer> src = ...                // with elements [1, 2, 3, 4
 Integer next = src.next(val -> val == 2);           // 3
 Integer alternative = src.next(val -> val > 5, -1); // -1                
 ```
-#### .flatMap
+
+#### .chain
 
 ```java
-YourOwnCollection<Linked<Integer>> src = ...                                 // with elements [[1, 2], [3, 4]]
-Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // [10, 20, 30, 40] 
+YourOwnCollection<Integer> src = ...                                               // with elements [1, 2]
+Enumerable<Integer> joined = src.chain(new Linked<>(3)).chain(new Linked<>(4, 5)); // [1, 2, 3, 4, 5] 
 ```
-#### .unique
 
-```java
-YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4], [1, 2], [3, 4, 5]]
-Enumerable<Linked<Integer>> unique = src.unique();                       // [[1, 2], [3, 4], [3, 4, 5]]
-Enumerable<Linked<Integer>> uniqueByKey = src.unique(enm -> enm.get(0)); // [[1, 2], [3, 4]]
-```
 #### .take
 
 ```java
