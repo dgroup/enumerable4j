@@ -367,7 +367,7 @@ Enumerable<Integer> joined = src.chain(new Linked<>(3)).chain(new Linked<>(4, 5)
 #### .each
 
 ```java
-YourOwnCollection<Integer> src = ...                      // with elements [1, 2, 3]
+YourOwnCollection<Integer> src = ...                   // with elements [1, 2, 3]
 Enumerable<Integer> buf = src.each(System.out::print); // [1, 2, 3] , printed: "123"
 ```
 ### How to contribute?
