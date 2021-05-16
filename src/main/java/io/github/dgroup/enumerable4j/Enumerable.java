@@ -310,10 +310,9 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<X> each(Consumer<X> act) {
-        final Enumerable<X> out = this;
         if (act != null && !this.isEmpty()) {
-            out.forEach(act);
+            this.forEach(act);
         }
-        return out;
+        return this;
     }
 }
