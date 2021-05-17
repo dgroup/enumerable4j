@@ -316,7 +316,7 @@ public interface Enumerable<X> extends Collection<X> {
             out = new Empty<>();
         } else {
             out = new Linked<>(
-                this.stream().limit(size).collect(Collectors.toSet())
+                this.stream().limit(size).collect(Collectors.toList())
             );
         }
         return out;
