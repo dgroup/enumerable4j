@@ -35,6 +35,7 @@
     *   [.next](#next)
     *   [.flatMap](#flatmap)
     *   [.chain](#chain)
+    *   [.take](#take)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -235,6 +236,16 @@ public interface Enumerable<X> extends Collection<X> {
     default Enumerable<X> chain(Enumerable<X> enm) {
         // ...
     }
+
+    /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param size The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long size) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -278,6 +289,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.next(...)` | | | tbd |
     `.flatMap(...)` | `.stream().flatMap(...).collect(Collectors.toList())` | `new Joined<>(new Mapped<>(...,...))` | tbd |
     `.chain(...)` | | | tbd |
+    `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
 
 #### .all
 
@@ -372,6 +384,14 @@ Enumerable<Integer> positive = src.flatMap(enm -> enm.map(val -> val * 10)); // 
 YourOwnCollection<Integer> src = ...                                               // with elements [1, 2]
 Enumerable<Integer> joined = src.chain(new Linked<>(3)).chain(new Linked<>(4, 5)); // [1, 2, 3, 4, 5] 
 ```
+
+#### .take
+
+```java
+YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
+Enumerable<Integer> taken = src.take(2); // [1, 2]
+```
+
 ### How to contribute?
 
 [![EO badge](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org/#principles)
