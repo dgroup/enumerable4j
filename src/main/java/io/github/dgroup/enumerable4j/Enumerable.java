@@ -304,6 +304,26 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param size The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long size) {
+        final Enumerable<X> out;
+        if (size < 0) {
+            throw new IllegalArgumentException(Long.toString(size));
+        } else if (size == 0) {
+            out = new Empty<>();
+        } else {
+            out = new Linked<>(
+                this.stream().limit(size).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
+
+    /**
      * Returns an enumerable consisting of the elements of the collection,
      *  additionally performing the provided action on each element of the enumerable.
      * @param act An action to perform on the elements.
