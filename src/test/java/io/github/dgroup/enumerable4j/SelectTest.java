@@ -25,6 +25,7 @@
 package io.github.dgroup.enumerable4j;
 
 import java.util.function.Predicate;
+import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -50,6 +51,15 @@ final class SelectTest {
                 new HasSize(2),
                 new HasValues<>(3, 2)
             )
+        ).affirm();
+    }
+
+    @Test
+    void negative() {
+        new Assertion<>(
+            "There are no negative values in the enumerable",
+            new Linked<>(1, 2, 3).select(val -> val < 0),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
