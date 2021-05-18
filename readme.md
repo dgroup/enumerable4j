@@ -35,6 +35,7 @@
     *   [.next](#next)
     *   [.chain](#chain)
     *   [.take](#take)
+    *   [.each](#each)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -277,6 +278,16 @@ public interface Enumerable<X> extends Collection<X> {
     default Enumerable<X> take(long size) {
         // ...
     }
+
+    /**
+     * Returns an enumerable consisting of the elements of the collection,
+     *  additionally performing the provided action on each element of the enumerable.
+     * @param act An action to perform on the elements.
+     * @return The enumerable.
+     */
+    default Enumerable<X> each(Consumer<X> act) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -319,6 +330,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.after(...)` | | | tbd |
     `.next(...)` | | | tbd |
     `.chain(...)` | | | tbd |
+    `.each(...)` | `.stream().forEach(...)` | `new ForEach<>(...).exec(...)` | tbd |
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
 
 #### .all
@@ -410,6 +422,13 @@ Integer alternative = src.next(val -> val > 5, -1); // -1
 ```java
 YourOwnCollection<Integer> src = ...                                               // with elements [1, 2]
 Enumerable<Integer> joined = src.chain(new Linked<>(3)).chain(new Linked<>(4, 5)); // [1, 2, 3, 4, 5] 
+```
+
+#### .each
+
+```java
+YourOwnCollection<Integer> src = ...                   // with elements [1, 2, 3]
+Enumerable<Integer> buf = src.each(System.out::print); // [1, 2, 3] , printed: "123"
 ```
 
 #### .take
