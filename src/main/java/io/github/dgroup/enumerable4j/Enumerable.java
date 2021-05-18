@@ -25,6 +25,7 @@ package io.github.dgroup.enumerable4j;
 
 import java.util.Collection;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -342,4 +343,16 @@ public interface Enumerable<X> extends Collection<X> {
         return out;
     }
 
+    /**
+     * Returns an enumerable consisting of the elements of the collection,
+     *  additionally performing the provided action on each element of the enumerable.
+     * @param act An action to perform on the elements.
+     * @return The enumerable.
+     */
+    default Enumerable<X> each(Consumer<X> act) {
+        if (act != null && !this.isEmpty()) {
+            this.forEach(act);
+        }
+        return this;
+    }
 }
