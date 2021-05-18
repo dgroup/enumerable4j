@@ -24,6 +24,7 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Predicate;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -57,6 +58,30 @@ final class SelectTest {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new Linked<>(3, 0, 2, -1).select(null),
+            new HasValues<>(3, 0, 2, -1)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsSelect() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        final Predicate<Integer> lessthan = val -> val < 5;
+        new Assertion<>(
+            "All values in enumerable are positive, even and less than 5",
+            new Linked<>(-1, 0, 1, 2, 3, 4, 5, 6).select(positive, even, lessthan),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>(2, 4)
+            )
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNullFunction() {
+        new Assertion<>(
+            "In case null-function the self enumerable is expected",
+            new Linked<>(3, 0, 2, -1).select(null, null, null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }

@@ -70,12 +70,33 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
+     * Passes each element of the collection to the each given blocks.
+     * @param first The predicate to match each element.
+     * @param other The array of predicates to match each element.
+     * @return The true if the blocks never return false or nil.
+     */
+    default boolean all(Predicate<X> first, Predicate<X>... other) {
+        // ...
+    }
+
+    /**
      * Passes at least one element of the collection to the given block.
      * If no predicate (null) is given, then true is returned instead.
      * @param prd The predicate to match at least one element.
      * @return The true if the block never returns false or nil.
      */
     default boolean any(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Passes at least one element of the collection to the each given blocks.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param first The predicate to match at least one element.
+     * @param other The array of predicates to match at least one element.
+     * @return The true if the blocks never return false or nil.
+     */
+    default boolean any(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -90,6 +111,17 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
+     * Doesn't passes elements of the collection to the each given blocks.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param first The predicate to match none elements.
+     * @param other The array of predicates to match none elements.
+     * @return The true if the blocks never returns false or nil.
+     */
+    default boolean none(Predicate<X> first, Predicate<X>... other) {
+        // ...
+    }
+    
+    /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
@@ -97,6 +129,18 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<T> select(Predicate<T> prd) {
+        // ...
+    }
+
+    /**
+     * Returns an enumerable containing all elements of enumerable for which the given functions
+     *  return a true value.
+     * If no predicate (null) is given, then 'this' is returned instead.
+     * @param first The function to match each element.
+     * @param other The array of predicates to match each element.
+     * @return The enumerable.
+     */
+    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -280,29 +324,33 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
 #### .all
 
 ```java
-YourOwnCollection<Integer> src = ...           // with elements [1, 2, 3]   
-boolean allPositive = src.all(val -> val > 0); // true 
+YourOwnCollection<Integer> src = ...                       // with elements [1, 2, 3]   
+boolean allPositive = src.all(val -> val > 0);             // true 
+boolean matched = src.all(val -> val > 0, val -> val < 4); // true 
 ```
 
 #### .any
 
 ```java
-YourOwnCollection<Integer> src = ...             // with elements [-1, 0, 1]
-boolean oneIsPositive = src.any(val -> val > 0); // true 
+YourOwnCollection<Integer> src = ...                       // with elements [-1, 0, 1]
+boolean oneIsPositive = src.any(val -> val > 0);           // true 
+boolean matched = src.any(val -> val > 0, val -> val < 2); // true 
 ```
 
 #### .none
 
 ```java
-YourOwnCollection<Integer> src = ...               // with elements [-2, -1, 0]
-boolean noneIsPositive = src.none(val -> val > 0); // true 
+YourOwnCollection<Integer> src = ...                         // with elements [-2, -1, 0]
+boolean noneIsPositive = src.none(val -> val > 0);           // true 
+boolean matched = src.none(val -> val > 0, val -> val < -3); // true 
 ```
 
 #### .select
 
 ```java
-YourOwnCollection<Integer> src = ...                       // with elements [-1, 1, 2]
-Enumerable<Integer> positive = src.select(val -> val > 0); // [1, 2] 
+YourOwnCollection<Integer> src = ...                                      // with elements [-1, 1, 2]
+Enumerable<Integer> positive = src.select(val -> val > 0);                // [1, 2] 
+Enumerable<Integer> matched = src.select(val -> val > 0, val -> val < 2); // [1] 
 ```
 
 #### .reject

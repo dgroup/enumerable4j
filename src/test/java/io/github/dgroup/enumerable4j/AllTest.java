@@ -24,6 +24,7 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Predicate;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -62,6 +63,27 @@ final class AllTest {
         new Assertion<>(
             "In case of null predicate we will get true",
             new Linked<>(1, 2, 3).all(null),
+            new IsTrue()
+        ).affirm();
+    }
+
+    @Test
+    void varArgsAll() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        final Predicate<Integer> lessthan = val -> val < 7;
+        new Assertion<>(
+            "All values in enumerable are positive, even and less than 7",
+            new Linked<>(2, 4, 6).all(positive, even, lessthan),
+            new IsTrue()
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNullPredicate() {
+        new Assertion<>(
+            "In case of null predicate we will get true",
+            new Linked<>(1, 2, 3).all(null, null, null),
             new IsTrue()
         ).affirm();
     }
