@@ -61,75 +61,32 @@ ported to `java` as interface with set of default methods which simplify typical
  */
 public interface Enumerable<X> extends Collection<X> {
     /**
-     * Passes each element of the collection to the given block.
+     * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match each element.
-     * @return The true if the block never returns false or nil.
+     * @param prd The array of functions to match each element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<T> prd) {
+    default boolean all(Predicate<T>... prd) {
         // ...
     }
 
     /**
-     * Passes each element of the collection to the each given blocks.
-     * @param first The predicate to match each element.
-     * @param other The array of predicates to match each element.
-     * @return The true if the blocks never return false or nil.
+     * Passes at least one element of the collection to the each given function.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param prd The array of functions to match at least one element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<X> first, Predicate<X>... other) {
+    default boolean any(Predicate<T>... prd) {
         // ...
     }
 
     /**
-     * Passes at least one element of the collection to the given block.
+     * Doesn't passes elements of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match at least one element.
-     * @return The true if the block never returns false or nil.
+     * @param prd The array of functions to match none elements.
+     * @return True if the functions never returns false or nil.
      */
-    default boolean any(Predicate<T> prd) {
-        // ...
-    }
-
-    /**
-     * Passes at least one element of the collection to the each given blocks.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param first The predicate to match at least one element.
-     * @param other The array of predicates to match at least one element.
-     * @return The true if the blocks never return false or nil.
-     */
-    default boolean any(Predicate<X> first, Predicate<X>... other) {
-        // ...
-    }
-
-    /**
-     * Doesn't passes elements of the collection to the given block.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match none elements.
-     * @return The true if the block never returns false or nil.
-     */
-    default boolean none(Predicate<T> prd) {
-        // ...
-    }
-
-    /**
-     * Doesn't passes elements of the collection to the each given blocks.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param first The predicate to match none elements.
-     * @param other The array of predicates to match none elements.
-     * @return The true if the blocks never returns false or nil.
-     */
-    default boolean none(Predicate<X> first, Predicate<X>... other) {
-        // ...
-    }
-    
-    /**
-     * Returns an enumerable containing all elements of enumerable for which the given function
-     *  returns a true value.
-     * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The function to match each element.
-     * @return The enumerable.
-     */
-    default Enumerable<T> select(Predicate<T> prd) {
+    default boolean none(Predicate<T>... prd) {
         // ...
     }
 
@@ -137,11 +94,10 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param first The function to match each element.
-     * @param other The array of predicates to match each element.
+     * @param prd The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
+    default Enumerable<T> select(Predicate<T>... prd) {
         // ...
     }
 
