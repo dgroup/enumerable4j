@@ -55,9 +55,12 @@ public interface Enumerable<X> extends Collection<X> {
     default boolean all(Predicate<X>... prd) {
         boolean match = true;
         if (prd != null) {
-            for (int idx = 0; match && idx < prd.length; ++idx) {
-                if (prd[idx] != null) {
-                    match = this.stream().allMatch(prd[idx]);
+            for (final Predicate<X> fnc : prd) {
+                if (!match) {
+                    break;
+                }
+                if (fnc != null) {
+                    match = this.stream().allMatch(fnc);
                 }
             }
         }
@@ -83,9 +86,12 @@ public interface Enumerable<X> extends Collection<X> {
     default boolean none(Predicate<X>... prd) {
         boolean match = true;
         if (prd != null) {
-            for (int idx = 0; match && idx < prd.length; ++idx) {
-                if (prd[idx] != null) {
-                    match = this.stream().noneMatch(prd[idx]);
+            for (final Predicate<X> fnc : prd) {
+                if (!match) {
+                    break;
+                }
+                if (fnc != null) {
+                    match = this.stream().noneMatch(fnc);
                 }
             }
         }
@@ -102,10 +108,13 @@ public interface Enumerable<X> extends Collection<X> {
     default Enumerable<X> select(Predicate<X>... prd) {
         Enumerable<X> out = this;
         if (prd != null) {
-            for (int idx = 0; !out.isEmpty() && idx < prd.length; ++idx) {
-                if (prd[idx] != null) {
+            for (final Predicate<X> fnc : prd) {
+                if (out.isEmpty()) {
+                    break;
+                }
+                if (fnc != null) {
                     out = new Linked<>(
-                        out.stream().filter(prd[idx]).collect(Collectors.toList())
+                        out.stream().filter(fnc).collect(Collectors.toList())
                     );
                 }
             }
