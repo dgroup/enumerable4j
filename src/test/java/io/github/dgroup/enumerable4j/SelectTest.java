@@ -78,7 +78,7 @@ final class SelectTest {
     }
 
     @Test
-    void varArgsNullFunction() {
+    void varArgsNullPredicates() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new Linked<>(3, 0, 2, -1).select(null, null, null),

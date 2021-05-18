@@ -80,7 +80,7 @@ final class AllTest {
     }
 
     @Test
-    void varArgsNullPredicate() {
+    void varArgsNullPredicates() {
         new Assertion<>(
             "In case of null predicate we will get true",
             new Linked<>(1, 2, 3).all(null, null, null),

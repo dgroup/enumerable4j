@@ -47,124 +47,68 @@ import java.util.stream.Collectors;
 public interface Enumerable<X> extends Collection<X> {
 
     /**
-     * Passes each element of the collection to the given block.
+     * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match each element.
-     * @return The true if the block never returns false or nil.
+     * @param prd The array of functions to match each element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<X> prd) {
-        final boolean match;
-        if (prd == null) {
-            match = true;
-        } else {
-            match = this.stream().allMatch(prd);
+    default boolean all(Predicate<X>... prd) {
+        boolean match = true;
+        if (prd != null) {
+            for (int idx = 0; match && idx < prd.length; ++idx) {
+                if (prd[idx] != null) {
+                    match = this.stream().allMatch(prd[idx]);
+                }
+            }
         }
         return match;
     }
 
     /**
-     * Passes each element of the collection to the each given blocks.
-     * @param first The predicate to match each element.
-     * @param other The array of predicates to match each element.
-     * @return The true if the blocks never return false or nil.
+     * Passes at least one element of the collection to the each given function.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param prd The array of functions to match at least one element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<X> first, Predicate<X>... other) {
-        boolean match = this.all(first);
-        for (int idx = 0; match && idx < other.length; ++idx) {
-            match = this.all(other[idx]);
+    default boolean any(Predicate<X>... prd) {
+        return !this.select(prd).isEmpty();
+    }
+
+    /**
+     * Doesn't passes elements of the collection to the each given function.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param prd The array of functions to match none elements.
+     * @return True if the functions never returns false or nil.
+     */
+    default boolean none(Predicate<X>... prd) {
+        boolean match = true;
+        if (prd != null) {
+            for (int idx = 0; match && idx < prd.length; ++idx) {
+                if (prd[idx] != null) {
+                    match = this.stream().noneMatch(prd[idx]);
+                }
+            }
         }
         return match;
-    }
-
-    /**
-     * Passes at least one element of the collection to the given block.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match at least one element.
-     * @return The true if the block never returns false or nil.
-     */
-    default boolean any(Predicate<X> prd) {
-        final boolean match;
-        if (prd == null) {
-            match = true;
-        } else {
-            match = this.stream().anyMatch(prd);
-        }
-        return match;
-    }
-
-    /**
-     * Passes at least one element of the collection to the each given blocks.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param first The predicate to match at least one element.
-     * @param other The array of predicates to match at least one element.
-     * @return The true if the blocks never return false or nil.
-     */
-    default boolean any(Predicate<X> first, Predicate<X>... other) {
-        return !this.select(first, other).isEmpty();
-    }
-
-    /**
-     * Doesn't passes elements of the collection to the given block.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match none elements.
-     * @return The true if the block never returns false or nil.
-     */
-    default boolean none(Predicate<X> prd) {
-        final boolean match;
-        if (prd == null) {
-            match = true;
-        } else {
-            match = this.stream().noneMatch(prd);
-        }
-        return match;
-    }
-
-    /**
-     * Doesn't passes elements of the collection to the each given blocks.
-     * If no predicate (null) is given, then true is returned instead.
-     * @param first The predicate to match none elements.
-     * @param other The array of predicates to match none elements.
-     * @return The true if the blocks never returns false or nil.
-     */
-    default boolean none(Predicate<X> first, Predicate<X>... other) {
-        boolean match = this.none(first);
-        for (int idx = 0; match && idx < other.length; ++idx) {
-            match = this.none(other[idx]);
-        }
-        return match;
-    }
-
-    /**
-     * Returns an enumerable containing all elements of enumerable for which the given function
-     *  returns a true value.
-     * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The function to match each element.
-     * @return The enumerable.
-     */
-    default Enumerable<X> select(Predicate<X> prd) {
-        final Enumerable<X> out;
-        if (prd == null) {
-            out = this;
-        } else {
-            out = new Linked<>(
-                this.stream().filter(prd).collect(Collectors.toList())
-            );
-        }
-        return out;
     }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param first The function to match each element.
-     * @param other The array of predicates to match each element.
+     * @param prd The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
-        Enumerable<X> out = this.select(first);
-        for (int idx = 0; !out.isEmpty() && idx < other.length; ++idx) {
-            out = out.select(other[idx]);
+    default Enumerable<X> select(Predicate<X>... prd) {
+        Enumerable<X> out = this;
+        if (prd != null) {
+            for (int idx = 0; !out.isEmpty() && idx < prd.length; ++idx) {
+                if (prd[idx] != null) {
+                    out = new Linked<>(
+                        out.stream().filter(prd[idx]).collect(Collectors.toList())
+                    );
+                }
+            }
         }
         return out;
     }
