@@ -347,15 +347,15 @@ public interface Enumerable<X> extends Collection<X> {
         if (prd == null) {
             one = true;
         } else {
-            Enumerable<X> out = this;
-            for (int idx = 0; !out.isEmpty() && idx < prd.length; ++idx) {
+            Enumerable<X> enm = this;
+            for (int idx = 0; !enm.isEmpty() && idx < prd.length; ++idx) {
                 if (prd[idx] != null) {
-                    out = new Linked<>(
-                        out.stream().filter(prd[idx]).collect(Collectors.toList())
+                    enm = new Linked<>(
+                        enm.stream().filter(prd[idx]).collect(Collectors.toList())
                     );
                 }
             }
-            one = out.size() == 1;
+            one = enm.size() == 1;
         }
         return one;
     }
