@@ -166,7 +166,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param opr The accumulation function operator which combining previous and current values.
      * @return Result of of combining elements.
      */
-    default X reduce(T idn, BinaryOperator<T> opr) {
+    default T reduce(T idn, BinaryOperator<T> opr) {
         // ...
     }
 
@@ -211,7 +211,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param alt The alternative to return in case of null predicate or no element found.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
-    default T next(Predicate<X> prd, T alt) {
+    default T next(Predicate<T> prd, T alt) {
         // ...
     }
 
@@ -264,7 +264,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     /**
      * The collection which you implemented in your project for some purposes.
      */
-    public class YourOwnCollection<X> extends Collection<X> implements Enumerable<X> {
+    public class YourOwnCollection<T> extends Collection<T> implements Enumerable<T> {
         //
     }
     ```
