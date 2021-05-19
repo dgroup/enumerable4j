@@ -71,7 +71,21 @@ public interface Enumerable<X> extends Collection<X> {
      * @return True if the functions never return false or nil.
      */
     default boolean any(Predicate<X>... prd) {
-        return !this.select(prd).isEmpty();
+        final boolean match;
+        if (prd == null) {
+            match = true;
+        } else {
+            Enumerable<X> out = this;
+            for (int idx = 0; !out.isEmpty() && idx < prd.length; ++idx) {
+                if (prd[idx] != null) {
+                    out = new Linked<>(
+                        out.stream().filter(prd[idx]).collect(Collectors.toList())
+                    );
+                }
+            }
+            match = !out.isEmpty();
+        }
+        return match;
     }
 
     /**
@@ -96,18 +110,24 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The array of functions to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> select(Predicate<X>... prd) {
-        Enumerable<X> out = this;
-        if (prd != null) {
-            for (int idx = 0; !out.isEmpty() && idx < prd.length; ++idx) {
-                if (prd[idx] != null) {
-                    out = new Linked<>(
-                        out.stream().filter(prd[idx]).collect(Collectors.toList())
-                    );
-                }
+    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
+        Enumerable<X> out;
+        if (first == null) {
+            out = this;
+        } else {
+            out = new Linked<>(
+                this.stream().filter(first).collect(Collectors.toList())
+            );
+        }
+        for (int idx = 0; !out.isEmpty() && idx < other.length; ++idx) {
+            if (other[idx] != null) {
+                out = new Linked<>(
+                    out.stream().filter(other[idx]).collect(Collectors.toList())
+                );
             }
         }
         return out;

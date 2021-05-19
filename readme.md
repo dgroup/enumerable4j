@@ -56,10 +56,10 @@ ported to `java` as interface with set of default methods which simplify typical
  * ability to sort. The class must provide a method each, which yields successive members of the
  * collection.
  *
- * @param <X> The type of entities.
+ * @param <T> The type of entities.
  * @since 0.1.0
  */
-public interface Enumerable<X> extends Collection<X> {
+public interface Enumerable<T> extends Collection<T> {
     /**
      * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
@@ -94,10 +94,11 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The array of functions to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<T> select(Predicate<T>... prd) {
+    default Enumerable<T> select(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -165,7 +166,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param opr The accumulation function operator which combining previous and current values.
      * @return Result of of combining elements.
      */
-    default X reduce(X idn, BinaryOperator<X> opr) {
+    default X reduce(T idn, BinaryOperator<T> opr) {
         // ...
     }
 
@@ -176,7 +177,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param prd The function to match element after which enumerable elements should be returned.
      * @return The enumerable.
      */
-    default Enumerable<X> after(Predicate<X> prd) {
+    default Enumerable<T> after(Predicate<T> prd) {
         // ...
     }
 
@@ -189,7 +190,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      * @throws IllegalArgumentException If the size is negative.
      */
-    default Enumerable<X> after(Predicate<X> prd, long size) {
+    default Enumerable<T> after(Predicate<T> prd, long size) {
         // ...
     }
 
@@ -199,7 +200,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param prd The function to match element after which enumerable element should be returned.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
-    default X next(Predicate<X> prd) {
+    default T next(Predicate<T> prd) {
         // ...
     }
 
@@ -210,7 +211,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param alt The alternative to return in case of null predicate or no element found.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
-    default X next(Predicate<X> prd, X alt) {
+    default T next(Predicate<X> prd, T alt) {
         // ...
     }
 
@@ -221,7 +222,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param enm The given enumerable.
      * @return The enumerable.
      */
-    default Enumerable<X> chain(Enumerable<X> enm) {
+    default Enumerable<T> chain(Enumerable<T> enm) {
         // ...
     }
 
@@ -231,7 +232,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      * @throws IllegalArgumentException If the size is negative.
      */
-    default Enumerable<X> take(long size) {
+    default Enumerable<T> take(long size) {
         // ...
     }
 
@@ -241,7 +242,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param act An action to perform on the elements.
      * @return The enumerable.
      */
-    default Enumerable<X> each(Consumer<X> act) {
+    default Enumerable<T> each(Consumer<T> act) {
         // ...
     }
 }
@@ -292,33 +293,29 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
 #### .all
 
 ```java
-YourOwnCollection<Integer> src = ...                       // with elements [1, 2, 3]   
-boolean allPositive = src.all(val -> val > 0);             // true 
-boolean matched = src.all(val -> val > 0, val -> val < 4); // true 
+YourOwnCollection<Integer> src = ...           // with elements [1, 2, 3]   
+boolean allPositive = src.all(val -> val > 0); // true 
 ```
 
 #### .any
 
 ```java
-YourOwnCollection<Integer> src = ...                       // with elements [-1, 0, 1]
-boolean oneIsPositive = src.any(val -> val > 0);           // true 
-boolean matched = src.any(val -> val > 0, val -> val < 2); // true 
+YourOwnCollection<Integer> src = ...             // with elements [-1, 0, 1]
+boolean oneIsPositive = src.any(val -> val > 0); // true 
 ```
 
 #### .none
 
 ```java
-YourOwnCollection<Integer> src = ...                         // with elements [-2, -1, 0]
-boolean noneIsPositive = src.none(val -> val > 0);           // true 
-boolean matched = src.none(val -> val > 0, val -> val < -3); // true 
+YourOwnCollection<Integer> src = ...               // with elements [-2, -1, 0]
+boolean noneIsPositive = src.none(val -> val > 0); // true 
 ```
 
 #### .select
 
 ```java
-YourOwnCollection<Integer> src = ...                                      // with elements [-1, 1, 2]
-Enumerable<Integer> positive = src.select(val -> val > 0);                // [1, 2] 
-Enumerable<Integer> matched = src.select(val -> val > 0, val -> val < 2); // [1] 
+YourOwnCollection<Integer> src = ...                       // with elements [-1, 1, 2]
+Enumerable<Integer> positive = src.select(val -> val > 0); // [1, 2] 
 ```
 
 #### .reject

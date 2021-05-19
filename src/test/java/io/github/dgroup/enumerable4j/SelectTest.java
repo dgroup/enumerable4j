@@ -95,13 +95,4 @@ final class SelectTest {
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }
-
-    @Test
-    void noArgs() {
-        new Assertion<>(
-            "In case of no-args invocation the self enumerable is expected",
-            new Linked<>(1, 2, 3).select(),
-            new HasValues<>(1, 2, 3)
-        ).affirm();
-    }
 }
