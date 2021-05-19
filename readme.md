@@ -405,8 +405,8 @@ Enumerable<Integer> taken = src.take(2); // [1, 2]
 #### .one
 
 ```java
-YourOwnCollection<Integer> src = ... // with elements [-1, 0, 1]
-boolean onePositive = src.one(val -> val > 0);
+YourOwnCollection<Integer> src = ...           // with elements [-1, 0, 1]
+boolean onePositive = src.one(val -> val > 0); // true
 ```
 
 ### How to contribute?
