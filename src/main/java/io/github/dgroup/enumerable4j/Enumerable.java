@@ -304,26 +304,6 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Returns an enumerable containing first elements of specified size from the enumerable.
-     * @param size The number of elements the enumerable should be limited to.
-     * @return The enumerable.
-     * @throws IllegalArgumentException If the size is negative.
-     */
-    default Enumerable<X> take(long size) {
-        final Enumerable<X> out;
-        if (size < 0) {
-            throw new IllegalArgumentException(Long.toString(size));
-        } else if (size == 0) {
-            out = new Empty<>();
-        } else {
-            out = new Linked<>(
-                this.stream().limit(size).collect(Collectors.toList())
-            );
-        }
-        return out;
-    }
-
-    /**
      * Returns an enumerable consisting of the elements of the collection,
      *  additionally performing the provided action on each element of the enumerable.
      * @param act An action to perform on the elements.
@@ -334,5 +314,46 @@ public interface Enumerable<X> extends Collection<X> {
             this.forEach(act);
         }
         return this;
+    }
+
+    /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param num The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long num) {
+        final Enumerable<X> out;
+        if (num < 0) {
+            throw new IllegalArgumentException(Long.toString(num));
+        } else if (num == 0) {
+            out = new Empty<>();
+        } else {
+            out = new Linked<>(
+                this.stream().limit(num).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
+
+    /**
+     * Drops first elements of specified size,
+     *  and returns an enumerable containing the rest of the elements.
+     * @param num The number of elements to be dropped.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> drop(long num) {
+        final Enumerable<X> out;
+        if (num < 0) {
+            throw new IllegalArgumentException(Long.toString(num));
+        } else if (num == 0) {
+            out = this;
+        } else {
+            out = new Linked<>(
+                this.stream().skip(num).collect(Collectors.toList())
+            );
+        }
+        return out;
     }
 }

@@ -36,6 +36,7 @@
     *   [.chain](#chain)
     *   [.take](#take)
     *   [.each](#each)
+    *   [.drop](#drop)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -226,22 +227,33 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Returns an enumerable containing first elements of specified size from the enumerable.
-     * @param size The number of elements the enumerable should be limited to.
-     * @return The enumerable.
-     * @throws IllegalArgumentException If the size is negative.
-     */
-    default Enumerable<X> take(long size) {
-        // ...
-    }
-
-    /**
      * Returns an enumerable consisting of the elements of the collection,
      *  additionally performing the provided action on each element of the enumerable.
      * @param act An action to perform on the elements.
      * @return The enumerable.
      */
     default Enumerable<X> each(Consumer<X> act) {
+        // ...
+    }
+    
+    /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param num The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long num) {
+        // ...
+    }
+
+    /**
+     * Drops first elements of specified size,
+     *  and returns an enumerable containing the rest of the elements.
+     * @param num The number of elements to be dropped.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<T> drop(long num) {
         // ...
     }
 }
@@ -288,6 +300,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.chain(...)` | | | tbd |
     `.each(...)` | `.stream().forEach(...)` | `new ForEach<>(...).exec(...)` | tbd |
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
+    `.drop(...)` | `.stream().skip(...).collect(Collectors.toList())` | `new Sliced<>(...,...,...)`| tbd |
 
 #### .all
 
@@ -388,6 +401,13 @@ Enumerable<Integer> buf = src.each(System.out::print); // [1, 2, 3] , printed: "
 ```java
 YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
 Enumerable<Integer> taken = src.take(2); // [1, 2]
+```
+
+#### .drop
+
+```java
+YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
+Enumerable<Integer> taken = src.drop(2); // [3]
 ```
 
 ### How to contribute?
