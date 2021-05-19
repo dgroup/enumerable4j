@@ -36,6 +36,7 @@
     *   [.chain](#chain)
     *   [.take](#take)
     *   [.each](#each)
+    *   [.one](#one)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -244,6 +245,16 @@ public interface Enumerable<X> extends Collection<X> {
     default Enumerable<X> each(Consumer<X> act) {
         // ...
     }
+
+    /**
+     * Passes each element of the collection to the each given function.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param prd The array of functions to match each element.
+     * @return True if the functions returns true exactly once.
+     */
+    default boolean one(Predicate<T>... prd) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -288,6 +299,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.chain(...)` | | | tbd |
     `.each(...)` | `.stream().forEach(...)` | `new ForEach<>(...).exec(...)` | tbd |
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
+    `.one(...)` | `.stream().filter(...).count() == 1` | `new Filtered<>(...).size() == 1` | tbd |
 
 #### .all
 
@@ -388,6 +400,13 @@ Enumerable<Integer> buf = src.each(System.out::print); // [1, 2, 3] , printed: "
 ```java
 YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
 Enumerable<Integer> taken = src.take(2); // [1, 2]
+```
+
+#### .one
+
+```java
+YourOwnCollection<Integer> src = ... // with elements [-1, 0, 1]
+boolean onePositive = src.one(val -> val > 0);
 ```
 
 ### How to contribute?
