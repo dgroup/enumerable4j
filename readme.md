@@ -34,8 +34,8 @@
     *   [.after](#after)
     *   [.next](#next)
     *   [.chain](#chain)
-    *   [.take](#take)
     *   [.each](#each)
+    *   [.take](#take)
     *   [.drop](#drop)
 
 *   [How to contribute?](#how-to-contribute)
