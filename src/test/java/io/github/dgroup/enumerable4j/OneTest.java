@@ -81,7 +81,7 @@ final class OneTest {
     @Test
     void varArgsNullPredicates() {
         new Assertion<>(
-            "All values are correspond to the conditions",
+            "All values correspond to the conditions",
             new Linked<>(1, 2, 3).one(null, null),
             new IsEqual<>(false)
         ).affirm();
@@ -94,6 +94,15 @@ final class OneTest {
         new Assertion<>(
             "No one value corresponds to the conditions",
             new Linked<>(1, 2, 3).one(even, greaterthan),
+            new IsEqual<>(false)
+        ).affirm();
+    }
+
+    @Test
+    void noArgs() {
+        new Assertion<>(
+            "All values correspond to non-provided conditions",
+            new Linked<>(1, 2, 3).one(),
             new IsEqual<>(false)
         ).affirm();
     }
