@@ -86,13 +86,4 @@ final class AnyTest {
             new IsTrue()
         ).affirm();
     }
-
-    @Test
-    void noArgs() {
-        new Assertion<>(
-            "In case of no-args invocation we will get true",
-            new Linked<>(1, 2, 3).any(),
-            new IsTrue()
-        ).affirm();
-    }
 }

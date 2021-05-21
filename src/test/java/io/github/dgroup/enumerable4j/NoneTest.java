@@ -51,7 +51,7 @@ final class NoneTest {
     @Test
     void negative() {
         new Assertion<>(
-            "There are no positive values in the enumerable",
+            "There are some positive values in the enumerable",
             new Linked<>(1, 2, 3).none(val -> val > 0),
             new IsEqual<>(false)
         ).affirm();
@@ -79,19 +79,21 @@ final class NoneTest {
     }
 
     @Test
-    void varArgsNullPredicates() {
+    void varArgsNegative() {
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> positive = val -> val > 0;
         new Assertion<>(
-            "In case of null predicate we will get true",
-            new Linked<>(1, 2, 3).none(null, null, null),
-            new IsTrue()
+            "There are no negative values in the enumerable, but there are positive",
+            new Linked<>(1, 2, 3).all(negative, positive),
+            new IsEqual<>(false)
         ).affirm();
     }
 
     @Test
-    void noArgs() {
+    void varArgsNullPredicates() {
         new Assertion<>(
-            "In case of no-args invocation we will get true",
-            new Linked<>(1, 2, 3).none(),
+            "In case of null predicate we will get true",
+            new Linked<>(1, 2, 3).none(null, null, null),
             new IsTrue()
         ).affirm();
     }

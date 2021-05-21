@@ -24,6 +24,8 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Predicate;
+import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -53,10 +55,53 @@ final class RejectTest {
     }
 
     @Test
+    void negate() {
+        new Assertion<>(
+            "All values from enumerable found",
+            new Linked<>(1, 2, 3).reject(val -> val > 0),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
     void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new Linked<>(3, 0, 2, -1).reject(null),
+            new HasValues<>(3, 0, 2, -1)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsReject() {
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        new Assertion<>(
+            "Negative values from enumerable found",
+            new Linked<>(1, 2, 3, -1).reject(negative, even),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>(1, 3)
+            )
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNegate() {
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        new Assertion<>(
+            "No values from enumerable found",
+            new Linked<>(2, 4, 6).reject(negative, even),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNullFunction() {
+        new Assertion<>(
+            "In case null-function the self enumerable is expected",
+            new Linked<>(3, 0, 2, -1).reject(null, null, null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }

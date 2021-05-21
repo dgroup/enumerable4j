@@ -52,7 +52,7 @@ final class AllTest {
     @Test
     void negative() {
         new Assertion<>(
-            "All values in enumerable are negative",
+            "Not all values in enumerable are negative",
             new Linked<>(1, 2, 3).all(val -> val < 0),
             new IsEqual<>(false)
         ).affirm();
@@ -61,7 +61,7 @@ final class AllTest {
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case of null predicate we will get true",
+            "In case of null predicate we get true",
             new Linked<>(1, 2, 3).all(null),
             new IsTrue()
         ).affirm();
@@ -80,19 +80,21 @@ final class AllTest {
     }
 
     @Test
-    void varArgsNullPredicates() {
+    void varArgsNegative() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> negative = val -> val < 0;
         new Assertion<>(
-            "In case of null predicate we will get true",
-            new Linked<>(1, 2, 3).all(null, null, null),
-            new IsTrue()
+            "There are positive values in the enumerable, but there are no negative",
+            new Linked<>(1, 2, 3).all(positive, negative),
+            new IsEqual<>(false)
         ).affirm();
     }
 
     @Test
-    void noArgs() {
+    void varArgsNullPredicates() {
         new Assertion<>(
-            "In case of no-args invocation we will get true",
-            new Linked<>(1, 2, 3).all(),
+            "In case of null predicate we will get true",
+            new Linked<>(1, 2, 3).all(null, null, null),
             new IsTrue()
         ).affirm();
     }

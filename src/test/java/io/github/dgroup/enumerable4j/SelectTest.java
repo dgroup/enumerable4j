@@ -88,6 +88,18 @@ final class SelectTest {
     }
 
     @Test
+    void varArgsNegative() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        new Assertion<>(
+            "There are positive and even values in the enumerable, but there are no negative",
+            new Linked<>(1, 2, 3).select(positive, negative, even),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
     void varArgsNullPredicates() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
