@@ -54,7 +54,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return True if the functions never return false or nil.
      */
     default boolean all(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = x -> true;
+        Predicate<X> prd = val -> true;
         if (first != null) {
             prd = first;
         }
@@ -85,7 +85,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return True if the functions never returns false or nil.
      */
     default boolean none(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = x -> false;
+        Predicate<X> prd = val -> false;
         if (first != null) {
             prd = first;
         }
@@ -106,7 +106,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = x -> true;
+        Predicate<X> prd = val -> true;
         if (first != null) {
             prd = first;
         }
@@ -127,7 +127,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<X> reject(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = x -> true;
+        Predicate<X> prd = val -> true;
         if (first != null) {
             prd = first.negate();
         }
@@ -143,29 +143,36 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
      * If no predicate (null) is given, or no element found then null is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default X find(Predicate<X> prd) {
-        return this.find(prd, null);
+    default X find(Predicate<X> first, Predicate<X>... other) {
+        return this.find(null, first, other);
     }
 
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
      * If no predicate (null) is given, or no element found then alternative is returned instead.
-     * @param prd The function to match each element.
      * @param alt The alternative to return in case of null predicate or no element found.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default X find(Predicate<X> prd, X alt) {
-        final X out;
-        if (prd == null) {
-            out = alt;
-        } else {
-            out = this.stream().filter(prd).findFirst().orElse(alt);
+    default X find(X alt, Predicate<X> first, Predicate<X>... other) {
+        Predicate<X> prd = val -> false;
+        if (first != null) {
+            prd = first;
         }
-        return out;
+        if (other != null) {
+            for (final Predicate<X> oth : other) {
+                if (oth != null) {
+                    prd = prd.and(oth);
+                }
+            }
+        }
+        return this.stream().filter(prd).findFirst().orElse(alt);
     }
 
     /**
@@ -196,7 +203,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return Number of elements satisfying the given function.
      */
     default long count(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = x -> true;
+        Predicate<X> prd = val -> true;
         if (first != null) {
             prd = first;
         }
