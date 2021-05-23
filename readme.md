@@ -69,7 +69,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match each element.
      * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<X> first, Predicate<X>... other) {
+    default boolean all(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -80,7 +80,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match at least one element.
      * @return True if the functions never return false or nil.
      */
-    default boolean any(Predicate<X> first, Predicate<X>... other) {
+    default boolean any(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -91,7 +91,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match none elements.
      * @return True if the functions never returns false or nil.
      */
-    default boolean none(Predicate<X> first, Predicate<X>... other) {
+    default boolean none(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -103,7 +103,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
+    default Enumerable<T> select(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -115,7 +115,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> reject(Predicate<X> first, Predicate<X>... other) {
+    default Enumerable<T> reject(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -161,7 +161,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match each element.
      * @return Number of elements satisfying the given function.
      */
-    default long count(Predicate<X> first, Predicate<X>... other) {
+    default long count(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -239,7 +239,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param act An action to perform on the elements.
      * @return The enumerable.
      */
-    default Enumerable<X> each(Consumer<X> act) {
+    default Enumerable<T> each(Consumer<T> act) {
         // ...
     }
     
@@ -249,7 +249,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @return The enumerable.
      * @throws IllegalArgumentException If the size is negative.
      */
-    default Enumerable<X> take(long num) {
+    default Enumerable<T> take(long num) {
         // ...
     }
 
@@ -267,10 +267,11 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The array of functions to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return True if the functions returns true exactly once.
      */
-    default boolean one(Predicate<T>... prd) {
+    default boolean one(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 }

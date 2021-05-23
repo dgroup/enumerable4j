@@ -371,24 +371,11 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The array of functions to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return True if the functions returns true exactly once.
      */
-    default boolean one(Predicate<X>... prd) {
-        final boolean one;
-        if (prd == null) {
-            one = true;
-        } else {
-            Enumerable<X> enm = this;
-            for (int idx = 0; !enm.isEmpty() && idx < prd.length; ++idx) {
-                if (prd[idx] != null) {
-                    enm = new Linked<>(
-                        enm.stream().filter(prd[idx]).collect(Collectors.toList())
-                    );
-                }
-            }
-            one = enm.size() == 1;
-        }
-        return one;
+    default boolean one(Predicate<X> first, Predicate<X>... other) {
+        return this.count(first, other) == 1;
     }
 }

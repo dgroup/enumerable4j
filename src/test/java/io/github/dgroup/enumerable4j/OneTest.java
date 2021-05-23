@@ -52,7 +52,7 @@ final class OneTest {
     @Test
     void negative() {
         new Assertion<>(
-            "Only one value is positive",
+            "There are more than one positive value",
             new Linked<>(1, 2, 3).one(val -> val > 0),
             new IsEqual<>(false)
         ).affirm();
@@ -61,9 +61,9 @@ final class OneTest {
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case of null predicate we will get true",
+            "In case of null predicate all values correspond to the conditions",
             new Linked<>(1, 2, 3).one(null),
-            new IsTrue()
+            new IsEqual<>(false)
         ).affirm();
     }
 
@@ -79,15 +79,6 @@ final class OneTest {
     }
 
     @Test
-    void varArgsNullPredicates() {
-        new Assertion<>(
-            "All values correspond to the conditions",
-            new Linked<>(1, 2, 3).one(null, null),
-            new IsEqual<>(false)
-        ).affirm();
-    }
-
-    @Test
     void varArgsNegative() {
         final Predicate<Integer> even = val -> (val & 1) == 1;
         final Predicate<Integer> greaterthan = val -> val > 3;
@@ -99,11 +90,12 @@ final class OneTest {
     }
 
     @Test
-    void noArgs() {
+    void varArgsNullPredicates() {
         new Assertion<>(
-            "All values correspond to non-provided conditions",
-            new Linked<>(1, 2, 3).one(),
+            "In case of null predicates all values correspond to the conditions",
+            new Linked<>(1, 2, 3).one(null, null, null),
             new IsEqual<>(false)
         ).affirm();
     }
+
 }
