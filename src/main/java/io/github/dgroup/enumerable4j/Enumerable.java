@@ -374,4 +374,15 @@ public interface Enumerable<X> extends Collection<X> {
         }
         return out;
     }
+
+    /**
+     * Passes each element of the collection to the each given function.
+     * If no predicate (null) is given, then true is returned instead.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
+     * @return True if the functions returns true exactly once.
+     */
+    default boolean one(Predicate<X> first, Predicate<X>... other) {
+        return this.count(first, other) == 1;
+    }
 }
