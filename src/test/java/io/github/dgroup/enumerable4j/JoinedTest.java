@@ -75,6 +75,19 @@ final class JoinedTest {
 
     @Test
     void nullPredicate() {
+        final Joined<Integer> joined = new Joined<>(null, null);
+        new Assertion<>(
+            "In case of null-predicates, we get the true-returned predicate",
+            Stream.of(-2, -1, 0, 1, 2).filter(joined).collect(Collectors.toList()),
+            new AllOf<>(
+                new HasSize(5),
+                new HasValues<>(-2, -1, 0, 1, 2)
+            )
+        ).affirm();
+    }
+
+    @Test
+    void nullPredicates() {
         final Joined<Integer> joined = new Joined<>(null, null, null);
         new Assertion<>(
             "In case of null-predicates, we get the true-returned predicate",
