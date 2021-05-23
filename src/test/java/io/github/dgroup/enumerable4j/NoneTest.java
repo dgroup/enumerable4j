@@ -24,6 +24,8 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Predicate;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.IsTrue;
@@ -49,9 +51,9 @@ final class NoneTest {
     @Test
     void negative() {
         new Assertion<>(
-            "All values in enumerable are negative",
-            new Linked<>(1, 2, 3).none(val -> val < 0),
-            new IsTrue()
+            "There are some positive values in the enumerable",
+            new Linked<>(1, 2, 3).none(val -> val > 0),
+            new IsEqual<>(false)
         ).affirm();
     }
 
@@ -60,6 +62,38 @@ final class NoneTest {
         new Assertion<>(
             "In case of null predicate we will get true",
             new Linked<>(1, 2, 3).none(null),
+            new IsTrue()
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNone() {
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        final Predicate<Integer> lessthan = val -> val > 6;
+        new Assertion<>(
+            "There are no values in enumerable which are negative, even or greater than 6",
+            new Linked<>(1, 3, 5).none(negative, even, lessthan),
+            new IsTrue()
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNegative() {
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> positive = val -> val > 0;
+        new Assertion<>(
+            "There are no negative values in the enumerable, but there are positive",
+            new Linked<>(1, 2, 3).all(negative, positive),
+            new IsEqual<>(false)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNullPredicates() {
+        new Assertion<>(
+            "In case of null predicate we will get true",
+            new Linked<>(1, 2, 3).none(null, null, null),
             new IsTrue()
         ).affirm();
     }

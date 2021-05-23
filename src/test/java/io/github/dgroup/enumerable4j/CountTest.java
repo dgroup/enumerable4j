@@ -24,6 +24,7 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Predicate;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -38,7 +39,7 @@ import org.llorllale.cactoos.matchers.Assertion;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class CountTest {
     @Test
-    void truePredicate() {
+    void count() {
         new Assertion<>(
             "One element in enumerable is less than 0",
             new Linked<>(-1, 0, 1, 2).count(val -> val < 0),
@@ -47,7 +48,7 @@ final class CountTest {
     }
 
     @Test
-    void falsePredicate() {
+    void negative() {
         new Assertion<>(
             "No element in enumerable is less than 0",
             new Linked<>(7, 0, 1, 2).count(val -> val < 0),
@@ -60,6 +61,37 @@ final class CountTest {
         new Assertion<>(
             "In case of null predicate it will work as size",
             new Linked<>(1, 2, 3).count(null),
+            new IsEqual<>(3L)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsCount() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> odd = val -> (val & 1) == 1;
+        new Assertion<>(
+            "Two elements in enumerable are greater than 0 and odd",
+            new Linked<>(-1, 0, 1, 2, 3).count(positive, odd),
+            new IsEqual<>(2L)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNegative() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> odd = val -> (val & 1) == 1;
+        new Assertion<>(
+            "No element in enumerable are greater than 0 and odd",
+            new Linked<>(0, 2, 4).count(positive, odd),
+            new IsEqual<>(0L)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNullPredicate() {
+        new Assertion<>(
+            "In case of null predicate it will work as size",
+            new Linked<>(1, 2, 3).count(null, null, null),
             new IsEqual<>(3L)
         ).affirm();
     }

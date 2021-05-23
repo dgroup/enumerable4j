@@ -47,89 +47,96 @@ import java.util.stream.Collectors;
 public interface Enumerable<X> extends Collection<X> {
 
     /**
-     * Passes each element of the collection to the given block.
+     * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match each element.
-     * @return The true if the block never returns false or nil.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<X> prd) {
-        final boolean match;
-        if (prd == null) {
-            match = true;
-        } else {
-            match = this.stream().allMatch(prd);
+    default boolean all(Predicate<X> first, Predicate<X>... other) {
+        Predicate<X> prd = x -> true;
+        if (first != null) {
+            prd = first;
         }
-        return match;
+        for (final Predicate<X> oth : other) {
+            if (oth != null) {
+                prd = prd.and(oth);
+            }
+        }
+        return this.stream().allMatch(prd);
     }
 
     /**
-     * Passes at least one element of the collection to the given block.
+     * Passes at least one element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match at least one element.
-     * @return The true if the block never returns false or nil.
+     * @param first The function to match at least one element.
+     * @param other The array of functions to match at least one element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean any(Predicate<X> prd) {
-        final boolean match;
-        if (prd == null) {
-            match = true;
-        } else {
-            match = this.stream().anyMatch(prd);
-        }
-        return match;
+    default boolean any(Predicate<X> first, Predicate<X>... other) {
+        return this.count(first, other) != 0;
     }
 
     /**
-     * Doesn't passes elements of the collection to the given block.
+     * Doesn't passes elements of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match none elements.
-     * @return The true if the block never returns false or nil.
+     * @param first The function to match none elements.
+     * @param other The array of functions to match none elements.
+     * @return True if the functions never returns false or nil.
      */
-    default boolean none(Predicate<X> prd) {
-        final boolean match;
-        if (prd == null) {
-            match = true;
-        } else {
-            match = this.stream().noneMatch(prd);
+    default boolean none(Predicate<X> first, Predicate<X>... other) {
+        Predicate<X> prd = x -> false;
+        if (first != null) {
+            prd = first;
         }
-        return match;
+        for (final Predicate<X> oth : other) {
+            if (oth != null) {
+                prd = prd.and(oth);
+            }
+        }
+        return this.stream().noneMatch(prd);
     }
 
     /**
-     * Returns an enumerable containing all elements of enumerable for which the given function
-     *  returns a true value.
+     * Returns an enumerable containing all elements of enumerable for which the given functions
+     *  return a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> select(Predicate<X> prd) {
-        final Enumerable<X> out;
-        if (prd == null) {
-            out = this;
-        } else {
-            out = new Linked<>(
-                this.stream().filter(prd).collect(Collectors.toList())
-            );
+    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
+        Predicate<X> prd = x -> true;
+        if (first != null) {
+            prd = first;
         }
-        return out;
+        for (final Predicate<X> oth : other) {
+            if (oth != null) {
+                prd = prd.and(oth);
+            }
+        }
+        return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
     }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a false value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<X> reject(Predicate<X> prd) {
-        final Enumerable<X> out;
-        if (prd == null) {
-            out = this;
-        } else {
-            out = new Linked<>(
-                this.stream().filter(prd.negate()).collect(Collectors.toList())
-            );
+    default Enumerable<X> reject(Predicate<X> first, Predicate<X>... other) {
+        Predicate<X> prd = x -> true;
+        if (first != null) {
+            prd = first.negate();
         }
-        return out;
+        for (final Predicate<X> oth : other) {
+            if (oth != null) {
+                prd = prd.and(oth.negate());
+            }
+        }
+        return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
     }
 
     /**
@@ -184,17 +191,21 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns the number of elements that are present in enumerable for which the given
      * function return true.
      * If no function (null) is given, then 'size' is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return Number of elements satisfying the given function.
      */
-    default long count(Predicate<X> prd) {
-        final long count;
-        if (prd == null) {
-            count = this.size();
-        } else {
-            count = this.stream().filter(prd).count();
+    default long count(Predicate<X> first, Predicate<X>... other) {
+        Predicate<X> prd = x -> true;
+        if (first != null) {
+            prd = first;
         }
-        return count;
+        for (final Predicate<X> oth : other) {
+            if (oth != null) {
+                prd = prd.and(oth);
+            }
+        }
+        return this.stream().filter(prd).count();
     }
 
     /**
@@ -304,26 +315,6 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Returns an enumerable containing first elements of specified size from the enumerable.
-     * @param size The number of elements the enumerable should be limited to.
-     * @return The enumerable.
-     * @throws IllegalArgumentException If the size is negative.
-     */
-    default Enumerable<X> take(long size) {
-        final Enumerable<X> out;
-        if (size < 0) {
-            throw new IllegalArgumentException(Long.toString(size));
-        } else if (size == 0) {
-            out = new Empty<>();
-        } else {
-            out = new Linked<>(
-                this.stream().limit(size).collect(Collectors.toList())
-            );
-        }
-        return out;
-    }
-
-    /**
      * Returns an enumerable consisting of the elements of the collection,
      *  additionally performing the provided action on each element of the enumerable.
      * @param act An action to perform on the elements.
@@ -334,6 +325,47 @@ public interface Enumerable<X> extends Collection<X> {
             this.forEach(act);
         }
         return this;
+    }
+
+    /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param num The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long num) {
+        final Enumerable<X> out;
+        if (num < 0) {
+            throw new IllegalArgumentException(Long.toString(num));
+        } else if (num == 0) {
+            out = new Empty<>();
+        } else {
+            out = new Linked<>(
+                this.stream().limit(num).collect(Collectors.toList())
+            );
+        }
+        return out;
+    }
+
+    /**
+     * Drops first elements of specified size,
+     *  and returns an enumerable containing the rest of the elements.
+     * @param num The number of elements to be dropped.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> drop(long num) {
+        final Enumerable<X> out;
+        if (num < 0) {
+            throw new IllegalArgumentException(Long.toString(num));
+        } else if (num == 0) {
+            out = this;
+        } else {
+            out = new Linked<>(
+                this.stream().skip(num).collect(Collectors.toList())
+            );
+        }
+        return out;
     }
 
     /**

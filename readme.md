@@ -34,8 +34,9 @@
     *   [.after](#after)
     *   [.next](#next)
     *   [.chain](#chain)
-    *   [.take](#take)
     *   [.each](#each)
+    *   [.take](#take)
+    *   [.drop](#drop)
     *   [.one](#one)
 
 *   [How to contribute?](#how-to-contribute)
@@ -57,48 +58,52 @@ ported to `java` as interface with set of default methods which simplify typical
  * ability to sort. The class must provide a method each, which yields successive members of the
  * collection.
  *
- * @param <X> The type of entities.
+ * @param <T> The type of entities.
  * @since 0.1.0
  */
-public interface Enumerable<X> extends Collection<X> {
+public interface Enumerable<T> extends Collection<T> {
     /**
-     * Passes each element of the collection to the given block.
+     * Passes each element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match each element.
-     * @return The true if the block never returns false or nil.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean all(Predicate<T> prd) {
+    default boolean all(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
     /**
-     * Passes at least one element of the collection to the given block.
+     * Passes at least one element of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match at least one element.
-     * @return The true if the block never returns false or nil.
+     * @param first The function to match at least one element.
+     * @param other The array of functions to match at least one element.
+     * @return True if the functions never return false or nil.
      */
-    default boolean any(Predicate<T> prd) {
+    default boolean any(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
     /**
-     * Doesn't passes elements of the collection to the given block.
+     * Doesn't passes elements of the collection to the each given function.
      * If no predicate (null) is given, then true is returned instead.
-     * @param prd The predicate to match none elements.
-     * @return The true if the block never returns false or nil.
+     * @param first The function to match none elements.
+     * @param other The array of functions to match none elements.
+     * @return True if the functions never returns false or nil.
      */
-    default boolean none(Predicate<T> prd) {
+    default boolean none(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
     /**
-     * Returns an enumerable containing all elements of enumerable for which the given function
-     *  returns a true value.
+     * Returns an enumerable containing all elements of enumerable for which the given functions
+     *  return a true value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<T> select(Predicate<T> prd) {
+    default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -106,10 +111,11 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a false value.
      * If no predicate (null) is given, then 'this' is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The enumerable.
      */
-    default Enumerable<T> reject(Predicate<T> prd) {
+    default Enumerable<X> reject(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -151,10 +157,11 @@ public interface Enumerable<X> extends Collection<X> {
      * Returns the number of elements that are present in enumerable for which the given
      * function return true.
      * If no function (null) is given, then 'size' is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return Number of elements satisfying the given function.
      */
-    default long count(Predicate<T> prd) {
+    default long count(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -166,7 +173,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param opr The accumulation function operator which combining previous and current values.
      * @return Result of of combining elements.
      */
-    default X reduce(X idn, BinaryOperator<X> opr) {
+    default T reduce(T idn, BinaryOperator<T> opr) {
         // ...
     }
 
@@ -177,7 +184,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param prd The function to match element after which enumerable elements should be returned.
      * @return The enumerable.
      */
-    default Enumerable<X> after(Predicate<X> prd) {
+    default Enumerable<T> after(Predicate<T> prd) {
         // ...
     }
 
@@ -190,7 +197,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      * @throws IllegalArgumentException If the size is negative.
      */
-    default Enumerable<X> after(Predicate<X> prd, long size) {
+    default Enumerable<T> after(Predicate<T> prd, long size) {
         // ...
     }
 
@@ -200,7 +207,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param prd The function to match element after which enumerable element should be returned.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
-    default X next(Predicate<X> prd) {
+    default T next(Predicate<T> prd) {
         // ...
     }
 
@@ -211,7 +218,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param alt The alternative to return in case of null predicate or no element found.
      * @return The next element of enumerable after the first one which corresponds the condition.
      */
-    default X next(Predicate<X> prd, X alt) {
+    default T next(Predicate<T> prd, T alt) {
         // ...
     }
 
@@ -222,17 +229,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @param enm The given enumerable.
      * @return The enumerable.
      */
-    default Enumerable<X> chain(Enumerable<X> enm) {
-        // ...
-    }
-
-    /**
-     * Returns an enumerable containing first elements of specified size from the enumerable.
-     * @param size The number of elements the enumerable should be limited to.
-     * @return The enumerable.
-     * @throws IllegalArgumentException If the size is negative.
-     */
-    default Enumerable<X> take(long size) {
+    default Enumerable<T> chain(Enumerable<T> enm) {
         // ...
     }
 
@@ -243,6 +240,27 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<X> each(Consumer<X> act) {
+        // ...
+    }
+    
+    /**
+     * Returns an enumerable containing first elements of specified size from the enumerable.
+     * @param num The number of elements the enumerable should be limited to.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<X> take(long num) {
+        // ...
+    }
+
+    /**
+     * Drops first elements of specified size,
+     *  and returns an enumerable containing the rest of the elements.
+     * @param num The number of elements to be dropped.
+     * @return The enumerable.
+     * @throws IllegalArgumentException If the size is negative.
+     */
+    default Enumerable<T> drop(long num) {
         // ...
     }
 
@@ -274,7 +292,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     /**
      * The collection which you implemented in your project for some purposes.
      */
-    public class YourOwnCollection<X> extends Collection<X> implements Enumerable<X> {
+    public class YourOwnCollection<T> extends Collection<T> implements Enumerable<T> {
         //
     }
     ```
@@ -299,6 +317,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.chain(...)` | | | tbd |
     `.each(...)` | `.stream().forEach(...)` | `new ForEach<>(...).exec(...)` | tbd |
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
+    `.drop(...)` | `.stream().skip(...).collect(Collectors.toList())` | `new Sliced<>(...,...,...)`| tbd |
     `.one(...)` | `.stream().filter(...).count() == 1` | `new Filtered<>(...).size() == 1` | tbd |
 
 #### .all
@@ -400,6 +419,13 @@ Enumerable<Integer> buf = src.each(System.out::print); // [1, 2, 3] , printed: "
 ```java
 YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
 Enumerable<Integer> taken = src.take(2); // [1, 2]
+```
+
+#### .drop
+
+```java
+YourOwnCollection<Integer> src = ...     // with elements [1, 2, 3]
+Enumerable<Integer> taken = src.drop(2); // [3]
 ```
 
 #### .one

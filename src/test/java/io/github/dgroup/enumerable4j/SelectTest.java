@@ -24,6 +24,8 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Predicate;
+import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -53,10 +55,55 @@ final class SelectTest {
     }
 
     @Test
+    void negative() {
+        new Assertion<>(
+            "There are no negative values in the enumerable",
+            new Linked<>(1, 2, 3).select(val -> val < 0),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
     void nullFunction() {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new Linked<>(3, 0, 2, -1).select(null),
+            new HasValues<>(3, 0, 2, -1)
+        ).affirm();
+    }
+
+    @Test
+    void varArgsSelect() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        final Predicate<Integer> lessthan = val -> val < 5;
+        new Assertion<>(
+            "All values in enumerable are positive, even and less than 5",
+            new Linked<>(-1, 0, 1, 2, 3, 4, 5, 6).select(positive, even, lessthan),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>(2, 4)
+            )
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNegative() {
+        final Predicate<Integer> positive = val -> val > 0;
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        new Assertion<>(
+            "There are positive and even values in the enumerable, but there are no negative",
+            new Linked<>(1, 2, 3).select(positive, negative, even),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
+    void varArgsNullPredicates() {
+        new Assertion<>(
+            "In case null-function the self enumerable is expected",
+            new Linked<>(3, 0, 2, -1).select(null, null, null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }

@@ -24,7 +24,6 @@
 
 package io.github.dgroup.enumerable4j;
 
-import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -33,22 +32,22 @@ import org.llorllale.cactoos.matchers.HasValues;
 import org.llorllale.cactoos.matchers.Throws;
 
 /**
- * Test cases for {@link Enumerable#take}.
+ * Test cases for {@link Enumerable#drop}.
  *
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
  * @since 0.1.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class TakeTest {
+final class DropTest {
     @Test
-    void take() {
+    void drop() {
         new Assertion<>(
-            "Returns first 3 elements of the collection",
-            new Linked<>(-1, 0, 1, 2).take(3),
+            "Drops first 2 elements of the collection",
+            new Linked<>(1, 2, 3, 4).drop(2),
             new AllOf<>(
-                new HasSize(3),
-                new HasValues<>(-1, 0, 1)
+                new HasSize(2),
+                new HasValues<>(3, 4)
             )
         ).affirm();
     }
@@ -56,9 +55,12 @@ final class TakeTest {
     @Test
     void zeroSize() {
         new Assertion<>(
-            "In case of zero size, an empty enumeration is expected",
-            new Linked<>(1, 2, 3).take(0),
-            new IsEmptyIterable<>()
+            "In case of zero size, the original enumeration is expected",
+            new Linked<>(1, 2, 3).drop(0),
+            new AllOf<>(
+                new HasSize(3),
+                new HasValues<>(1, 2, 3)
+            )
         ).affirm();
     }
 
@@ -66,7 +68,7 @@ final class TakeTest {
     void throwExceptionOnNegativeSize() {
         new Assertion<>(
             "Must throw IllegalArgumentException if the size value is negative",
-            () -> new Linked<>(1, 2, 3).take(-1),
+            () -> new Linked<>(1, 2, 3).drop(-1),
             new Throws<>("-1", IllegalArgumentException.class)
         ).affirm();
     }
