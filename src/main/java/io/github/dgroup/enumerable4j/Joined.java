@@ -24,6 +24,7 @@
 
 package io.github.dgroup.enumerable4j;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -35,9 +36,9 @@ import java.util.function.Predicate;
 public final class Joined<X> implements Predicate<X> {
 
     /**
-     * The common predicate.
+     * The function that returns the result of executing a predicates for the provided value.
      */
-    private Predicate<X> prd;
+    private final Function<X, Boolean> fnc;
 
     /**
      * Ctor.
@@ -48,21 +49,37 @@ public final class Joined<X> implements Predicate<X> {
     @SafeVarargs
     @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     public Joined(final Predicate<X> first, final Predicate<X>... other) {
-        this.prd = val -> true;
-        if (first != null) {
-            this.prd = first;
-        }
-        if (other != null) {
-            for (final Predicate<X> oth : other) {
-                if (oth != null) {
-                    this.prd = this.prd.and(oth);
+        this(true, first, other);
+    }
+
+    /**
+     * Ctor.
+     * If the source predicate is null, it returns true-returned predicate instead.
+     * @param alt The alternative value to return.
+     * @param first The source predicate.
+     * @param other The source predicates.
+     */
+    @SafeVarargs
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
+    public Joined(final boolean alt, final Predicate<X> first, final Predicate<X>... other) {
+        this.fnc = val -> {
+            Predicate<X> prd = v -> alt;
+            if (first != null) {
+                prd = first;
+            }
+            if (other != null) {
+                for (final Predicate<X> oth : other) {
+                    if (oth != null) {
+                        prd = prd.and(oth);
+                    }
                 }
             }
-        }
+            return prd.test(val);
+        };
     }
 
     @Override
     public boolean test(final X val) {
-        return this.prd.test(val);
+        return this.fnc.apply(val);
     }
 }

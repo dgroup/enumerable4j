@@ -54,16 +54,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return True if the functions never return false or nil.
      */
     default boolean all(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> true;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return this.stream().allMatch(prd);
+        return this.stream().allMatch(new Joined<>(first, other));
     }
 
     /**
@@ -85,16 +76,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return True if the functions never returns false or nil.
      */
     default boolean none(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> false;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return this.stream().noneMatch(prd);
+        return this.stream().noneMatch(new Joined<>(false, first, other));
     }
 
     /**
@@ -106,16 +88,9 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> true;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
+        return new Linked<>(
+            this.stream().filter(new Joined<>(first, other)).collect(Collectors.toList())
+        );
     }
 
     /**
@@ -161,18 +136,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The first element of enumerable, that matches predicate.
      */
     default X find(X alt, Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> false;
-        if (first != null) {
-            prd = first;
-        }
-        if (other != null) {
-            for (final Predicate<X> oth : other) {
-                if (oth != null) {
-                    prd = prd.and(oth);
-                }
-            }
-        }
-        return this.stream().filter(prd).findFirst().orElse(alt);
+        return this.stream().filter(new Joined<>(false, first, other)).findFirst().orElse(alt);
     }
 
     /**
@@ -203,16 +167,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return Number of elements satisfying the given function.
      */
     default long count(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> true;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return this.stream().filter(prd).count();
+        return this.stream().filter(new Joined<>(first, other)).count();
     }
 
     /**
