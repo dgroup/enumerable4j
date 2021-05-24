@@ -123,10 +123,11 @@ public interface Enumerable<T> extends Collection<T> {
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
      * If no predicate (null) is given, or no element found then null is returned instead.
-     * @param prd The function to match each element.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default T find(Predicate<T> prd) {
+    default X find(Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -134,11 +135,12 @@ public interface Enumerable<T> extends Collection<T> {
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
      * If no predicate (null) is given, or no element found then alternative is returned instead.
-     * @param prd The function to match each element.
      * @param alt The alternative to return in case of null predicate or no element found.
+     * @param first The function to match each element.
+     * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default T find(Predicate<T> prd, T alt) {
+    default X find(X alt, Predicate<X> first, Predicate<X>... other) {
         // ...
     }
 
@@ -375,7 +377,7 @@ long countNegative = src.count(val -> val < 0); // 1
 ```java
 YourOwnCollection<Integer> src = ...                // with elements [-1, 0, 1]
 Integer first = src.find(val -> val > 0);           // 1 
-Integer alternative = src.find(val -> val > 5, 50); // 50                
+Integer alternative = src.find(50, val -> val > 5); // 50                
 ```
 
 #### .reduce
