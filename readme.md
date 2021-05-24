@@ -38,6 +38,7 @@
     *   [.take](#take)
     *   [.drop](#drop)
     *   [.one](#one)
+    *   [.zip](#zip)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -276,6 +277,19 @@ public interface Enumerable<T> extends Collection<T> {
     default boolean one(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
+
+    /**
+     * Returns an enumerable of collections which contains each element of original collection
+     *  and corresponding elements from each argument collections.
+     * The length of the resulting enumerable is {@link Enumerable#size}.
+     * If the size of any argument is less than {@link Enumerable#size}, null values are supplied.
+     * @param first The array of enumerable to merge.
+     * @param other The array of enumerable to merge.
+     * @return The enumerable.
+     */
+    default Enumerable<Enumerable<T>> zip(Enumerable<T> first, Enumerable<T>... other) {
+        // ...
+    }
 }
 ```
 See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
@@ -322,6 +336,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
     `.drop(...)` | `.stream().skip(...).collect(Collectors.toList())` | `new Sliced<>(...,...,...)`| tbd |
     `.one(...)` | `.stream().filter(...).count() == 1` | `new Filtered<>(...).size() == 1` | tbd |
+    `.zip(...)` | | | tbd |
 
 #### .all
 
@@ -436,6 +451,14 @@ Enumerable<Integer> taken = src.drop(2); // [3]
 ```java
 YourOwnCollection<Integer> src = ...           // with elements [-1, 0, 1]
 boolean onePositive = src.one(val -> val > 0); // true
+```
+
+#### .zip
+
+```java
+YourOwnCollection<Integer> src = ...                 // with elements [1, 2, 3]
+YourOwnCollection<Integer> src2 = ...                // with elements [4, 5, 6]
+Enumerable<Enumerable<Integer>> zip = src.zip(src2); // [[1, 4]], [2, 5], [3, 6]]
 ```
 
 ### How to contribute?

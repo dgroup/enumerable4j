@@ -23,7 +23,10 @@
  */
 package io.github.dgroup.enumerable4j;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -384,5 +387,33 @@ public interface Enumerable<X> extends Collection<X> {
      */
     default boolean one(Predicate<X> first, Predicate<X>... other) {
         return this.count(first, other) == 1;
+    }
+
+    /**
+     * Returns an enumerable of collections which contains each element of original collection
+     *  and corresponding elements from each argument collections.
+     * The length of the resulting enumerable is {@link Enumerable#size}.
+     * If the size of any argument is less than {@link Enumerable#size}, null values are supplied.
+     * @param first The array of enumerable to merge.
+     * @param other The array of enumerable to merge.
+     * @return The enumerable.
+     */
+    default Enumerable<? extends Enumerable<X>> zip(Enumerable<X> first, Enumerable<X>... other) {
+        final List<Enumerable<X>> enms = new ArrayList<>(0);
+        enms.add(first);
+        enms.addAll(Arrays.asList(other));
+        final Enumerable<Enumerable<X>> out = new Linked<>();
+        for (int idx = 0; idx < this.size(); ++idx) {
+            final Linked<X> inner = new Linked<>(((Linked<X>) this).get(idx));
+            for (final Enumerable<X> enm : enms) {
+                X val = null;
+                if (enm != null && idx < enm.size()) {
+                    val = ((Linked<X>) enm).get(idx);
+                }
+                inner.add(val);
+            }
+            out.add(inner);
+        }
+        return out;
     }
 }
