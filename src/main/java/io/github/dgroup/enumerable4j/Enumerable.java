@@ -106,9 +106,11 @@ public interface Enumerable<X> extends Collection<X> {
         if (first != null) {
             prd = first.negate();
         }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth.negate());
+        if (other != null) {
+            for (final Predicate<X> oth : other) {
+                if (oth != null) {
+                    prd = prd.and(oth.negate());
+                }
             }
         }
         return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
