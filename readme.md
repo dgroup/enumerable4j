@@ -127,7 +127,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default X find(Predicate<X> first, Predicate<X>... other) {
+    default T find(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -140,7 +140,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default X find(X alt, Predicate<X> first, Predicate<X>... other) {
+    default T find(X alt, Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -148,10 +148,10 @@ public interface Enumerable<T> extends Collection<T> {
      * Returns an enumerable containing all elements, on which given function was applied.
      * If no function (null) is given, then 'this' is returned instead.
      * @param fnc The function to apply to each element.
-     * @param <Y> The type of target entity.
+     * @param <R> The type of target entity.
      * @return The enumerable.
      */
-    default <Y> Enumerable<Y> map(Function<? super T, ? extends Y> fnc) {
+    default <R> Enumerable<R> map(Function<? super T, ? extends R> fnc) {
         // ...
     }
 
