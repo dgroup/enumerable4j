@@ -107,4 +107,13 @@ final class SelectTest {
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }
+
+    @Test
+    void nullVarArgs() {
+        new Assertion<>(
+            "In null-vararg case the self enumerable is expected",
+            new Linked<>(3, 0, 2, -1).select(null, null),
+            new HasValues<>(3, 0, 2, -1)
+        ).affirm();
+    }
 }

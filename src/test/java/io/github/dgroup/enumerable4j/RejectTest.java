@@ -55,7 +55,7 @@ final class RejectTest {
     }
 
     @Test
-    void negate() {
+    void negative() {
         new Assertion<>(
             "All values from enumerable found",
             new Linked<>(1, 2, 3).reject(val -> val > 0),
@@ -87,7 +87,7 @@ final class RejectTest {
     }
 
     @Test
-    void varArgsNegate() {
+    void varArgsNegative() {
         final Predicate<Integer> negative = val -> val < 0;
         final Predicate<Integer> even = val -> (val & 1) == 0;
         new Assertion<>(
@@ -102,6 +102,15 @@ final class RejectTest {
         new Assertion<>(
             "In case null-function the self enumerable is expected",
             new Linked<>(3, 0, 2, -1).reject(null, null, null),
+            new HasValues<>(3, 0, 2, -1)
+        ).affirm();
+    }
+
+    @Test
+    void nullVarArgs() {
+        new Assertion<>(
+            "In null-vararg case the self enumerable is expected",
+            new Linked<>(3, 0, 2, -1).reject(null, null),
             new HasValues<>(3, 0, 2, -1)
         ).affirm();
     }
