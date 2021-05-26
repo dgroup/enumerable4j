@@ -38,6 +38,7 @@
     *   [.take](#take)
     *   [.drop](#drop)
     *   [.one](#one)
+    *   [.uniq](#uniq)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -282,7 +283,7 @@ public interface Enumerable<T> extends Collection<T> {
      * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
      * @return The enumerable.
      */
-    default Enumerable<T> unique() {
+    default Enumerable<T> uniq() {
         // ...
     }
 
@@ -294,7 +295,7 @@ public interface Enumerable<T> extends Collection<T> {
      * @param <R> The type of function result entity.
      * @return The enumerable.
      */
-    default <R> Enumerable<T> unique(Function<? super T, ? extends R> fnc) {
+    default <R> Enumerable<T> uniq(Function<? super T, ? extends R> fnc) {
         // ...
     }
 }
@@ -343,7 +344,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
     `.drop(...)` | `.stream().skip(...).collect(Collectors.toList())` | `new Sliced<>(...,...,...)`| tbd |
     `.one(...)` | `.stream().filter(...).count() == 1` | `new Filtered<>(...).size() == 1` | tbd |
-    `.unique(...)` | `.stream().skip(...).collect(Collectors.toSet())` | | tbd |
+    `.uniq(...)` | `.stream().skip(...).collect(Collectors.toSet())` | | tbd |
 
 #### .all
 
@@ -460,12 +461,12 @@ YourOwnCollection<Integer> src = ...           // with elements [-1, 0, 1]
 boolean onePositive = src.one(val -> val > 0); // true
 ```
 
-#### .unique
+#### .uniq
 
 ```java
 YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4], [1, 2], [3, 4, 5]]
-Enumerable<Linked<Integer>> unique = src.unique();                       // [[1, 2], [3, 4], [3, 4, 5]]
-Enumerable<Linked<Integer>> uniqueByKey = src.unique(enm -> enm.get(0)); // [[1, 2], [3, 4]]
+Enumerable<Linked<Integer>> unique = src.uniq();                       // [[1, 2], [3, 4], [3, 4, 5]]
+Enumerable<Linked<Integer>> uniqueByKey = src.uniq(enm -> enm.get(0)); // [[1, 2], [3, 4]]
 ```
 
 ### How to contribute?

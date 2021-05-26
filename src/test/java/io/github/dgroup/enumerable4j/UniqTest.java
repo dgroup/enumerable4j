@@ -33,7 +33,7 @@ import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link Enumerable#unique}.
+ * Test cases for {@link Enumerable#uniq}.
  *
  * @since 0.1.0
  * @checkstyle MagicNumberCheck (100 lines)
@@ -41,7 +41,7 @@ import org.llorllale.cactoos.matchers.HasValues;
  * @checkstyle ClassDataAbstractionCouplingCheck (100 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class UniqueMethodTest {
+final class UniqTest {
 
     @Test
     void nullFunction() {
@@ -51,7 +51,7 @@ final class UniqueMethodTest {
         );
         new Assertion<>(
             "In case of a null function, an empty enumeration is expected",
-            enumerable.unique(null),
+            enumerable.uniq(null),
             new IsEmptyIterable<>()
         ).affirm();
     }
@@ -60,7 +60,7 @@ final class UniqueMethodTest {
     void unique() {
         new Assertion<>(
             "Unique values of the enumerable",
-            new Linked<>(4, 4, 6, 7, 7, 5).unique(),
+            new Linked<>(4, 4, 6, 7, 7, 5).uniq(),
             new AllOf<>(
                 new HasSize(4),
                 new HasEqualValues<>(new Linked<>(4, 6, 7, 5))
@@ -78,7 +78,7 @@ final class UniqueMethodTest {
         );
         new Assertion<>(
             "Got unique collections by their first elements",
-            enumerable.unique(e -> e.get(0)),
+            enumerable.uniq(e -> e.get(0)),
             new AllOf<>(
                 new HasSize(2),
                 new HasValues<>(
@@ -94,7 +94,7 @@ final class UniqueMethodTest {
         final Enumerable<Integer> enumerable = new Empty<>();
         new Assertion<>(
             "In case of a null function, an empty enumeration is expected",
-            enumerable.unique(null),
+            enumerable.uniq(null),
             new IsEmptyIterable<>()
         ).affirm();
     }
