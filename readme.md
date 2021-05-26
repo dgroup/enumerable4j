@@ -277,7 +277,6 @@ public interface Enumerable<T> extends Collection<T> {
         // ...
     }
 
-
     /**
      * Returns a new enumerable containing the unique elements.
      * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
