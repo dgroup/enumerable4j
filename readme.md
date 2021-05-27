@@ -38,6 +38,7 @@
     *   [.take](#take)
     *   [.drop](#drop)
     *   [.one](#one)
+    *   [.uniq](#uniq)
     *   [.zip](#zip)
 
 *   [How to contribute?](#how-to-contribute)
@@ -279,6 +280,27 @@ public interface Enumerable<T> extends Collection<T> {
     }
 
     /**
+     * Returns a new enumerable containing the unique elements.
+     * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
+     * @return The enumerable.
+     */
+    default Enumerable<T> uniq() {
+        // ...
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements which corresponds the condition
+     *  of the given function.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <R> The type of function result entity.
+     * @return The enumerable.
+     */
+    default <R> Enumerable<T> uniq(Function<? super T, ? extends R> fnc) {
+        // ...
+    }
+
+    /**
      * Returns an enumerable of collections which contains each element of original collection
      *  and corresponding elements from each argument collections.
      * The length of the resulting enumerable is {@link Enumerable#size}.
@@ -336,6 +358,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
     `.drop(...)` | `.stream().skip(...).collect(Collectors.toList())` | `new Sliced<>(...,...,...)`| tbd |
     `.one(...)` | `.stream().filter(...).count() == 1` | `new Filtered<>(...).size() == 1` | tbd |
+    `.uniq(...)` | `.stream().skip(...).collect(Collectors.toSet())` | | tbd |
     `.zip(...)` | | | tbd |
 
 #### .all
@@ -451,6 +474,14 @@ Enumerable<Integer> taken = src.drop(2); // [3]
 ```java
 YourOwnCollection<Integer> src = ...           // with elements [-1, 0, 1]
 boolean onePositive = src.one(val -> val > 0); // true
+```
+
+#### .uniq
+
+```java
+YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4], [1, 2], [3, 4, 5]]
+Enumerable<Linked<Integer>> unique = src.uniq();                       // [[1, 2], [3, 4], [3, 4, 5]]
+Enumerable<Linked<Integer>> uniqueByKey = src.uniq(enm -> enm.get(0)); // [[1, 2], [3, 4]]
 ```
 
 #### .zip

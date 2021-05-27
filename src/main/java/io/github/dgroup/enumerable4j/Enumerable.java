@@ -26,7 +26,9 @@ package io.github.dgroup.enumerable4j;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -344,6 +346,42 @@ public interface Enumerable<X> extends Collection<X> {
      */
     default boolean one(Predicate<X> first, Predicate<X>... other) {
         return this.count(first, other) == 1;
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements.
+     * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
+     * @return The enumerable.
+     */
+    default Enumerable<X> uniq() {
+        return new Linked<>(new HashSet<>(this));
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements which corresponds the condition
+     *  of the given function.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <Y> The type of function result entity.
+     * @return The enumerable.
+     */
+    default <Y> Enumerable<X> uniq(Function<? super X, ? extends Y> fnc) {
+        final Enumerable<X> out;
+        if (fnc == null) {
+            out = new Empty<>();
+        } else {
+            final Set<Y> keys = new HashSet<>(0);
+            final List<X> values = new ArrayList<>(0);
+            for (final X val : this) {
+                final Y key = fnc.apply(val);
+                if (!keys.contains(key)) {
+                    keys.add(key);
+                    values.add(val);
+                }
+            }
+            out = new Linked<>(values);
+        }
+        return out;
     }
 
     /**
