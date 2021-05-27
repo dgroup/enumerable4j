@@ -32,7 +32,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * The iterable with primitive operations witch simplify typical actions like count, map, etc.
@@ -93,7 +92,7 @@ public interface Enumerable<X> extends Collection<X> {
      */
     default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
         return new Linked<>(
-            this.stream().filter(new Joined<>(first, other)).collect(Collectors.toList())
+            this.stream().filter(new Joined<>(first, other))
         );
     }
 
@@ -117,7 +116,7 @@ public interface Enumerable<X> extends Collection<X> {
                 }
             }
         }
-        return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
+        return new Linked<>(this.stream().filter(prd));
     }
 
     /**
@@ -157,9 +156,7 @@ public interface Enumerable<X> extends Collection<X> {
         if (fnc == null) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(
-                this.stream().map(fnc).collect(Collectors.toList())
-            );
+            out = new Linked<>(this.stream().map(fnc));
         }
         return out;
     }
@@ -308,9 +305,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(
-                this.stream().limit(num).collect(Collectors.toList())
-            );
+            out = new Linked<>(this.stream().limit(num));
         }
         return out;
     }
@@ -329,9 +324,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = this;
         } else {
-            out = new Linked<>(
-                this.stream().skip(num).collect(Collectors.toList())
-            );
+            out = new Linked<>(this.stream().skip(num));
         }
         return out;
     }
