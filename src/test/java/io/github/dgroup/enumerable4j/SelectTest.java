@@ -66,9 +66,9 @@ final class SelectTest {
     @Test
     void nullFunction() {
         new Assertion<>(
-            "In case null-function the self enumerable is expected",
+            "In case null-function an empty enumerable is returned",
             new Linked<>(3, 0, 2, -1).select(null),
-            new HasValues<>(3, 0, 2, -1)
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
@@ -102,18 +102,18 @@ final class SelectTest {
     @Test
     void varArgsNullPredicates() {
         new Assertion<>(
-            "In case null-function the self enumerable is expected",
+            "In case null-function an empty enumerable is returned",
             new Linked<>(3, 0, 2, -1).select(null, null, null),
-            new HasValues<>(3, 0, 2, -1)
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
     @Test
     void nullVarArgs() {
         new Assertion<>(
-            "In null-vararg case the self enumerable is expected",
+            "In null-vararg case an empty enumerable is returned",
             new Linked<>(3, 0, 2, -1).select(null, null),
-            new HasValues<>(3, 0, 2, -1)
+            new IsEmptyIterable<>()
         ).affirm();
     }
 }

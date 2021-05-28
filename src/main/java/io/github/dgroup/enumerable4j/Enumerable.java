@@ -51,10 +51,11 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Passes each element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
-     * @return True if the functions never return false or nil.
+     * @return True if the functions never return false.
      */
     default boolean all(Predicate<X> first, Predicate<X>... other) {
         return this.stream().allMatch(new Joined<>(first, other));
@@ -62,10 +63,11 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Passes at least one element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match at least one element.
      * @param other The array of functions to match at least one element.
-     * @return True if the functions never return false or nil.
+     * @return True if functions never return true at least once.
      */
     default boolean any(Predicate<X> first, Predicate<X>... other) {
         return this.count(first, other) != 0;
@@ -73,19 +75,21 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Doesn't passes elements of the collection to the each given function.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, then true is returned instead.
      * @param first The function to match none elements.
      * @param other The array of functions to match none elements.
      * @return True if the functions never returns false or nil.
      */
     default boolean none(Predicate<X> first, Predicate<X>... other) {
-        return this.stream().noneMatch(new Joined<>(false, first, other));
+        return this.stream().noneMatch(new Joined<>(first, other));
     }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
-     * If no predicate (null) is given, then 'this' is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then an empty enumerable is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return The enumerable.
@@ -99,6 +103,7 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a false value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, then 'this' is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
@@ -122,6 +127,7 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, or no element found then null is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
@@ -134,6 +140,7 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, or no element found then alternative is returned instead.
      * @param alt The alternative to return in case of null predicate or no element found.
      * @param first The function to match each element.
@@ -141,7 +148,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The first element of enumerable, that matches predicate.
      */
     default X find(X alt, Predicate<X> first, Predicate<X>... other) {
-        return this.stream().filter(new Joined<>(false, first, other)).findFirst().orElse(alt);
+        return this.stream().filter(new Joined<>(first, other)).findFirst().orElse(alt);
     }
 
     /**
@@ -164,7 +171,8 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Returns the number of elements that are present in enumerable for which the given
      * function return true.
-     * If no function (null) is given, then 'size' is returned instead.
+     * The given null predicates are skipped.
+     * If no function (null) is given, then 0 is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return Number of elements satisfying the given function.
@@ -330,8 +338,9 @@ public interface Enumerable<X> extends Collection<X> {
     }
 
     /**
-     * Passes each element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The method returns true if the functions return true exactly once.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return True if the functions returns true exactly once.

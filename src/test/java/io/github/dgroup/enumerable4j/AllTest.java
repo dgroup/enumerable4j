@@ -61,9 +61,9 @@ final class AllTest {
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case of null predicate we get true",
+            "In case of null predicate we get false",
             new Linked<>(1, 2, 3).all(null),
-            new IsTrue()
+            new IsEqual<>(false)
         ).affirm();
     }
 
@@ -93,18 +93,18 @@ final class AllTest {
     @Test
     void varArgsNullPredicates() {
         new Assertion<>(
-            "In case of varargs null predicates we get true",
+            "In case of varargs null predicates we get false",
             new Linked<>(1, 2, 3).all(null, null, null),
-            new IsTrue()
+            new IsEqual<>(false)
         ).affirm();
     }
 
     @Test
     void nullVarArgs() {
         new Assertion<>(
-            "In case of null varargs we get true",
+            "In case of null varargs we get false",
             new Linked<>(1, 2, 3).all(null, null),
-            new IsTrue()
+            new IsEqual<>(false)
         ).affirm();
     }
 }
