@@ -23,10 +23,8 @@
  */
 package io.github.dgroup.enumerable4j;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -372,15 +370,9 @@ public interface Enumerable<X> extends Collection<X> {
             out = new Empty<>();
         } else {
             final Set<Y> keys = new HashSet<>(0);
-            final List<X> values = new ArrayList<>(0);
-            for (final X val : this) {
-                final Y key = fnc.apply(val);
-                if (!keys.contains(key)) {
-                    keys.add(key);
-                    values.add(val);
-                }
-            }
-            out = new Linked<>(values.iterator());
+            out = new Linked<>(
+                this.stream().filter(val -> keys.add(fnc.apply(val))).iterator()
+            );
         }
         return out;
     }
