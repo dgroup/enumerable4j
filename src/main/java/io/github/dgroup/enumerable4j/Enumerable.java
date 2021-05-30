@@ -158,8 +158,8 @@ public interface Enumerable<X> extends Collection<X> {
      * @param <Y> The type of target entity.
      * @return The enumerable.
      */
-    default <Y> Enumerable<? extends Y> map(Function<? super X, ? extends Y> fnc) {
-        final Enumerable<? extends Y> out;
+    default <Y> Enumerable<Y> map(Function<? super X, Y> fnc) {
+        final Enumerable<Y> out;
         if (fnc == null) {
             out = new Empty<>();
         } else {
