@@ -42,28 +42,16 @@ public final class Joined<X> implements Predicate<X> {
 
     /**
      * Ctor.
-     * If the source predicate is null, it returns true-returned predicate instead.
+     * The null predicates are skipped.
+     * If all predicates are null, it contains the false-returned predicate instead.
      * @param first The source predicate.
      * @param other The source predicates.
      */
     @SafeVarargs
     @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     public Joined(final Predicate<X> first, final Predicate<X>... other) {
-        this(true, first, other);
-    }
-
-    /**
-     * Ctor.
-     * If the source predicate is null, it returns true-returned predicate instead.
-     * @param alt The alternative value to return.
-     * @param first The source predicate.
-     * @param other The source predicates.
-     */
-    @SafeVarargs
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
-    public Joined(final boolean alt, final Predicate<X> first, final Predicate<X>... other) {
         this.fnc = val -> {
-            Predicate<X> prd = v -> alt;
+            Predicate<X> prd = v -> false;
             if (first != null) {
                 prd = first;
             }

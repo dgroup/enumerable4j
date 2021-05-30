@@ -27,6 +27,7 @@ package io.github.dgroup.enumerable4j;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
@@ -74,15 +75,22 @@ final class JoinedTest {
     }
 
     @Test
-    void nullPredicate() {
+    void nullArgument() {
+        final Joined<Integer> joined = new Joined<>(null);
+        new Assertion<>(
+            "In case of null argument we get the false-returned predicate in filter",
+            Stream.of(1, 2, 3).filter(joined).collect(Collectors.toList()),
+            new IsEmptyIterable<>()
+        ).affirm();
+    }
+
+    @Test
+    void nullArguments() {
         final Joined<Integer> joined = new Joined<>(null, null);
         new Assertion<>(
-            "In case of null-predicates, we get the true-returned predicate",
-            Stream.of(-2, -1, 0, 1, 2).filter(joined).collect(Collectors.toList()),
-            new AllOf<>(
-                new HasSize(5),
-                new HasValues<>(-2, -1, 0, 1, 2)
-            )
+            "In case of null arguments we get the false-returned predicate in filter",
+            Stream.of(1, 2, 3).filter(joined).collect(Collectors.toList()),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
@@ -90,12 +98,9 @@ final class JoinedTest {
     void nullPredicates() {
         final Joined<Integer> joined = new Joined<>(null, null, null);
         new Assertion<>(
-            "In case of null-predicates, we get the true-returned predicate",
-            Stream.of(-2, -1, 0, 1, 2).filter(joined).collect(Collectors.toList()),
-            new AllOf<>(
-                new HasSize(5),
-                new HasValues<>(-2, -1, 0, 1, 2)
-            )
+            "In case of null predicates we get the false-returned predicate in filter",
+            Stream.of(1, 2, 3).filter(joined).collect(Collectors.toList()),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 
