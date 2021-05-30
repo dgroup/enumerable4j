@@ -96,7 +96,7 @@ public interface Enumerable<X> extends Collection<X> {
      */
     default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
         return new Linked<>(
-            this.stream().filter(new Joined<>(first, other))
+            this.stream().filter(new Joined<>(first, other)).iterator()
         );
     }
 
@@ -121,7 +121,7 @@ public interface Enumerable<X> extends Collection<X> {
                 }
             }
         }
-        return new Linked<>(this.stream().filter(prd));
+        return new Linked<>(this.stream().filter(prd).iterator());
     }
 
     /**
@@ -158,12 +158,12 @@ public interface Enumerable<X> extends Collection<X> {
      * @param <Y> The type of target entity.
      * @return The enumerable.
      */
-    default <Y> Enumerable<Y> map(Function<? super X, ? extends Y> fnc) {
-        final Enumerable<Y> out;
+    default <Y> Enumerable<? extends Y> map(Function<? super X, ? extends Y> fnc) {
+        final Enumerable<? extends Y> out;
         if (fnc == null) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(this.stream().map(fnc));
+            out = new Linked<>(this.stream().map(fnc).iterator());
         }
         return out;
     }
@@ -313,7 +313,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(this.stream().limit(num));
+            out = new Linked<>(this.stream().limit(num).iterator());
         }
         return out;
     }
@@ -332,7 +332,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = this;
         } else {
-            out = new Linked<>(this.stream().skip(num));
+            out = new Linked<>(this.stream().skip(num).iterator());
         }
         return out;
     }
@@ -380,7 +380,7 @@ public interface Enumerable<X> extends Collection<X> {
                     values.add(val);
                 }
             }
-            out = new Linked<>(values);
+            out = new Linked<>(values.iterator());
         }
         return out;
     }
