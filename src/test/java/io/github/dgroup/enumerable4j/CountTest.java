@@ -59,9 +59,9 @@ final class CountTest {
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case of null predicate it will work as size",
+            "In case of null predicate we get 0",
             new Linked<>(1, 2, 3).count(null),
-            new IsEqual<>(3L)
+            new IsEqual<>(0L)
         ).affirm();
     }
 
@@ -90,9 +90,9 @@ final class CountTest {
     @Test
     void varArgsNullPredicate() {
         new Assertion<>(
-            "In case of null predicate it will work as size",
+            "In case of null predicate we get 0",
             new Linked<>(1, 2, 3).count(null, null, null),
-            new IsEqual<>(3L)
+            new IsEqual<>(0L)
         ).affirm();
     }
 }
