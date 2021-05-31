@@ -80,11 +80,11 @@ final class NoneTest {
 
     @Test
     void varArgsNegative() {
-        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> greaterthan = val -> val > -1;
         final Predicate<Integer> positive = val -> val > 0;
         new Assertion<>(
-            "There are no negative values in the enumerable, but there are positive",
-            new Linked<>(1, 2, 3).all(negative, positive),
+            "There are some positive and greater than -1 values in the enumerable",
+            new Linked<>(1, 2, 3).none(greaterthan, positive),
             new IsEqual<>(false)
         ).affirm();
     }
@@ -94,6 +94,15 @@ final class NoneTest {
         new Assertion<>(
             "In case of null predicate we will get true",
             new Linked<>(1, 2, 3).none(null, null, null),
+            new IsTrue()
+        ).affirm();
+    }
+
+    @Test
+    void nullVarArgs() {
+        new Assertion<>(
+            "In null-vararg case we will get true",
+            new Linked<>(1, 2, 3).none(null, null),
             new IsTrue()
         ).affirm();
     }

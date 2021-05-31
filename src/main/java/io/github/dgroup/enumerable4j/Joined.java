@@ -21,43 +21,53 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
  * OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 package io.github.dgroup.enumerable4j;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.cactoos.list.ListEnvelope;
-import org.cactoos.list.ListOf;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
- * The enumerable based on linked list.
+ * The class combines all predicates into one common predicate.
  *
  * @param <X> The type of entities.
  * @since 0.1.0
  */
-public class Linked<X> extends ListEnvelope<X> implements Enumerable<X> {
+public final class Joined<X> implements Predicate<X> {
+
+    /**
+     * The function that returns the result of executing a predicates for the provided value.
+     */
+    private final Function<X, Boolean> fnc;
 
     /**
      * Ctor.
-     * @param src The source items.
+     * The null predicates are skipped.
+     * If all predicates are null, it contains the false-returned predicate instead.
+     * @param first The source predicate.
+     * @param other The source predicates.
      */
     @SafeVarargs
-    public Linked(final X... src) {
-        super(new ListOf<>(src));
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
+    public Joined(final Predicate<X> first, final Predicate<X>... other) {
+        this.fnc = val -> {
+            Predicate<X> prd = v -> false;
+            if (first != null) {
+                prd = first;
+            }
+            if (other != null) {
+                for (final Predicate<X> oth : other) {
+                    if (oth != null) {
+                        prd = prd.and(oth);
+                    }
+                }
+            }
+            return prd.test(val);
+        };
     }
 
-    /**
-     * Ctor.
-     * @param src The source items.
-     */
-    public Linked(final Iterable<X> src) {
-        super(new ListOf<>(src));
-    }
-
-    /**
-     * Ctor.
-     * @param stream The stream of source items.
-     */
-    public Linked(final Stream<X> stream) {
-        super(stream.collect(Collectors.toList()));
+    @Override
+    public boolean test(final X val) {
+        return this.fnc.apply(val);
     }
 }

@@ -60,9 +60,9 @@ final class AnyTest {
     @Test
     void nullPredicate() {
         new Assertion<>(
-            "In case of null predicate we will get true",
+            "In case of null predicate we will get false",
             new Linked<>(1, 2, 3).any(null),
-            new IsTrue()
+            new IsEqual<>(false)
         ).affirm();
     }
 
@@ -79,11 +79,32 @@ final class AnyTest {
     }
 
     @Test
+    void varArgsNegative() {
+        final Predicate<Integer> negative = val -> val < 0;
+        final Predicate<Integer> even = val -> (val & 1) == 0;
+        final Predicate<Integer> lessthan = val -> val > 6;
+        new Assertion<>(
+            "There are no values in enumerable which are negative, even or greater than 6",
+            new Linked<>(1, 3, 5).any(negative, even, lessthan),
+            new IsEqual<>(false)
+        ).affirm();
+    }
+
+    @Test
     void varArgsNullPredicates() {
         new Assertion<>(
-            "In case of null predicate we will get true",
+            "In case of null predicate we will get false",
             new Linked<>(1, 2, 3).any(null, null, null),
-            new IsTrue()
+            new IsEqual<>(false)
+        ).affirm();
+    }
+
+    @Test
+    void nullVarArgs() {
+        new Assertion<>(
+            "In case of null varargs we get false",
+            new Linked<>(1, 2, 3).any(null, null),
+            new IsEqual<>(false)
         ).affirm();
     }
 }

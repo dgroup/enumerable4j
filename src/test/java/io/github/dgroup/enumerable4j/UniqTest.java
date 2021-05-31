@@ -24,94 +24,78 @@
 
 package io.github.dgroup.enumerable4j;
 
-import java.util.function.Predicate;
 import org.hamcrest.collection.IsEmptyIterable;
 import org.hamcrest.core.AllOf;
+import org.hamcrest.object.HasEqualValues;
 import org.junit.jupiter.api.Test;
 import org.llorllale.cactoos.matchers.Assertion;
 import org.llorllale.cactoos.matchers.HasSize;
 import org.llorllale.cactoos.matchers.HasValues;
 
 /**
- * Test cases for {@link Enumerable#reject}.
+ * Test cases for {@link Enumerable#uniq}.
  *
  * @since 0.1.0
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (100 lines)
+ * @checkstyle JavadocMethodCheck (100 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (100 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class RejectTest {
-
-    @Test
-    void reject() {
-        new Assertion<>(
-            "Negative values from enumerable found",
-            new Linked<>(1, 2, 3, -1).reject(val -> val > 0),
-            new AllOf<>(
-                new HasSize(1),
-                new HasValues<>(-1)
-            )
-        ).affirm();
-    }
-
-    @Test
-    void negative() {
-        new Assertion<>(
-            "All values from enumerable found",
-            new Linked<>(1, 2, 3).reject(val -> val > 0),
-            new IsEmptyIterable<>()
-        ).affirm();
-    }
+final class UniqTest {
 
     @Test
     void nullFunction() {
+        final Enumerable<Linked<Integer>> enumerable = new Linked<>(
+            new Linked<>(1, 2, 3),
+            new Linked<>(4, 5)
+        );
         new Assertion<>(
-            "In case null-function the self enumerable is expected",
-            new Linked<>(3, 0, 2, -1).reject(null),
-            new HasValues<>(3, 0, 2, -1)
-        ).affirm();
-    }
-
-    @Test
-    void varArgsReject() {
-        final Predicate<Integer> negative = val -> val < 0;
-        final Predicate<Integer> even = val -> (val & 1) == 0;
-        new Assertion<>(
-            "Negative values from enumerable found",
-            new Linked<>(1, 2, 3, -1).reject(negative, even),
-            new AllOf<>(
-                new HasSize(2),
-                new HasValues<>(1, 3)
-            )
-        ).affirm();
-    }
-
-    @Test
-    void varArgsNegative() {
-        final Predicate<Integer> negative = val -> val < 0;
-        final Predicate<Integer> even = val -> (val & 1) == 0;
-        new Assertion<>(
-            "No values from enumerable found",
-            new Linked<>(2, 4, 6).reject(negative, even),
+            "In case of a null function, an empty enumeration is expected",
+            enumerable.uniq(null),
             new IsEmptyIterable<>()
         ).affirm();
     }
 
     @Test
-    void varArgsNullFunction() {
+    void unique() {
         new Assertion<>(
-            "In case null-function the self enumerable is expected",
-            new Linked<>(3, 0, 2, -1).reject(null, null, null),
-            new HasValues<>(3, 0, 2, -1)
+            "Unique values of the enumerable",
+            new Linked<>(4, 4, 6, 7, 7, 5).uniq(),
+            new AllOf<>(
+                new HasSize(4),
+                new HasEqualValues<>(new Linked<>(4, 6, 7, 5))
+            )
         ).affirm();
     }
 
     @Test
-    void nullVarArgs() {
+    void uniqueByKey() {
+        final Enumerable<Linked<String>> enumerable = new Linked<>(
+            new Linked<>("a", "b", "c"),
+            new Linked<>("c"),
+            new Linked<>("c", "d", "e"),
+            new Linked<>("a", "z")
+        );
         new Assertion<>(
-            "In null-vararg case the self enumerable is expected",
-            new Linked<>(3, 0, 2, -1).reject(null, null),
-            new HasValues<>(3, 0, 2, -1)
+            "Got unique collections by their first elements",
+            enumerable.uniq(e -> e.get(0)),
+            new AllOf<>(
+                new HasSize(2),
+                new HasValues<>(
+                    new Linked<>("a", "b", "c"),
+                    new Linked<>("c")
+                )
+            )
+        ).affirm();
+    }
+
+    @Test
+    void emptyEnumerable() {
+        final Enumerable<Integer> enumerable = new Empty<>();
+        new Assertion<>(
+            "In case of a null function, an empty enumeration is expected",
+            enumerable.uniq(null),
+            new IsEmptyIterable<>()
         ).affirm();
     }
 }

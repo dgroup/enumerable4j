@@ -38,6 +38,7 @@
     *   [.take](#take)
     *   [.drop](#drop)
     *   [.one](#one)
+    *   [.uniq](#uniq)
 
 *   [How to contribute?](#how-to-contribute)
 
@@ -64,10 +65,11 @@ ported to `java` as interface with set of default methods which simplify typical
 public interface Enumerable<T> extends Collection<T> {
     /**
      * Passes each element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
-     * @return True if the functions never return false or nil.
+     * @return True if the functions never return false.
      */
     default boolean all(Predicate<T> first, Predicate<T>... other) {
         // ...
@@ -75,10 +77,11 @@ public interface Enumerable<T> extends Collection<T> {
 
     /**
      * Passes at least one element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match at least one element.
      * @param other The array of functions to match at least one element.
-     * @return True if the functions never return false or nil.
+     * @return True if functions never return true at least once.
      */
     default boolean any(Predicate<T> first, Predicate<T>... other) {
         // ...
@@ -86,6 +89,7 @@ public interface Enumerable<T> extends Collection<T> {
 
     /**
      * Doesn't passes elements of the collection to the each given function.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, then true is returned instead.
      * @param first The function to match none elements.
      * @param other The array of functions to match none elements.
@@ -98,7 +102,8 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
-     * If no predicate (null) is given, then 'this' is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then an empty enumerable is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return The enumerable.
@@ -110,6 +115,7 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a false value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, then 'this' is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
@@ -122,25 +128,27 @@ public interface Enumerable<T> extends Collection<T> {
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, or no element found then null is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default X find(Predicate<X> first, Predicate<X>... other) {
+    default T find(Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, or no element found then alternative is returned instead.
      * @param alt The alternative to return in case of null predicate or no element found.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return The first element of enumerable, that matches predicate.
      */
-    default X find(X alt, Predicate<X> first, Predicate<X>... other) {
+    default T find(X alt, Predicate<T> first, Predicate<T>... other) {
         // ...
     }
 
@@ -148,17 +156,18 @@ public interface Enumerable<T> extends Collection<T> {
      * Returns an enumerable containing all elements, on which given function was applied.
      * If no function (null) is given, then 'this' is returned instead.
      * @param fnc The function to apply to each element.
-     * @param <Y> The type of target entity.
+     * @param <R> The type of target entity.
      * @return The enumerable.
      */
-    default <Y> Enumerable<Y> map(Function<? super T, ? extends Y> fnc) {
+    default <R> Enumerable<R> map(Function<? super T, ? extends R> fnc) {
         // ...
     }
 
     /**
      * Returns the number of elements that are present in enumerable for which the given
      * function return true.
-     * If no function (null) is given, then 'size' is returned instead.
+     * The given null predicates are skipped.
+     * If no function (null) is given, then 0 is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return Number of elements satisfying the given function.
@@ -267,13 +276,35 @@ public interface Enumerable<T> extends Collection<T> {
     }
 
     /**
-     * Passes each element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The method returns true if the functions return true exactly once.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return True if the functions returns true exactly once.
      */
     default boolean one(Predicate<T> first, Predicate<T>... other) {
+        // ...
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements.
+     * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
+     * @return The enumerable.
+     */
+    default Enumerable<T> uniq() {
+        // ...
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements which corresponds the condition
+     *  of the given function.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <R> The type of function result entity.
+     * @return The enumerable.
+     */
+    default <R> Enumerable<T> uniq(Function<? super T, ? extends R> fnc) {
         // ...
     }
 }
@@ -322,6 +353,7 @@ See [more](./src/main/java/io/github/dgroup/enumerable4j/Enumerable.java).
     `.take(...)` | `.stream().limit(...).collect(Collectors.toList())` | `new Sliced<>(0,...,...)` | tbd |
     `.drop(...)` | `.stream().skip(...).collect(Collectors.toList())` | `new Sliced<>(...,...,...)`| tbd |
     `.one(...)` | `.stream().filter(...).count() == 1` | `new Filtered<>(...).size() == 1` | tbd |
+    `.uniq(...)` | `.stream().skip(...).collect(Collectors.toSet())` | | tbd |
 
 #### .all
 
@@ -436,6 +468,14 @@ Enumerable<Integer> taken = src.drop(2); // [3]
 ```java
 YourOwnCollection<Integer> src = ...           // with elements [-1, 0, 1]
 boolean onePositive = src.one(val -> val > 0); // true
+```
+
+#### .uniq
+
+```java
+YourOwnCollection<Linked<Integer>> src = ...                             // with elements [[1, 2], [3, 4], [1, 2], [3, 4, 5]]
+Enumerable<Linked<Integer>> unique = src.uniq();                       // [[1, 2], [3, 4], [3, 4, 5]]
+Enumerable<Linked<Integer>> uniqueByKey = src.uniq(enm -> enm.get(0)); // [[1, 2], [3, 4]]
 ```
 
 ### How to contribute?

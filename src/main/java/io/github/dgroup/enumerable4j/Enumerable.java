@@ -23,12 +23,15 @@
  */
 package io.github.dgroup.enumerable4j;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * The iterable with primitive operations witch simplify typical actions like count, map, etc.
@@ -48,30 +51,23 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Passes each element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
-     * @return True if the functions never return false or nil.
+     * @return True if the functions never return false.
      */
     default boolean all(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> true;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return this.stream().allMatch(prd);
+        return this.stream().allMatch(new Joined<>(first, other));
     }
 
     /**
      * Passes at least one element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match at least one element.
      * @param other The array of functions to match at least one element.
-     * @return True if the functions never return false or nil.
+     * @return True if functions never return true at least once.
      */
     default boolean any(Predicate<X> first, Predicate<X>... other) {
         return this.count(first, other) != 0;
@@ -79,48 +75,35 @@ public interface Enumerable<X> extends Collection<X> {
 
     /**
      * Doesn't passes elements of the collection to the each given function.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, then true is returned instead.
      * @param first The function to match none elements.
      * @param other The array of functions to match none elements.
      * @return True if the functions never returns false or nil.
      */
     default boolean none(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> false;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return this.stream().noneMatch(prd);
+        return this.stream().noneMatch(new Joined<>(first, other));
     }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given functions
      *  return a true value.
-     * If no predicate (null) is given, then 'this' is returned instead.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then an empty enumerable is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return The enumerable.
      */
     default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> true;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
+        return new Linked<>(
+            this.stream().filter(new Joined<>(first, other))
+        );
     }
 
     /**
      * Returns an enumerable containing all elements of enumerable for which the given function
      *  returns a false value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, then 'this' is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
@@ -131,17 +114,20 @@ public interface Enumerable<X> extends Collection<X> {
         if (first != null) {
             prd = first.negate();
         }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth.negate());
+        if (other != null) {
+            for (final Predicate<X> oth : other) {
+                if (oth != null) {
+                    prd = prd.and(oth.negate());
+                }
             }
         }
-        return new Linked<>(this.stream().filter(prd).collect(Collectors.toList()));
+        return new Linked<>(this.stream().filter(prd));
     }
 
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, or no element found then null is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
@@ -154,6 +140,7 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Returns an enumerable containing first element of enumerable for which the given function
      *  returns a true value.
+     * The given null predicates are skipped.
      * If no predicate (null) is given, or no element found then alternative is returned instead.
      * @param alt The alternative to return in case of null predicate or no element found.
      * @param first The function to match each element.
@@ -161,18 +148,7 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The first element of enumerable, that matches predicate.
      */
     default X find(X alt, Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> false;
-        if (first != null) {
-            prd = first;
-        }
-        if (other != null) {
-            for (final Predicate<X> oth : other) {
-                if (oth != null) {
-                    prd = prd.and(oth);
-                }
-            }
-        }
-        return this.stream().filter(prd).findFirst().orElse(alt);
+        return this.stream().filter(new Joined<>(first, other)).findFirst().orElse(alt);
     }
 
     /**
@@ -187,9 +163,7 @@ public interface Enumerable<X> extends Collection<X> {
         if (fnc == null) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(
-                this.stream().map(fnc).collect(Collectors.toList())
-            );
+            out = new Linked<>(this.stream().map(fnc));
         }
         return out;
     }
@@ -197,22 +171,14 @@ public interface Enumerable<X> extends Collection<X> {
     /**
      * Returns the number of elements that are present in enumerable for which the given
      * function return true.
-     * If no function (null) is given, then 'size' is returned instead.
+     * The given null predicates are skipped.
+     * If no function (null) is given, then 0 is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return Number of elements satisfying the given function.
      */
     default long count(Predicate<X> first, Predicate<X>... other) {
-        Predicate<X> prd = val -> true;
-        if (first != null) {
-            prd = first;
-        }
-        for (final Predicate<X> oth : other) {
-            if (oth != null) {
-                prd = prd.and(oth);
-            }
-        }
-        return this.stream().filter(prd).count();
+        return this.stream().filter(new Joined<>(first, other)).count();
     }
 
     /**
@@ -347,9 +313,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(
-                this.stream().limit(num).collect(Collectors.toList())
-            );
+            out = new Linked<>(this.stream().limit(num));
         }
         return out;
     }
@@ -368,21 +332,56 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = this;
         } else {
-            out = new Linked<>(
-                this.stream().skip(num).collect(Collectors.toList())
-            );
+            out = new Linked<>(this.stream().skip(num));
         }
         return out;
     }
 
     /**
-     * Passes each element of the collection to the each given function.
-     * If no predicate (null) is given, then true is returned instead.
+     * The method returns true if the functions return true exactly once.
+     * The given null predicates are skipped.
+     * If no predicate (null) is given, then false is returned instead.
      * @param first The function to match each element.
      * @param other The array of functions to match each element.
      * @return True if the functions returns true exactly once.
      */
     default boolean one(Predicate<X> first, Predicate<X>... other) {
         return this.count(first, other) == 1;
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements.
+     * It compares values using the {@link #hashCode} and {@link #equals} methods for efficiency.
+     * @return The enumerable.
+     */
+    default Enumerable<X> uniq() {
+        return new Linked<>(new HashSet<>(this));
+    }
+
+    /**
+     * Returns a new enumerable containing the unique elements which corresponds the condition
+     *  of the given function.
+     * If no function (null) is given, then empty enumerable is returned instead.
+     * @param fnc The function to apply to each element.
+     * @param <Y> The type of function result entity.
+     * @return The enumerable.
+     */
+    default <Y> Enumerable<X> uniq(Function<? super X, ? extends Y> fnc) {
+        final Enumerable<X> out;
+        if (fnc == null) {
+            out = new Empty<>();
+        } else {
+            final Set<Y> keys = new HashSet<>(0);
+            final List<X> values = new ArrayList<>(0);
+            for (final X val : this) {
+                final Y key = fnc.apply(val);
+                if (!keys.contains(key)) {
+                    keys.add(key);
+                    values.add(val);
+                }
+            }
+            out = new Linked<>(values);
+        }
+        return out;
     }
 }
