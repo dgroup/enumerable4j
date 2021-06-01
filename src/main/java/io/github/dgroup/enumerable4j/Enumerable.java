@@ -23,10 +23,8 @@
  */
 package io.github.dgroup.enumerable4j;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -96,7 +94,7 @@ public interface Enumerable<X> extends Collection<X> {
      */
     default Enumerable<X> select(Predicate<X> first, Predicate<X>... other) {
         return new Linked<>(
-            this.stream().filter(new Joined<>(first, other))
+            this.stream().filter(new Joined<>(first, other)).iterator()
         );
     }
 
@@ -121,7 +119,7 @@ public interface Enumerable<X> extends Collection<X> {
                 }
             }
         }
-        return new Linked<>(this.stream().filter(prd));
+        return new Linked<>(this.stream().filter(prd).iterator());
     }
 
     /**
@@ -158,12 +156,12 @@ public interface Enumerable<X> extends Collection<X> {
      * @param <Y> The type of target entity.
      * @return The enumerable.
      */
-    default <Y> Enumerable<Y> map(Function<? super X, ? extends Y> fnc) {
+    default <Y> Enumerable<Y> map(Function<? super X, Y> fnc) {
         final Enumerable<Y> out;
         if (fnc == null) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(this.stream().map(fnc));
+            out = new Linked<>(this.stream().map(fnc).iterator());
         }
         return out;
     }
@@ -313,7 +311,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = new Empty<>();
         } else {
-            out = new Linked<>(this.stream().limit(num));
+            out = new Linked<>(this.stream().limit(num).iterator());
         }
         return out;
     }
@@ -332,7 +330,7 @@ public interface Enumerable<X> extends Collection<X> {
         } else if (num == 0) {
             out = this;
         } else {
-            out = new Linked<>(this.stream().skip(num));
+            out = new Linked<>(this.stream().skip(num).iterator());
         }
         return out;
     }
@@ -372,15 +370,9 @@ public interface Enumerable<X> extends Collection<X> {
             out = new Empty<>();
         } else {
             final Set<Y> keys = new HashSet<>(0);
-            final List<X> values = new ArrayList<>(0);
-            for (final X val : this) {
-                final Y key = fnc.apply(val);
-                if (!keys.contains(key)) {
-                    keys.add(key);
-                    values.add(val);
-                }
-            }
-            out = new Linked<>(values);
+            out = new Linked<>(
+                this.stream().filter(val -> keys.add(fnc.apply(val))).iterator()
+            );
         }
         return out;
     }
