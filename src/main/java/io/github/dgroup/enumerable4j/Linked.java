@@ -23,8 +23,7 @@
  */
 package io.github.dgroup.enumerable4j;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Iterator;
 import org.cactoos.list.ListEnvelope;
 import org.cactoos.list.ListOf;
 
@@ -55,9 +54,9 @@ public class Linked<X> extends ListEnvelope<X> implements Enumerable<X> {
 
     /**
      * Ctor.
-     * @param stream The stream of source items.
+     * @param src The source items.
      */
-    public Linked(final Stream<X> stream) {
-        super(stream.collect(Collectors.toList()));
+    public Linked(final Iterator<X> src) {
+        super(new ListOf<>(src));
     }
 }
