@@ -27,12 +27,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import org.cactoos.list.ListOf;
 
 /**
  * The iterable with primitive operations witch simplify typical actions like count, map, etc.
@@ -394,16 +396,19 @@ public interface Enumerable<X> extends Collection<X> {
         enms.add(first);
         enms.addAll(Arrays.asList(other));
         final Enumerable<Enumerable<X>> out = new Linked<>();
-        for (int idx = 0; idx < this.size(); ++idx) {
-            final Linked<X> inner = new Linked<>(((Linked<X>) this).get(idx));
+        final Iterator<X> iter = this.iterator();
+        int idx = 0;
+        while (iter.hasNext()) {
+            final Linked<X> inner = new Linked<>(iter.next());
             for (final Enumerable<X> enm : enms) {
                 X val = null;
                 if (enm != null && idx < enm.size()) {
-                    val = ((Linked<X>) enm).get(idx);
+                    val = new ListOf<>(enm).get(idx);
                 }
                 inner.add(val);
             }
             out.add(inner);
+            ++idx;
         }
         return out;
     }
