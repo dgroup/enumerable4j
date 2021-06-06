@@ -23,11 +23,8 @@
  */
 package io.github.dgroup.enumerable4j;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BinaryOperator;
@@ -392,20 +389,33 @@ public interface Enumerable<X> extends Collection<X> {
      * @return The enumerable.
      */
     default Enumerable<? extends Enumerable<X>> zip(Enumerable<X> first, Enumerable<X>... other) {
-        final List<Enumerable<X>> enms = new ArrayList<>(0);
-        enms.add(first);
-        enms.addAll(Arrays.asList(other));
-        final Enumerable<Enumerable<X>> out = new Linked<>();
-        final Iterator<X> iter = this.iterator();
-        int idx = 0;
-        while (iter.hasNext()) {
-            final Linked<X> inner = new Linked<>(iter.next());
-            for (final Enumerable<X> enm : enms) {
-                X val = null;
-                if (enm != null && idx < enm.size()) {
-                    val = new ListOf<>(enm).get(idx);
+        final Collection<List<X>> provided = new ListOf<>();
+        if (first == null) {
+            provided.add(null);
+        } else {
+            provided.add(new ListOf<>(first));
+        }
+        if (other == null) {
+            provided.add(null);
+        } else {
+            for (final Enumerable<X> oth : other) {
+                if (oth == null) {
+                    provided.add(null);
+                } else {
+                    provided.add(new ListOf<>(oth));
                 }
-                inner.add(val);
+            }
+        }
+        final Enumerable<Enumerable<X>> out = new Linked<>();
+        int idx = 0;
+        for (final X val : this) {
+            final Enumerable<X> inner = new Linked<>(val);
+            for (final List<X> prov : provided) {
+                if (prov != null && idx < prov.size()) {
+                    inner.add(prov.get(idx));
+                } else {
+                    inner.add(null);
+                }
             }
             out.add(inner);
             ++idx;
