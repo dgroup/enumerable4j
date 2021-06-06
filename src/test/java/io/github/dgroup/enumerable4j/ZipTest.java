@@ -98,7 +98,7 @@ final class ZipTest {
     }
 
     @Test
-    void nullInArgs() {
+    void nullFirstArg() {
         new Assertion<>(
             "A lack of elements is replaced with null",
             new Linked<>(1, 2, 3).zip(null, new Linked<>(8)),
@@ -113,7 +113,7 @@ final class ZipTest {
     }
 
     @Test
-    void nullInArgCollection() {
+    void nullInFirstArg() {
         new Assertion<>(
             "A lack of elements is replaced with null",
             new Linked<>(1, 2, 3).zip(new Linked<>(null, null), new Linked<>(8)),
@@ -122,6 +122,51 @@ final class ZipTest {
                     new Linked<>(1, null, 8),
                     new Linked<>(2, null, null),
                     new Linked<>(3, null, null)
+                )
+            )
+        ).affirm();
+    }
+
+    @Test
+    void nullOtherArgs() {
+        new Assertion<>(
+            "A lack of elements is replaced with null",
+            new Linked<>(1, 2, 3).zip(new Linked<>(4, 5), null),
+            new HasEqualValues<>(
+                new Linked<Enumerable<Integer>>(
+                    new Linked<>(1, 4, null),
+                    new Linked<>(2, 5, null),
+                    new Linked<>(3, null, null)
+                )
+            )
+        ).affirm();
+    }
+
+    @Test
+    void nullInOtherArgs() {
+        new Assertion<>(
+            "A lack of elements is replaced with null",
+            new Linked<>(1, 2, 3).zip(new Linked<>(4, 5), new Linked<>(null, null)),
+            new HasEqualValues<>(
+                new Linked<Enumerable<Integer>>(
+                    new Linked<>(1, 4, null),
+                    new Linked<>(2, 5, null),
+                    new Linked<>(3, null, null)
+                )
+            )
+        ).affirm();
+    }
+
+    @Test
+    void nullInArgs() {
+        new Assertion<>(
+            "A lack of elements is replaced with null",
+            new Linked<>(1, 2, 3).zip(null, new Linked<>(null, 5), null),
+            new HasEqualValues<>(
+                new Linked<Enumerable<Integer>>(
+                    new Linked<>(1, null, null, null),
+                    new Linked<>(2, null, 5, null),
+                    new Linked<>(3, null, null, null)
                 )
             )
         ).affirm();
