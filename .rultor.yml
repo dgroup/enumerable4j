@@ -17,9 +17,9 @@ readers:
 #  https://github.com/jgitver/jgitver
 #  https://danielkummer.github.io/git-flow-cheatsheet/index.html
 assets:
-  settings.xml: "dgroup/ossrh#settings.xml"
-  pubring.gpg:  "dgroup/ossrh#8B01AA62_enumerable4j_pubring.gpg"
-  secring.gpg:  "dgroup/ossrh#8B01AA62_enumerable4j_secring.gpg"
+  settings.xml: "dgroup/home#settings.xml"
+  pubring.gpg:  "dgroup/home#8B01AA62_enumerable4j_pubring.gpg"
+  secring.gpg:  "dgroup/home#8B01AA62_enumerable4j_secring.gpg"
 
 merge:
   env:
