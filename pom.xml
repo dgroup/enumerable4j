@@ -92,7 +92,7 @@
     <sonar.version>3.4.0.905</sonar.version>
     <commons-logging.version>1.2</commons-logging.version>
     <!-- General dependencies -->
-    <cactoos.version>0.49</cactoos.version>
+    <cactoos.version>0.50.1</cactoos.version>
     <!-- Testing -->
     <hamcrest.version>2.2</hamcrest.version>
     <junit.version>5.7.1</junit.version>
